@@ -30,10 +30,11 @@ def receiveMessages():
         if(msg.decode() == "start"):
             start = True
         else:
-            #msg = json.loads(msg.decode())
             print(msg)
-            #if(len(msg)>=2):
-                #model.implementation(msg["xTarget"],msg["yTarget"], msg["state"], msg["message"])
+            msg = json.loads(msg.decode().splitlines()[0])
+            print(msg)
+            if(len(msg)>=2):
+                model.implementation(msg["xTarget"],msg["yTarget"], msg["SUTxPos"], msg["SUTyPos"], msg["state"])
 
 # creates a Status message in JSON of the runtime model and sent it via Socket to the Swarm Element Loop
 # runs with 10Hz to meet the frequency of the initial checks of the SEL
@@ -60,7 +61,7 @@ print("Staaaart")
 exploration = StateImpl(1, "exploration", 1.0)
 driving = StateImpl(2, "driving", 1.0)
 waiting = StateImpl(3, "waiting", 0.0)
-monitoring = StateImpl(3, "monitoring", 1.0)  
+monitoring = StateImpl(3, "monitoring", 1.0, 0.7)  
 
 model = ModelImpl(None, [waiting, driving, waiting, monitoring], [])
 robot1=RobotImpl(0.0, 0.0, 0.0,0.0, 0.0, name, 1)
@@ -75,35 +76,22 @@ robotSupervisor = RobotSupervisor(robot1.getname())
 threading.Thread(target=lambda: rclpy.spin(robotSupervisor)).start()
 
 # Socket for Connection to SEL
-#udpClientSocket= socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
-#udpClientSocket.connect(addrPort)
+udpClientSocket= socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+udpClientSocket.connect(addrPort)
 
 # Reveice from SEL
-#threading.Thread(target=lambda: receiveMessages()).start()
+threading.Thread(target=lambda: receiveMessages()).start()
 
 #Publish to SEL
-#threading.Thread(target=lambda: publishMessages()).start()
-
-robot1.setPos(robotSupervisor.getxPos(), robotSupervisor.getyPos(),robotSupervisor.getzPos(), robotSupervisor.getTheta())
-robot1.xTarget = robot1.getxPos()+0.7
-robot1.yTarget = robot1.getyPos()+0.7
+threading.Thread(target=lambda: publishMessages()).start()
 
 ##### MAPE-Loop
 while(True): 
 
     #Monitor
     robot1.setPos(robotSupervisor.getxPos(), robotSupervisor.getyPos(),robotSupervisor.getzPos(), robotSupervisor.getTheta())
-    robot1.setLoad(robotSupervisor.getLoad())
     repulsion = robotSupervisor.getv_repulsion()
 
-
-    # ######################
-    # Exploration
-
-    # if SUT target message arrives --> 
-
-
-    ####################
     
     #Analyse - makes the abstraction and checks if goal was Reached
     # Distance must be state dependent
@@ -112,8 +100,8 @@ while(True):
     else:
         robot1.goalReached = True
 
-    if robot1.state == monitoring:
-        nextWaypoint = robot1.calculateNextWaypoint(0.7,2,2)
+    if robot1.state == monitoring and robot1.getsut() != None:
+        nextWaypoint = robot1.calculateNextWaypoint(0.7,robot1.sut.getxPos(), robot1.sut.getyPos())
         robot1.xTarget = nextWaypoint[0]
         robot1.yTarget = nextWaypoint[1]
         print(nextWaypoint)

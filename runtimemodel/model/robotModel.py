@@ -19,8 +19,9 @@ class Model(EObject, metaclass=MetaEClass):
     robots = EReference(ordered=True, unique=True, containment=True, derived=False)
     states = EReference(ordered=True, unique=True, containment=True, derived=False, upper=-1)
     messages = EReference(ordered=True, unique=True, containment=True, derived=False, upper=-1)
+    sut = EReference(ordered=True, unique=True, containment=True, derived=False)
 
-    def __init__(self, robots=None, states=None, messages=None):
+    def __init__(self, robots=None, states=None, messages=None, sut=None):
         # if kwargs:
         #    raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -34,6 +35,9 @@ class Model(EObject, metaclass=MetaEClass):
 
         if messages:
             self.messages.extend(messages)
+
+        if sut is not None:
+            self.sut = sut
 
     def getrobots(self):
         if (self.robots != None):
@@ -59,6 +63,12 @@ class Model(EObject, metaclass=MetaEClass):
         else:
             return None
 
+    def getsut(self):
+        if (self.sut != None):
+            return self.sut.getname()
+        else:
+            return None
+
 
 class Robot(EObject, metaclass=MetaEClass):
 
@@ -73,12 +83,11 @@ class Robot(EObject, metaclass=MetaEClass):
     theta = EAttribute(eType=EDouble, unique=True, derived=False, changeable=True)
     speed = EAttribute(eType=EDouble, unique=True, derived=False, changeable=True)
     rotationSpeed = EAttribute(eType=EDouble, unique=True, derived=False, changeable=True)
-    load = EAttribute(eType=EBoolean, unique=True, derived=False, changeable=True)
-    proximity = EAttribute(eType=EBoolean, unique=True, derived=False, changeable=True)
     state = EReference(ordered=True, unique=True, containment=False, derived=False)
     message = EReference(ordered=True, unique=True, containment=False, derived=False)
+    sut = EReference(ordered=True, unique=True, containment=False, derived=False)
 
-    def __init__(self, xPos=None, yPos=None, zPos=None, id=None, name=None, xTarget=None, yTarget=None, goalReached=None, theta=None, state=None, speed=None, rotationSpeed=None, load=None, proximity=None, message=None):
+    def __init__(self, xPos=None, yPos=None, zPos=None, id=None, name=None, xTarget=None, yTarget=None, goalReached=None, theta=None, state=None, speed=None, rotationSpeed=None, message=None, sut=None):
         # if kwargs:
         #    raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -117,17 +126,14 @@ class Robot(EObject, metaclass=MetaEClass):
         if rotationSpeed is not None:
             self.rotationSpeed = rotationSpeed
 
-        if load is not None:
-            self.load = load
-
-        if proximity is not None:
-            self.proximity = proximity
-
         if state is not None:
             self.state = state
 
         if message is not None:
             self.message = message
+
+        if sut is not None:
+            self.sut = sut
 
     def getxPos(self):
         return self.xPos
@@ -162,12 +168,6 @@ class Robot(EObject, metaclass=MetaEClass):
     def getrotationSpeed(self):
         return self.rotationSpeed
 
-    def getload(self):
-        return self.load
-
-    def getproximity(self):
-        return self.proximity
-
     def getstate(self):
         if (self.state != None):
             return self.state.getname()
@@ -180,16 +180,21 @@ class Robot(EObject, metaclass=MetaEClass):
         else:
             return None
 
+    def getsut(self):
+        if (self.sut != None):
+            return self.sut.getname()
+        else:
+            return None
+
 
 class State(EObject, metaclass=MetaEClass):
 
     id = EAttribute(eType=EInt, unique=True, derived=False, changeable=True, iD=True)
     name = EAttribute(eType=EString, unique=True, derived=False, changeable=True)
     speedFactor = EAttribute(eType=EDouble, unique=True, derived=False, changeable=True)
-    grip = EAttribute(eType=EBoolean, unique=True, derived=False, changeable=True)
-    release = EAttribute(eType=EBoolean, unique=True, derived=False, changeable=True)
+    radius = EAttribute(eType=EDouble, unique=True, derived=False, changeable=True)
 
-    def __init__(self, id=None, name=None, speedFactor=None, grip=None, release=None):
+    def __init__(self, id=None, name=None, speedFactor=None, radius=None):
         # if kwargs:
         #    raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -204,11 +209,8 @@ class State(EObject, metaclass=MetaEClass):
         if speedFactor is not None:
             self.speedFactor = speedFactor
 
-        if grip is not None:
-            self.grip = grip
-
-        if release is not None:
-            self.release = release
+        if radius is not None:
+            self.radius = radius
 
     def getid(self):
         return self.id
@@ -219,11 +221,8 @@ class State(EObject, metaclass=MetaEClass):
     def getspeedFactor(self):
         return self.speedFactor
 
-    def getgrip(self):
-        return self.grip
-
-    def getrelease(self):
-        return self.release
+    def getradius(self):
+        return self.radius
 
 
 class Message(EObject, metaclass=MetaEClass):
@@ -255,3 +254,30 @@ class Message(EObject, metaclass=MetaEClass):
 
     def getledColor(self):
         return self.ledColor
+
+
+class SUT(EObject, metaclass=MetaEClass):
+
+    yPos = EAttribute(eType=EDouble, unique=True, derived=False, changeable=True)
+    xPos = EAttribute(eType=EDouble, unique=True, derived=False, changeable=True)
+
+    def __init__(self, yPos=None, xPos=None):
+        # if kwargs:
+        #    raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+        if yPos is not None:
+            self.yPos = yPos
+
+        if xPos is not None:
+            self.xPos = xPos
+
+    def getyPos(self):
+        return self.yPos
+
+    def getxPos(self):
+        return self.xPos
+    
+    def getname(self):
+        return "UltimateSUT"

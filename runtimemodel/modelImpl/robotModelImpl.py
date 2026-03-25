@@ -4,8 +4,8 @@ import numpy as np
 from model.robotModel import *
 
 class RobotImpl(Robot):    
-    def __init__(self, xPos=0.0, yPos=0.0, zPos = 0.0, xTarget=0.0, yTarget=0.0, name = "newRobot", id=12, goalReached = True, theta = 0.0, load=False, proximity=False):
-        super().__init__(xPos, yPos, zPos, id, name,xTarget,yTarget, goalReached, theta, None, 0.0, 0.0, load, proximity)
+    def __init__(self, xPos=0.0, yPos=0.0, zPos = 0.0, xTarget=0.0, yTarget=0.0, name = "newRobot", id=12, goalReached = True, theta = 0.0, sut=None):
+        super().__init__(xPos, yPos, zPos, id, name,xTarget,yTarget, goalReached, theta, None, 0.0, 0.0)
     
     def setPos(self, x, y,z, theta):
         self.xPos =x
@@ -13,17 +13,14 @@ class RobotImpl(Robot):
         self.zPos = z
         self.theta = theta
 
-    def setProximity(self, proximity=False):
-        self.proximity = proximity
-        
     def setstate(self, state=None):
         self.state = state
     
     def setmessage(self, message=None):
         self.message = message
     
-    def setLoad(self, load=False):
-        self.load = load
+    def setSUT(self, sut=None):
+        self.sut = sut
 
     # calculates and sets the forward and roation speed of the robot
     def calculateSpeeds(self, repulsion):
@@ -66,36 +63,17 @@ class RobotImpl(Robot):
             self.speed = GAIN * distanceToTarget * self.state.speedFactor
             self.speed = self.speed if self.speed<MAX_SPEED else MAX_SPEED 
             self.speed = self.speed * self.state.speedFactor # speed factor has a value between 0 and 1
-            self.speed = self.speed if self.speed>MIN_SPEED else MIN_SPEED
-            
-            
+            self.speed = self.speed if self.speed>MIN_SPEED else MIN_SPEED 
 
     # ("ge" to prevent that the Model-to-JSON Part calls this function)
     def geDistanceToTarget(self):
         return math.sqrt(pow(self.xTarget - self.xPos,2)+pow(self.yTarget-self.yPos,2))
-       
-    # ("ge" to prevent that the Model-to-JSON Part calls this function)
-    # def geHeadingError(self, targetHeading):
-    #     #print(targetHeading)
-    #     headingError1 = targetHeading - self.theta
-    #     headingError2 = self.theta - targetHeading
-    #     if abs(headingError1) > abs(headingError2):
-    #         headingError = headingError2
-    #         print("wrrrwrong")
-    #     else:
-    #         headingError = headingError1
-
-    #     # avoid rotation more than 180°
-    #     while (headingError >= math.pi):headingError = -2*math.pi + headingError
-    #     while (headingError <= -math.pi): headingError = 2*math.pi + headingError
-
-    #     return headingError
-    
+         
     def geHeadingError(self, target):
         return (target - self.theta + math.pi) % (2 * math.pi) - math.pi
 
     def calculateNextWaypoint(self, radius, targetX, targetY):
-        DIST_TH = 0.1
+        DIST_THRESHOLD = 0.1
 
         # Waypoint Array
         waypoints = []
@@ -110,7 +88,7 @@ class RobotImpl(Robot):
         secondClosestWPIndex = sorted_indices[1]
 
         # SPECIAL Condition: replace closest waypoint by the third closest, if robot is very close to actual target waypoint
-        if (math.dist(waypoints[closestWPIndex], [self.xPos, self.yPos])) < DIST_TH:
+        if (math.dist(waypoints[closestWPIndex], [self.xPos, self.yPos])) < DIST_THRESHOLD:
             print("distance to small --> select other closest waypoint")
             closestWPIndex = sorted_indices[2]
 
@@ -123,54 +101,11 @@ class RobotImpl(Robot):
         else: 
             return waypoints[secondClosestWPIndex]
 
-
-    # def calculateCircularMovementSpeeds(self, repulsion, radius):
-    #     RADIUS_GAIN = 0.1
-    #     ANGLE_TOLERANCE = 0.2
-    #     ANGLE_GAIN = 0.5
-    #     MAX_SPEED_ROT = 1.0
-    #     MIN_SPEED_ROT = 0.2
-
-    #     #input
-    #     # self.xTarget
-    #     # self.yTarget
-        
-    #     robotVector = np.array([self.xPos, self.yPos])
-    #     targetVector = np.array([self.xTarget, self.yTarget])
-
-    #     # calculate desired direction of the robot
-    #     distanceVector = targetVector-robotVector
-    #     #print(distanceVector)
-    #     targetHeading = math.atan2(distanceVector[0], distanceVector[1])
-    #     #print(targetHeading)
-    #     targetHeading = targetHeading+(math.pi/2)
-    #     #print(targetHeading)
-
-
-    #     distance = self.geDistanceToTarget()
-    #     headingError = self.geHeadingError(targetHeading)
-    #     #print(distance)
-
-        # if(abs(headingError) > ANGLE_TOLERANCE):
-        #     self.rotationSpeed = ANGLE_GAIN * headingError
-        #     # if abs(self.rotationSpeed) > MAX_SPEED_ROT:
-        #     #     self.rotationSpeed = (MAX_SPEED_ROT * -1.0) if self.rotationSpeed < 0 else MAX_SPEED_ROT
-        #     # if abs(self.rotationSpeed) < MIN_SPEED_ROT:
-        #     #     self.rotationSpeed = MIN_SPEED_ROT * -1.0 if self.rotationSpeed < 0 else MIN_SPEED_ROT
-        # #print(self.rotationSpeed)
-
-
-        # # if(distance < radius-0.2):
-        # #     # rotation speed can become negative
-        # #     self.rotationSpeed = - (radius-distance)*RADIUS_GAIN
-        # # elif (distance > radius+0.2):
-        # #     self.rotationSpeed = self.rotationSpeed - (radius-distance)*RADIUS_GAIN
-        # # print(self.rotationSpeed)
-        # #TODO consider repulsion as well!!!
-        # #TODO consider current heading as well!!!!
-        # self.speed = 0.5
-
+class SUTImpl(SUT):
     
+    def __init__(self, yPos=None, xPos=None):
+        super().__init__(yPos, xPos)
+
 class ModelImpl(Model):
 
     def __init__(self, robot=None, states=None, messages=None):
@@ -185,26 +120,26 @@ class ModelImpl(Model):
         self.robots= None
     
     # takes data from goal-message and implement them to a specific goal for the runtimemodel
-    def implementation(self, xTarget, yTarget, stateName, messageName):
+    def implementation(self, xTarget, yTarget, SUTxPos, SUTyPos, stateName):
         robot = self.robots
         if(robot != None): 
             robot.xTarget = float(xTarget)
             robot.yTarget = float(yTarget)
             print("Target setted " + str (xTarget) + " " + str(yTarget))
+
             for state in self.states:
                 if(state.getname() == stateName):
                     robot.state = state
                     print("State setted " + state.getname())
-            for message in self.messages:
-                if (message.getname() == messageName):
-                    robot.message = message
-                    print("LED setted " + message.getledColor())
+            
+            sut = SUT(float(SUTxPos),float(SUTyPos))
+            robot.setSUT(sut)
+            print("SUT setted")
         return False
 
-    
 class StateImpl(State):
-    def __init__(self, id=None, name="default", speedFactor=0.0, grip=False, release=False):
-        super().__init__(id, name, speedFactor, grip, release)
+    def __init__(self, id=None, name="default", speedFactor=0.0, radius=0.0):
+        super().__init__(id, name, speedFactor, radius)
 
 class MsgImpl(Message):
     def __init__(self, id=None, name="default",ledColor="blue"):
