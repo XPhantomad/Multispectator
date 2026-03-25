@@ -1,0 +1,138 @@
+import json
+import threading
+import time
+from modelUtils.robotSupervisor import *
+import rclpy
+import socket
+from modelImpl.robotModelImpl import *
+import re
+import sys
+
+# cli arguments for robot name
+name = sys.argv[1]
+number = re.findall(r'\d+', name)   
+
+global addr, udpClientSocket, bufferSize
+addr = None
+start = False
+bufferSize = 1024
+HOST = "127.0.0.1"  
+PORT = 3004 
+addrPort = (HOST,PORT)
+DIST_TOLERANCE = 0.1  # Distance tolerance for defining the goal as reached
+DIST_LOADING = 0.3  
+
+# receives Messages from the Swarm Element Loop
+def receiveMessages():
+    global start, addr, udpClientSocket    
+    while(True): 
+        msg = udpClientSocket.recv(bufferSize) # BLOCKS
+        if(msg.decode() == "start"):
+            start = True
+        else:
+            #msg = json.loads(msg.decode())
+            print(msg)
+            #if(len(msg)>=2):
+                #model.implementation(msg["xTarget"],msg["yTarget"], msg["state"], msg["message"])
+
+# creates a Status message in JSON of the runtime model and sent it via Socket to the Swarm Element Loop
+# runs with 10Hz to meet the frequency of the initial checks of the SEL
+def publishMessages():
+    global start, udpClientSocket, addr
+    while True:
+        if(udpClientSocket):       # The sending of messages only starts when the start message has been received.
+            d = {}
+            robot = model.robots
+            # adds only attributes of robot to dict
+            d[model.robots.getname()] = {}
+            for a in [a for a in dir(robot) if not a.startswith('__') and callable(getattr(robot, a)) and "get" in a] :
+                # must call getters, bacause otherwise Area would not return name but only reference               
+                # appends attribute name from getter function name without get and attribute Value
+                d[robot.getname()][(a[3:])] = getattr(robot, a)()
+            #print(robot.getload())
+            udpClientSocket.send(str.encode(json.dumps(d)+ "\n"))
+            
+        time.sleep(0.1) # depends on the performance of your PC
+
+print("Staaaart")     
+
+
+exploration = StateImpl(1, "exploration", 1.0)
+driving = StateImpl(2, "driving", 1.0)
+waiting = StateImpl(3, "waiting", 0.0)
+monitoring = StateImpl(3, "monitoring", 1.0)  
+
+model = ModelImpl(None, [waiting, driving, waiting, monitoring], [])
+robot1=RobotImpl(0.0, 0.0, 0.0,0.0, 0.0, name, 1)
+robot1.setstate(monitoring)
+model.addRobot(robot1)
+
+
+# run robotSupervisor-Node
+rclpy.init(args=None)
+
+robotSupervisor = RobotSupervisor(robot1.getname())
+threading.Thread(target=lambda: rclpy.spin(robotSupervisor)).start()
+
+# Socket for Connection to SEL
+#udpClientSocket= socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+#udpClientSocket.connect(addrPort)
+
+# Reveice from SEL
+#threading.Thread(target=lambda: receiveMessages()).start()
+
+#Publish to SEL
+#threading.Thread(target=lambda: publishMessages()).start()
+
+robot1.setPos(robotSupervisor.getxPos(), robotSupervisor.getyPos(),robotSupervisor.getzPos(), robotSupervisor.getTheta())
+robot1.xTarget = robot1.getxPos()+0.7
+robot1.yTarget = robot1.getyPos()+0.7
+
+##### MAPE-Loop
+while(True): 
+
+    #Monitor
+    robot1.setPos(robotSupervisor.getxPos(), robotSupervisor.getyPos(),robotSupervisor.getzPos(), robotSupervisor.getTheta())
+    robot1.setLoad(robotSupervisor.getLoad())
+    repulsion = robotSupervisor.getv_repulsion()
+
+
+    # ######################
+    # Exploration
+
+    # if SUT target message arrives --> 
+
+
+    ####################
+    
+    #Analyse - makes the abstraction and checks if goal was Reached
+    # Distance must be state dependent
+    if robot1.geDistanceToTarget()>DIST_TOLERANCE:
+        robot1.goalReached = False
+    else:
+        robot1.goalReached = True
+
+    if robot1.state == monitoring:
+        nextWaypoint = robot1.calculateNextWaypoint(0.7,2,2)
+        robot1.xTarget = nextWaypoint[0]
+        robot1.yTarget = nextWaypoint[1]
+        print(nextWaypoint)
+
+    # Plan - calculates and sets speeds for the robot
+    if(not robot1.getgoalReached() and (robot1.state == driving or robot1.state == monitoring)):
+        robot1.calculateSpeeds(repulsion)
+
+    # if goal reached or state != driving
+    elif(robot1.speed != 0.0 or robot1.rotationSpeed != 0.0):
+        robot1.speed = robot1.rotationSpeed = 0.0
+        robot1.goalReached = False #required to send last velocity command with 0 and 0 to stop the robot    
+
+    #Execute - send speeds to robotSupervisor to publish them to ROS
+    if(not robot1.getgoalReached()):
+        robotSupervisor.publishVelocity(robot1.speed,robot1.rotationSpeed)
+
+    
+    
+robotSupervisor.destroy_node()
+rclpy.shutdown()
+

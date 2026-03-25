@@ -41,3 +41,4 @@ Generator/__pycache__/
 robotModel/
 geckodriver.log
 
+*__pycache__
