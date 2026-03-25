@@ -1,10 +1,10 @@
 
-runtimemodel/__pycache__/
-runtimemodel/bin/
-runtimemodel/include/
-runtimemodel/lib/
-runtimemodel/lib64
-runtimemodel/pyvenv.cfg
+*__pycache__/
+*bin/
+*include/
+*ib/
+*lib64
+*pyvenv.cfg
 messages/__pycache__/
 messages/bin/
 messages/include/
