@@ -45,18 +45,17 @@ def publishMessages():
             d = {}
             robot = model.robots
             # adds only attributes of robot to dict
-            d[model.robots.getname()] = {}
+            d["robot"] = {}
             for a in [a for a in dir(robot) if not a.startswith('__') and callable(getattr(robot, a)) and "get" in a] :
                 # must call getters, bacause otherwise Area would not return name but only reference               
                 # appends attribute name from getter function name without get and attribute Value
-                d[robot.getname()][(a[3:])] = getattr(robot, a)()
+                d["robot"][(a[3:])] = getattr(robot, a)()
             #print(robot.getload())
             udpClientSocket.send(str.encode(json.dumps(d)+ "\n"))
             
         time.sleep(0.1) # depends on the performance of your PC
 
 print("Staaaart")     
-
 
 exploration = StateImpl(1, "exploration", 1.0)
 driving = StateImpl(2, "driving", 1.0)
@@ -95,7 +94,7 @@ while(True):
     
     #Analyse - makes the abstraction and checks if goal was Reached
     # Distance must be state dependent
-    if robot1.geDistanceToTarget()>DIST_TOLERANCE:
+    if robot1.geDistanceToTarxet()>DIST_TOLERANCE:
         robot1.goalReached = False
     else:
         robot1.goalReached = True
@@ -119,7 +118,7 @@ while(True):
     if(not robot1.getgoalReached()):
         robotSupervisor.publishVelocity(robot1.speed,robot1.rotationSpeed)
 
-    
+    time.sleep(0.1)
     
 robotSupervisor.destroy_node()
 rclpy.shutdown()

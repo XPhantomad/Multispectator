@@ -34,7 +34,9 @@ class RobotImpl(Robot):
         GAIN = 0.2
         ANGLE_GAIN = 2 #0.05           
         
-        distanceToTarget = self.geDistanceToTarget()
+        distanceToTarget = self.geDistanceToTarxet()
+        if(distanceToTarget <= 0):
+            return
 
         # Potential Field Implementation from: https://github.com/Tim-HW/ROS2-Path-Planning-Turtlebot3-Potential-Field/blob/main/src/potentialF.cpp
         #attraction
@@ -65,8 +67,8 @@ class RobotImpl(Robot):
             self.speed = self.speed * self.state.speedFactor # speed factor has a value between 0 and 1
             self.speed = self.speed if self.speed>MIN_SPEED else MIN_SPEED 
 
-    # ("ge" to prevent that the Model-to-JSON Part calls this function)
-    def geDistanceToTarget(self):
+    # ("ge" and "tarxet" to prevent that the Model-to-JSON Part calls this function)
+    def geDistanceToTarxet(self):
         return math.sqrt(pow(self.xTarget - self.xPos,2)+pow(self.yTarget-self.yPos,2))
          
     def geHeadingError(self, target):

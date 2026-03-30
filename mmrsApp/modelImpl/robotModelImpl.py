@@ -14,6 +14,8 @@ class RobotImpl(Robot):
     def setName(self, name):
         self.name = name
 
+    def setPort(self, port):
+        self.port = port
 
 
 class PerceivedRobotImpl(Robot):    
@@ -41,6 +43,7 @@ class ModelImpl(Model):
         for r in self.robot:
             if r.name == name:
                 return r
+        return None
 
     
     # takes data from goal-message and implement them to a specific goal for the runtimemodel
@@ -66,13 +69,30 @@ class ModelImpl(Model):
         #     for entry in receivedData:
         #         self.addPerceivedRobot(entry.name, entry.x , entry.y)
 
-        # handle inputs from monitoring robots  
-        for name, params in receivedData.items():
-            for robot in self.robot:
-                if robot.getip() == port:
-                    robot.setName(name)
-                    robot.setPos(params.get("xPos", robot.getxPos()), params.get("yPos", robot.getyPos()))
-                    return
+        # handle inputs from monitoring robots 
+        msg_type, msg = next(iter(receivedData.items()))
+        #print(msg_type)
+        #print(msg)
+        if (msg_type == "robot"):
+            robot = self.getRobot(msg["name"])
+            # robot already modelled --> update
+            if (robot != None):
+                robot.setPos(msg["xPos"], msg["yPos"])
+                robot.setPort(port)
+            # robot not found in the model --> create
+            else:
+                self.addRobot(RobotImpl(msg["xPos"], msg["yPos"], msg["name"], port))
+
+        if (msg_type == "observation"):
+            # TODO: process message list and add/update perceived SUTs/Objects
+            pass
+
+        # for name, params in receivedData.items():
+        #     for robot in self.robot:
+        #         if robot.getip() == port:
+        #             robot.setName(params.get("name", robot.getName()))
+        #             robot.setPos(params.get("xPos", robot.getxPos()), params.get("yPos", robot.getyPos()))
+        #             return
                    
     
 class ObjectImpl(Object):

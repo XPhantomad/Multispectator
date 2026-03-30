@@ -148,14 +148,13 @@ def sendMessage(port, msg):
             if not key.data is None:
                 if key.data.addr[1] == port:
                     sock = key.fileobj
-                    print("test")
-                    print(msg)
+                    # print("test")
+                    # print(msg)
                     sent = sock.send(str.encode(msg))
                     #print(sent)
+                    return
 
 print("Staaaart")     
-
-
 
 model = ModelImpl(None, None, None)
 robot1=RobotImpl(0.0, 0.0, "robot1", 2000)
