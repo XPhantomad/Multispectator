@@ -43,9 +43,9 @@ def accept_wrapper(sock):
     sel.register(conn, events, data=data)
 
     # add new Robot to the model:
-    print(f"Add Robot to Model {addr[1]}")
-    newRobot=RobotImpl(0.0, 0.0, f"robot {addr[1]}" , addr[1])
-    model.addRobot(newRobot)
+    # print(f"Add Robot to Model {addr[1]}")
+    # newRobot=RobotImpl(0.0, 0.0, f"robot {addr[1]}" , addr[1])
+    # model.addRobot(newRobot)
 
     
 
@@ -166,13 +166,17 @@ threading.Thread(target=lambda: background_thread()).start()
 
 ##### MAPE-Loop
 while(True): 
-    goal = json.dumps({
-        "xTarget": 0.0,
-        "yTarget": 0.0,
-        "state": "monitoring",
-        "SUTxPos": 2,
-        "SUTyPos": 2
-    })
-    if model.getRobot("fb_1") != None:
-        sendMessage(model.getRobot("fb_1").getip(), goal)
+    perceivedR = model.getPerceivedRobot('red')
+    print(perceivedR)
+    if perceivedR:
+        sut = perceivedR
+        goal = json.dumps({
+            "xTarget": 0.0,
+            "yTarget": 0.0,
+            "state": "monitoring",
+            "SUTxPos": sut.getxPos(),
+            "SUTyPos": sut.getyPos()
+        })
+        if model.getRobot("fb_1") != None:
+            sendMessage(model.getRobot("fb_1").getip(), goal)
     time.sleep(3)

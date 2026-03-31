@@ -18,7 +18,7 @@ class RobotImpl(Robot):
         self.port = port
 
 
-class PerceivedRobotImpl(Robot):    
+class PerceivedRobotImpl(PerceivedRobot):    
     def __init__(self, xPos=0.0, yPos=0.0, name="perc", objectGripped=None):
         super().__init__(xPos, yPos, name, objectGripped)
     
@@ -35,6 +35,9 @@ class ModelImpl(Model):
 
     def addRobot(self, robot):
         self.robot.append(robot)
+    
+    def addPerceivedRobot(self, robot):
+        self.perceivedrobot.append(robot)
 
     def removeRobot(self, robot):
         self.robot.remove(robot)
@@ -44,7 +47,13 @@ class ModelImpl(Model):
             if r.name == name:
                 return r
         return None
-
+    
+    def getPerceivedRobot(self, color):
+        for r in self.perceivedrobot:
+            if r.name == color:
+                return r
+        return None
+    
     
     # takes data from goal-message and implement them to a specific goal for the runtimemodel
     def implementation(self, xTarget, yTarget, stateName, messageName):
@@ -82,10 +91,21 @@ class ModelImpl(Model):
             # robot not found in the model --> create
             else:
                 self.addRobot(RobotImpl(msg["xPos"], msg["yPos"], msg["name"], port))
-
+        
+        print(msg_type)
         if (msg_type == "observation"):
-            # TODO: process message list and add/update perceived SUTs/Objects
-            pass
+            print(msg)
+            for observation in msg:
+                # TODO group light observations belonging to the same Perceived Robot
+                existingPR = self.getPerceivedRobot(observation["color"])
+                if existingPR:
+                    existingPR.setPos(observation["xPos"], observation["yPos"])
+                    print("change existing robot")
+                else:
+                    self.addPerceivedRobot(PerceivedRobotImpl(observation["xPos"], observation["yPos"], observation["color"]))
+                    print("add perceived Roboto")
+                print(observation["xPos"])
+            
 
         # for name, params in receivedData.items():
         #     for robot in self.robot:
@@ -94,7 +114,6 @@ class ModelImpl(Model):
         #             robot.setPos(params.get("xPos", robot.getxPos()), params.get("yPos", robot.getyPos()))
         #             return
                    
-    
 class ObjectImpl(Object):
     def __init__(self, xPos=0.0, yPos=0.0, name="obj"):
         super().__init__(xPos, yPos, name)

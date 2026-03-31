@@ -91,7 +91,7 @@ class RobotImpl(Robot):
 
         # SPECIAL Condition: replace closest waypoint by the third closest, if robot is very close to actual target waypoint
         if (math.dist(waypoints[closestWPIndex], [self.xPos, self.yPos])) < DIST_THRESHOLD:
-            print("distance to small --> select other closest waypoint")
+            #print("distance to small --> select other closest waypoint")
             closestWPIndex = sorted_indices[2]
 
         targetHeading1 = math.atan2(waypoints[closestWPIndex][1]-self.yPos, waypoints[closestWPIndex][0]-self.xPos)
@@ -134,7 +134,7 @@ class ModelImpl(Model):
                     robot.state = state
                     print("State setted " + state.getname())
             
-            sut = SUT(float(SUTxPos),float(SUTyPos))
+            sut = SUT(float(SUTyPos),float(SUTxPos))
             robot.setSUT(sut)
             print("SUT setted")
         return False

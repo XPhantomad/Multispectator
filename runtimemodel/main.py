@@ -30,7 +30,7 @@ def receiveMessages():
         if(msg.decode() == "start"):
             start = True
         else:
-            print(msg)
+            #print(msg)
             msg = json.loads(msg.decode().splitlines()[0])
             print(msg)
             if(len(msg)>=2):
@@ -100,10 +100,11 @@ while(True):
         robot1.goalReached = True
 
     if robot1.state == monitoring and robot1.getsut() != None:
+        print(robot1.sut.getxPos())
         nextWaypoint = robot1.calculateNextWaypoint(0.7,robot1.sut.getxPos(), robot1.sut.getyPos())
         robot1.xTarget = nextWaypoint[0]
         robot1.yTarget = nextWaypoint[1]
-        print(nextWaypoint)
+        #print(nextWaypoint)
 
     # Plan - calculates and sets speeds for the robot
     if(not robot1.getgoalReached() and (robot1.state == driving or robot1.state == monitoring)):
