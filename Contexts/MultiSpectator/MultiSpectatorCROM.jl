@@ -19,18 +19,29 @@ mutable struct Robot <: AbstractRobot
 	port::Int64
 end
 
+
+# generalize this to Oservation, to include also Object and let roles define, which type it is
 mutable struct PerceivedRobot <: AbstractRobot
 	name::String
 	position::Position
 end
 
 
-
-
-@newDynamicTeam MultiSpectator begin
+@newDynamicTeam MonitoringTeam begin
 	@IDAttribute ID::Int64
-	@role Leader << AbstractRobot [0..1] begin end
-	@role Deputy << AbstractRobot [0..1] begin	end
-	@role Follower << AbstractRobot [0..Inf] begin end
-	@role Goal << Position [0..1] begin end
+	@role Observer << Robot [1..4] begin
+		radius::Float64
+	end
+	@role SUT << PerceivedRobot [1] begin
+		
+	end
+end
+
+@newDynamicTeam MultiSpectatorTeam begin
+	@IDAttribute ID::Int64
+	@role Monitoring << MonitoringTeam [0..Inf] begin end
+	@role Exploration << Robot [0..Inf] begin end
+
+	# add other team of Detected Objects, which can have the role interesting or uninteresting
+	@role DiscoveredRobot << PerceivedRobot [0..Inf] begin end
 end

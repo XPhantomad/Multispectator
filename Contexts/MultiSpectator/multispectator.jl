@@ -1,4 +1,4 @@
-include("MultiSpectatirCROM.jl")
+include("MultiSpectatorCROM.jl")
 using Sockets
 using JSON
 using DelimitedFiles
@@ -9,7 +9,16 @@ println("waiting for clients ...")
 clients = Dict() # dictionary: port => client
 robots = Dict()
 
-assign
+dummy1 = Robot("dummy1", Position(40,40), 0.0, false, false, 40)
+dummy2 = Robot("dummy2", Position(40,40), 0.0, false, false, 40)
+
+
+# initialize MultiSpectator team
+@assignRoles MultiSpectatorTeam begin
+    name = 1
+    dummy1 >> Exploration()
+    dummy2 >> Exploration()
+end
 
 
 function handle_client_robot(sock)
@@ -25,13 +34,16 @@ function handle_client_robot(sock)
         # add new robot to model 
         name = get(get(msg, "robot", 0), "name", 0)
         robot = Robot(name, Position(4,40), 0.0, false, false, client_port)
-        robots[name] = robot
+        #robots[name] = robot
         println(robots)
+        @changeRoles MultiSpectatorTeam 1 begin
+            robot >> Exploration()
+        end
     end
 
     while isopen(sock)
         msg = JSON.parse(readline(sock)) # busy wait for next message?
-        println("received: ", msg)
+        #println("received: ", msg)
         # TODO: process message here
         # MONITOR Step -> write Data into model
         
@@ -66,7 +78,7 @@ end
 
 while true
     sleep(3)
-    println(robots)
+    println(getRolesOfTeam(getDynamicTeam(MultiSpectatorTeam, 1)))
     
 end
 
