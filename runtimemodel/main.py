@@ -30,9 +30,8 @@ def receiveMessages():
         if(msg.decode() == "start"):
             start = True
         else:
-            #print(msg)
-            msg = json.loads(msg.decode().splitlines()[0])
             print(msg)
+            msg = json.loads(msg.decode().splitlines()[0])
             if(len(msg)>=2):
                 model.implementation(msg["xTarget"],msg["yTarget"], msg["SUTxPos"], msg["SUTyPos"], msg["state"])
 
@@ -53,7 +52,7 @@ def publishMessages():
             #print(robot.getload())
             udpClientSocket.send(str.encode(json.dumps(d)+ "\n"))
             
-        time.sleep(0.1) # depends on the performance of your PC
+        time.sleep(1.1) # depends on the performance of your PC
 
 print("Staaaart")     
 

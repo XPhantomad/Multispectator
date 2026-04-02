@@ -5,7 +5,7 @@ from model.monMRSmodel import *
 
 class RobotImpl(Robot):    
     def __init__(self, xPos=0.0, yPos=0.0, name="robo", ip=2000):
-        super().__init__(xPos, yPos, name,None, ip)
+        super().__init__(xPos, yPos, name, None, ip)
     
     def setPos(self, x, y):
         self.xPos =x
@@ -17,6 +17,11 @@ class RobotImpl(Robot):
     def setPort(self, port):
         self.port = port
 
+    def setPerceivedRobot(self, perceivedRobot):
+        self.perceivedrobot = perceivedRobot
+    
+    def getPerceivedRobot(self):
+        return self.perceivedrobot
 
 class PerceivedRobotImpl(PerceivedRobot):    
     def __init__(self, xPos=0.0, yPos=0.0, name="perc", objectGripped=None):
@@ -73,15 +78,8 @@ class ModelImpl(Model):
         return False
 
     def update(self, port, receivedData):
-        # if receivedData.prefix == "observation":
-        #     # handle input from observation 
-        #     for entry in receivedData:
-        #         self.addPerceivedRobot(entry.name, entry.x , entry.y)
-
         # handle inputs from monitoring robots 
         msg_type, msg = next(iter(receivedData.items()))
-        #print(msg_type)
-        #print(msg)
         if (msg_type == "robot"):
             robot = self.getRobot(msg["name"])
             # robot already modelled --> update
@@ -92,28 +90,14 @@ class ModelImpl(Model):
             else:
                 self.addRobot(RobotImpl(msg["xPos"], msg["yPos"], msg["name"], port))
         
-        print(msg_type)
         if (msg_type == "observation"):
-            print(msg)
             for observation in msg:
-                # TODO group light observations belonging to the same Perceived Robot
                 existingPR = self.getPerceivedRobot(observation["color"])
                 if existingPR:
                     existingPR.setPos(observation["xPos"], observation["yPos"])
-                    print("change existing robot")
                 else:
                     self.addPerceivedRobot(PerceivedRobotImpl(observation["xPos"], observation["yPos"], observation["color"]))
-                    print("add perceived Roboto")
-                print(observation["xPos"])
             
-
-        # for name, params in receivedData.items():
-        #     for robot in self.robot:
-        #         if robot.getip() == port:
-        #             robot.setName(params.get("name", robot.getName()))
-        #             robot.setPos(params.get("xPos", robot.getxPos()), params.get("yPos", robot.getyPos()))
-        #             return
-                   
 class ObjectImpl(Object):
     def __init__(self, xPos=0.0, yPos=0.0, name="obj"):
         super().__init__(xPos, yPos, name)

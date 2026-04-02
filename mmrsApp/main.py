@@ -9,12 +9,24 @@ import re
 import sys
 from threading import Lock
 import types
+import atexit
+import socket
+from flask import Flask, render_template, request
+from flask_socketio import SocketIO
+from threading import Lock
+import os.path
+
 
 
 sel = selectors.DefaultSelector()
 
 thread = None
 thread_lock = Lock()
+
+# full path is neccessary for the Systemtest
+app = Flask("MultiSpector", template_folder=os.path.dirname(__file__) + "/templates/")
+app.config['SECRET_KEY'] = 'donsky!'
+socketio = SocketIO(app, cors_allowed_origins='*')
 
 # global HOST, PORT, bufferSize 
 HOST = "127.0.0.1"  
@@ -141,7 +153,7 @@ def background_thread():
 #         time.sleep(0.1) # depends on the performance of your PC
 
 
-def sendMessage(port, msg):
+def sendMessage(port, msg, SUTxPos, SUTyPos):
     events = sel.select(timeout=None)
     for robot in model.robot:
         for key, mask in events:
@@ -165,18 +177,85 @@ model.addRobot(robot1)
 threading.Thread(target=lambda: background_thread()).start()
 
 ##### MAPE-Loop
-while(True): 
+def mapeLoop():
+
+    # monitor incoming changes from UI or Single Robot RTM or Observation Component
+    # --> already done in service connection methods
+
+    # analyze: --> mostly done in model.update() function
+    # TODO:interpretaton and model change according to user Input left
+
+    # Plan: prepare next goals for the robots - iterate over SUTs, detect changes in the position and if so send new goals to the Monitoring robots
     perceivedR = model.getPerceivedRobot('red')
-    print(perceivedR)
-    if perceivedR:
-        sut = perceivedR
-        goal = json.dumps({
-            "xTarget": 0.0,
-            "yTarget": 0.0,
-            "state": "monitoring",
-            "SUTxPos": sut.getxPos(),
-            "SUTyPos": sut.getyPos()
-        })
-        if model.getRobot("fb_1") != None:
-            sendMessage(model.getRobot("fb_1").getip(), goal)
+    monitoringR = model.getRobot("fb_1")
+    if monitoringR:
+        monitoringR.setPerceivedRobot(perceivedR)
+
+
+    # if position of a SUT changes and Robot is assigned to it for observation --> Send new Goal Message to Middle Layer
+    # for mr in sut.getMR():
+    #   sendMonitoringGoal(robot.getIP, xPos, yPos)
+
+    for robot_name in model.getrobot():
+        robot = model.getRobot(robot_name)
+        if robot.getPerceivedRobot():
+            goal = json.dumps({
+                "xTarget": 0.0,
+                "yTarget": 0.0,
+                "state": "monitoring",
+                "SUTxPos": robot.getPerceivedRobot().getxPos(),
+                "SUTyPos": robot.getPerceivedRobot().getyPos()
+                })
+            sendMessage(robot.getip(), goal, 0, 0)
     time.sleep(3)
+
+
+
+def publishModel():
+    socketio.emit('updateSensorData', model) #TODO unifinished
+
+
+
+"""
+Serve root index file
+"""
+@app.route('/')
+def index():
+
+    return render_template('swarmDisplay.html') 
+
+
+"""
+Decorator for connect
+"""
+@socketio.on('connect')
+def connect():
+    global thread
+    print('Client connected')
+    with thread_lock:
+        if thread is None:
+            thread = socketio.start_background_task(publishModel)
+
+
+"""
+Decorator for disconnect
+"""
+@socketio.on('disconnect')
+def disconnect():
+    print('Client disconnected',  request.sid)
+    
+
+def cleanup():
+    global stop_thread
+    stop_thread = True
+    print("Cleaning up sockets")
+    try:
+        sel.close()
+        lsock.close()
+    except Exception as e:
+        print(f"Error during cleanup: {e}")
+
+atexit.register(cleanup)
+
+if __name__ == '__main__':
+    socketio.run(app)
