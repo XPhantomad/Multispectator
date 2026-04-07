@@ -4,6 +4,7 @@ using JSON
 using DelimitedFiles
 
 server = listen(3004) # TODO add another port, list, accept, ... for the observation messages
+serverO = listen(3005)
 println("waiting for clients ...")
 
 clients = Dict() # dictionary: port => client
@@ -36,7 +37,6 @@ function handle_client_robot(sock)
         # add new robot to model 
         name = get(get(msg, "robot", 0), "name", 0)
         robot = Robot(name, Position(4,40), 0.0, false, false, client_port)
-        #robots[name] = robot
         @changeRoles MultiSpectatorTeam 1 begin
             robot >> Exploration()
         end
@@ -49,11 +49,63 @@ function handle_client_robot(sock)
         # TODO: process message here
         # MONITOR Step -> write Data into model
         
-        #name = get(get(msg, "robot", 0), "name", 0)
-        #robot = robots[name]
         robot.position = Position(get(get(msg, "robot", 0),"xPos",22), get(get(msg, "robot", 0),"yPos",22))
-        #robots[name] = robot
-        sleep(1.1)
+    end
+end
+
+function addORupdatePerceivedRobot(observation)
+    color = get(observation, "color", "black")
+    discoveredRobots = getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), DiscoveredRobot)
+    for r in discoveredRobots
+        if r.color == color
+            r.position = Position(get(observation, "xPos", 0), get(observation, "yPos", 0))
+            #println("updated")
+            return
+        end
+    end
+    
+    println(observation)
+    # add new Discovered Robot
+    robot = PerceivedRobot("didi", color, Position(get(observation, "xPos", 0), get(observation, "yPos", 0)))
+    @changeRoles MultiSpectatorTeam 1 begin
+        robot >> DiscoveredRobot()
+    end
+end
+
+
+function handle_client_observation(sock)
+    global clients
+    client_ip, client_port = getpeername(sock)
+    println("Handling client ", client_ip, ":", client_port)
+
+    # save socket in a dict to use it later for sending
+    clients[client_port] = sock
+    #println(readline(sock))
+
+    # initially add new robot
+    # if isopen(sock) 
+    #     msg = JSON.parse(readline(sock))       
+    #     # add new robot to model 
+    #     name = get(get(msg, "robot", 0), "name", 0)
+    #     robot = Robot(name, Position(4,40), 0.0, false, false, client_port)
+    #     @changeRoles MultiSpectatorTeam 1 begin
+    #         robot >> Exploration()
+    #     end
+    # end
+
+    # constantly update robots attributes
+    while isopen(sock)
+        msg = JSON.parse(readline(sock)) # busy wait for next message?
+        #println("received: ", msg)
+        # TODO: process message here
+        # MONITOR Step -> write Data into model
+
+        observationList = get(msg, "observation", 0)
+        #println(observationList)
+        for observation in observationList
+            addORupdatePerceivedRobot(observation)
+            #println(observation)
+        end
     end
 end
 
@@ -66,6 +118,26 @@ Threads.@spawn while true
     @async begin
         try
             handle_client_robot(client) # performs a new async function call at each iteration
+        catch e
+            println("client error: ", e)
+        finally
+            x, client_port = getpeername(client)
+            clients = delete!(clients, client_port)  
+            close(client)
+            println("client closed")
+        end
+    end
+end
+
+# accept incoming observation client requests
+Threads.@spawn while true
+    global clients
+    client = accept(serverO)
+    println("client connected: ", client)
+
+    @async begin
+        try
+            handle_client_observation(client) # performs a new async function call at each iteration
         catch e
             println("client error: ", e)
         finally
@@ -97,13 +169,19 @@ end
 webAppInput = ("red", "fb_1")
 
 while true
-    sleep(3)
-    println(getRolesOfTeam(getDynamicTeam(MultiSpectatorTeam, 1)))
+    sleep(0.5)
+    #println(getRolesOfTeam(getDynamicTeam(MultiSpectatorTeam, 1)))
     # WARNING: unsafe
     robots = getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), Exploration)
-    for r in robots
-        if r.name == "fb_1"
-            sendMessageRobot(r.port, 2,2, "monitoring")
+    percRobots = getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), DiscoveredRobot)
+    target = findfirst(obj -> obj.color == "red", percRobots)
+    target = target !== nothing ? percRobots[target] : nothing
+    #println(target)
+    if target !== nothing
+        for r in robots
+            if r.name == "fb_0"
+                sendMessageRobot(r.port, target.position.x,target.position.y, "monitoring")
+            end
         end
     end
 

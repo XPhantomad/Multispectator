@@ -16,7 +16,7 @@ start = False
 addr = None
 bufferSize = 1024
 HOST = "127.0.0.1"  # Standard loopback interface address (localhost)
-PORT = 3004 # Port to listen on (non-privileged ports are > 1023)
+PORT = 3005 # Port to listen on (non-privileged ports are > 1023)
 addrPort = (HOST,PORT)
 
 #Message Types
@@ -101,8 +101,8 @@ while(True):
             #     messageList.append([msg_Follower, xAbs, yAbs])
             # elif color == "brown" and not any(msg[0] == msg_Stopper for msg in messageList):
             #     messageList.append([msg_Stopper, xAbs, yAbs])
-        print(messageList)
-        print(messagesList_old)
+        #print(messageList)
+        #print(messagesList_old)
         if messageList and messageList != messagesList_old:                          
             msg = {"observation" : messageList}
             udpClientSocket.send(str.encode(json.dumps(msg)+ "\n")) 
@@ -113,7 +113,7 @@ while(True):
     # with open("timeMSG.txt", "a", encoding="utf-8") as f:
     #     f.write("time:"+ str(end-start)+"\n")
     
-    time.sleep(0.1)
+    time.sleep(0.5)
 
 robotSupervisor.destroy_node()
 rclpy.shutdown()

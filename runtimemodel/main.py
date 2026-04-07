@@ -52,7 +52,7 @@ def publishMessages():
             #print(robot.getload())
             udpClientSocket.send(str.encode(json.dumps(d)+ "\n"))
             
-        time.sleep(1.1) # depends on the performance of your PC
+        time.sleep(0.5) # depends on the performance of your PC
 
 print("Staaaart")     
 
@@ -99,7 +99,7 @@ while(True):
         robot1.goalReached = True
 
     if robot1.state == monitoring and robot1.getsut() != None:
-        print(robot1.sut.getxPos())
+        #print(robot1.sut.getxPos())
         nextWaypoint = robot1.calculateNextWaypoint(0.7,robot1.sut.getxPos(), robot1.sut.getyPos())
         robot1.xTarget = nextWaypoint[0]
         robot1.yTarget = nextWaypoint[1]
@@ -120,7 +120,7 @@ while(True):
     if(not robot1.getgoalReached()):
         robotSupervisor.publishVelocity(robot1.speed,robot1.rotationSpeed)
 
-    time.sleep(0.1)
+    time.sleep(0.5)
     
 robotSupervisor.destroy_node()
 rclpy.shutdown()
