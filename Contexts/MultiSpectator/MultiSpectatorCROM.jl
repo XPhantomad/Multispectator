@@ -23,6 +23,7 @@ end
 # generalize this to Oservation, to include also Object and let roles define, which type it is
 mutable struct PerceivedRobot <: AbstractRobot
 	name::String
+	color::String
 	position::Position
 end
 

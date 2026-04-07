@@ -105,6 +105,8 @@ while(True):
         robot1.yTarget = nextWaypoint[1]
         #print(nextWaypoint)
 
+    # TODO: use local target variables, which are setted in the analyse step!
+
     # Plan - calculates and sets speeds for the robot
     if(not robot1.getgoalReached() and (robot1.state == driving or robot1.state == monitoring)):
         robot1.calculateSpeeds(repulsion)
