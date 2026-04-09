@@ -23,7 +23,7 @@ class RobotImpl(Robot):
         self.sut = sut
 
     # calculates and sets the forward and roation speed of the robot
-    def calculateSpeeds(self, repulsion):
+    def calculateSpeeds(self, repulsion, xTarget, yTarget):
         ANGLE_TOLERANCE = 0.2 # TODO spielen
         MAX_SPEED = 0.8 #Transport chain
         #MAX_SPEED = 0.3 # Flocking
@@ -40,8 +40,8 @@ class RobotImpl(Robot):
 
         # Potential Field Implementation from: https://github.com/Tim-HW/ROS2-Path-Planning-Turtlebot3-Potential-Field/blob/main/src/potentialF.cpp
         #attraction
-        dx= self.xTarget- self.xPos
-        dy= self.yTarget- self.yPos
+        dx= xTarget- self.xPos
+        dy= yTarget- self.yPos
         attraction = np.array([dx/distanceToTarget, dy/distanceToTarget])
         #print("attraction" + str(attraction))
         #print("repulsion" + str(repulsion))
@@ -127,15 +127,15 @@ class ModelImpl(Model):
         if(robot != None): 
             robot.xTarget = float(xTarget)
             robot.yTarget = float(yTarget)
-            print("Target setted " + str (xTarget) + " " + str(yTarget))
+            #   print("Target setted " + str (xTarget) + " " + str(yTarget))
 
             for state in self.states:
                 if(state.getname() == stateName):
                     robot.state = state
                     print("State setted " + state.getname())
             
-            sut = SUT(float(SUTyPos),float(SUTxPos))
-            robot.setSUT(sut)
+            # sut = SUT(float(SUTyPos),float(SUTxPos))
+            # robot.setSUT(sut)
             print("SUT setted")
         return False
 

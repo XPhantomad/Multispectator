@@ -30,6 +30,9 @@ end
 
 @newDynamicTeam MonitoringTeam begin
 	@IDAttribute ID::Int64
+	@relationalAttributes begin
+		color::String
+	end
 	@role Observer << Robot [1..4] begin
 		radius::Float64
 	end

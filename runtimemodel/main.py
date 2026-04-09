@@ -63,7 +63,7 @@ monitoring = StateImpl(3, "monitoring", 1.0, 0.7)
 
 model = ModelImpl(None, [waiting, driving, waiting, monitoring], [])
 robot1=RobotImpl(0.0, 0.0, 0.0,0.0, 0.0, name, 1)
-robot1.setstate(monitoring)
+robot1.setstate(driving)
 model.addRobot(robot1)
 
 
@@ -91,25 +91,28 @@ while(True):
     repulsion = robotSupervisor.getv_repulsion()
 
     
-    #Analyse - makes the abstraction and checks if goal was Reached
-    # Distance must be state dependent
+    #Analyse - makes the abstraction and checks if goal is reached
+    # GoalReached is only interesting if robot makes target approximation
     if robot1.geDistanceToTarxet()>DIST_TOLERANCE:
         robot1.goalReached = False
-    else:
+    elif robot1.state != monitoring:
         robot1.goalReached = True
 
-    if robot1.state == monitoring and robot1.getsut() != None:
-        #print(robot1.sut.getxPos())
-        nextWaypoint = robot1.calculateNextWaypoint(0.7,robot1.sut.getxPos(), robot1.sut.getyPos())
-        robot1.xTarget = nextWaypoint[0]
-        robot1.yTarget = nextWaypoint[1]
-        #print(nextWaypoint)
 
-    # TODO: use local target variables, which are setted in the analyse step!
+    # initially set target position to robots attribute
+    xTarget = robot1.getxTarget()
+    yTarget = robot1.getyTarget()
+
+    # if state is monitoring, set Target position to individually calculated position
+    if robot1.state == monitoring:
+        nextWaypoint = robot1.calculateNextWaypoint(0.4,robot1.getxTarget(), robot1.getyTarget())
+        xTarget = nextWaypoint[0]
+        yTarget = nextWaypoint[1]
+
 
     # Plan - calculates and sets speeds for the robot
     if(not robot1.getgoalReached() and (robot1.state == driving or robot1.state == monitoring)):
-        robot1.calculateSpeeds(repulsion)
+        robot1.calculateSpeeds(repulsion, xTarget, yTarget)
 
     # if goal reached or state != driving
     elif(robot1.speed != 0.0 or robot1.rotationSpeed != 0.0):
