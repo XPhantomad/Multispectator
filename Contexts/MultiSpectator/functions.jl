@@ -21,10 +21,19 @@ function getRobotWithShortestDistanceToSUT(percRobot)
 	#IMPORTANT consider only the exploration robots
 	robots = getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), Exploration)
 	println(robots)
-	closestRobot = robots[1]
+	closestRobot = nothing
 	for robot in robots 
-		if getDistance(percRobot.position, robot.position) < getDistance(closestRobot.position, robot.position)
-			closestRobot = robot
+		# robot can not be already an observer of another SUT
+		if !hasRole(robot, Observer, MonitoringTeam)
+			# only for the first iteration
+			if closestRobot == nothing
+				closestRobot = robot
+				continue
+			end
+
+			if getDistance(robot.position, percRobot.position) < getDistance(closestRobot.position, percRobot.position)
+				closestRobot = robot
+			end
 		end
 	end
 	return closestRobot

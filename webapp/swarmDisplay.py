@@ -72,9 +72,7 @@ def connect():
     with thread_lock:
         if thread is None:
             thread = socketio.start_background_task(background_thread)
-    msg = "{\"discoveredRobots\":[{\"name\":\"didi\",\"x\":0.7,\"color\":\"red\",\"y\":-0.16}],\"explorers\":[{\"name\":\"dummy1\",\"x\":20.0,\"port\":40,\"y\":2.0},{\"name\":\"dummy2\",\"x\":30.0,\"port\":40,\"y\":4.0},{\"name\":\"fb_0\",\"x\":1.0152406575778536,\"port\":56940,\"y\":1.919315277276589}],\"monitoring\":[{\"sut\":\"red\",\"observer\":\"fb_0\"}]}"
-    #print(msg.decode())
-    socketio.emit('updateSensorData', msg)
+  
 
 """
 Decorator for disconnect

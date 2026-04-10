@@ -126,6 +126,8 @@ function mapeLoop(webAppInput::String)
             # INFO- send new Target-Message
             println(robot.name)
             sendMessageRobot(robot.port, percRobot.position.x, percRobot.position.y, "monitoring")
+        else
+            println("unfortunately no robot free for observation")
         end
     end
 end
@@ -190,7 +192,7 @@ function addORupdatePerceivedRobot(observation)
             return
         end
     end
-    
+    # TODO: race condition in parallel threads!!!
     println(observation)
     # add new Discovered Robot
     robot = PerceivedRobot("didi", color, Position(get(observation, "xPos", 0), get(observation, "yPos", 0)))
