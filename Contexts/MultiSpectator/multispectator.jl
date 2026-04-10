@@ -4,8 +4,15 @@ using Sockets
 using JSON
 using DelimitedFiles
 
-server = listen(3004) # TODO add another port, list, accept, ... for the observation messages
+server = listen(3004) 
 serverO = listen(3005)
+
+println("waiting for webapp")
+# TCP Socket for the webapp connection
+socketWebApp = connect(ip"127.0.0.1", 4004)
+write(socketWebApp, "MultiSpectator connected :)\n")
+
+
 println("waiting for clients ...")
 
 clients = Dict() # dictionary: port => client
@@ -25,7 +32,6 @@ function sendMessageRobot(port, xPos, yPos, state)
     # get correct socket from the clients dicitonary
     if haskey(clients, port)
         socket = clients[port]
-
         # build the goal message
         goal = JSON.json(Dict(
             "xTarget" => xPos,
@@ -36,9 +42,49 @@ function sendMessageRobot(port, xPos, yPos, state)
         ))
         write(socket, goal * "\n")
     end
-
 end
 
+
+function sendMessageWebApp()
+    # Monitoring
+    monitoringTeams = getDynamicTeams(MonitoringTeam)
+    monitoring_json = [
+    Dict(
+        "sut" => getObjectsOfRole(team, SUT)[1].color,
+        "observer" => getObjectsOfRole(team, Observer)[1].name
+    )
+    for team in monitoringTeams]
+
+    # Discovered Robots
+    discRobots = getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), DiscoveredRobot)
+    discRobots_json = [Dict(
+        "name" => r.name,
+        "x" => r.position.x,
+        "y" => r.position.y,
+        "color" => r.color
+    ) for r in discRobots]
+
+    # Exploration Robots
+    explorer = getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), Exploration)
+    explorer_json   = [Dict(
+        "name" => r.name,
+        "x" => r.position.x,
+        "y" => r.position.y,
+        "port" => r.port
+    ) for r in explorer]
+
+    msg = Dict(
+        "monitoring" => monitoring_json,
+        "discoveredRobots" => discRobots_json,
+        "explorers" => explorer_json
+    )
+
+    json_msg = JSON.json(msg)
+    #println(msg)
+    #println(json_msg)
+
+    write(socketWebApp, json_msg * "\n")
+end
 
 
 function handle_client_robot(sock)
@@ -64,10 +110,6 @@ function handle_client_robot(sock)
     # constantly update robots attributes
     while isopen(sock)
         msg = JSON.parse(readline(sock)) # busy wait for next message?
-        #println("received: ", msg)
-        # TODO: process message here
-        # MONITOR Step -> write Data into model
-        
         robot.position = Position(get(get(msg, "robot", 0),"xPos",22), get(get(msg, "robot", 0),"yPos",22))
     end
 end
@@ -98,6 +140,7 @@ function addORupdatePerceivedRobot(observation)
         if r.color == color
             r.position = Position(get(observation, "xPos", 0), get(observation, "yPos", 0))
             println("updated")
+            
             # trigger Update of the Observer Robots, if the Perceived Robot is an SUT
             mapeLoop(r)
             return
@@ -233,6 +276,8 @@ end
 # 3. build its new message, send message
 
 # --> Eventbased MAPE-K activation
+sleep(5)
+mapeLoop("red")
 
 while true
 
@@ -295,8 +340,7 @@ while true
     #     dummy2 >> Exploration()
     # end
 
-    sleep(40)
-    mapeLoop("red")
+    sleep(4)
     #println(getRolesOfTeam(getDynamicTeam(MultiSpectatorTeam, 1)))
     # WARNING: unsafe
     # robots = getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), Exploration)
@@ -340,6 +384,7 @@ while true
     # end
 
     # Execute: Send Status message to Webapp 
+    sendMessageWebApp()
 
 end
 

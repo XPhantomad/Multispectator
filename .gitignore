@@ -5,6 +5,7 @@
 *ib/
 *lib64
 *pyvenv.cfg
+*share/
 
 *julia_env/
 startup/share/
