@@ -87,6 +87,68 @@ function sendMessageWebApp()
 end
 
 
+
+
+function mapeLoop(webAppInput::String)
+    global globalID
+    println("run webapp input MAPE-Loop")
+    # 1. get PerceivedRobot with the color
+    percRobot = getPercRobotByColor(webAppInput)
+
+    if percRobot == nothing
+        println("robot not found :(")
+        return
+    end
+
+    # 2. Assign/Disassign MonitoringTeam
+    # if Robot has already the Role of SUT --> disassign this team
+    if hasRole(percRobot, SUT, MonitoringTeam)
+        monitoringTeams = getDynamicTeams(MonitoringTeam)
+        for team in monitoringTeams
+            if team.color == percRobot.color 
+                println("team disassigned again")
+                observer = getObjectsOfRole(team, Observer)[1] # TODO: for all observers
+                sendMessageRobot(observer.port, 1.0, 2.0, "driving")
+                disassignRoles(MonitoringTeam, team.ID)
+            end
+        end
+    # assign it as SUT and add the closest robot as observer TODO: receive Radius from Webapp 
+    else
+        robot = getRobotWithShortestDistanceToSUT(percRobot)
+        if robot != nothing
+            globalID = globalID+1
+            @assignRoles MonitoringTeam begin
+                name = globalID
+                color = webAppInput
+                robot >> Observer(0.4)
+                percRobot >> SUT()
+            end
+            # INFO- send new Target-Message
+            println(robot.name)
+            sendMessageRobot(robot.port, percRobot.position.x, percRobot.position.y, "monitoring")
+        end
+    end
+end
+
+
+# mape loop running after an updated PercRobot Position
+function mapeLoop(percRobot::PerceivedRobot)
+    # check, if perceived Robot is an SUT and has an Observer
+    println(getRoles(percRobot))
+    println(hasRole(percRobot, SUT, MonitoringTeam))
+    if hasRole(percRobot, SUT, MonitoringTeam)
+        # get Observer
+        monitoringTeams = getDynamicTeams(MonitoringTeam)
+        for team in monitoringTeams
+            if getObjectsOfRole(team, SUT)[1] == percRobot
+                observer = getObjectsOfRole(team, Observer)[1] # TODO: for all observers
+                sendMessageRobot(observer.port, percRobot.position.x, percRobot.position.y, "monitoring")
+                println("run update MAPE-Loop")
+            end
+        end
+    end
+end
+
 function handle_client_robot(sock)
     global clients
     client_ip, client_port = getpeername(sock)
@@ -114,24 +176,6 @@ function handle_client_robot(sock)
     end
 end
 
-
-# mape loop running after an updated PercRobot Position
-function mapeLoop(percRobot::PerceivedRobot)
-    # check, if perceived Robot is an SUT and has an Observer
-    println(getRoles(percRobot))
-    println(hasRole(percRobot, SUT, MonitoringTeam))
-    if hasRole(percRobot, SUT, MonitoringTeam)
-        # get Observer
-        monitoringTeams = getDynamicTeams(MonitoringTeam)
-        for team in monitoringTeams
-            if getObjectsOfRole(team, SUT)[1] == percRobot
-                observer = getObjectsOfRole(team, Observer)[1] # TODO: for all observers
-                sendMessageRobot(observer.port, percRobot.position.x, percRobot.position.y, "monitoring")
-                println("run update MAPE-Loop")
-            end
-        end
-    end
-end
 
 function addORupdatePerceivedRobot(observation)
     color = get(observation, "color", "black")
@@ -217,52 +261,23 @@ Threads.@spawn while true
     end
 end
 
+Threads.@spawn while true
+    global answer
+    if isopen(socketWebApp)
+		msg = JSON.parse(readline(socketWebApp))
+        println(msg)
+        mapeLoop(get(msg, "color", "black"))
+	end
+    sleep(0.5)
+end
+
 
 # color (later ID from QRCode) for the Discovered Robot and name for the Exploration Robot 
 #webAppInput = "red"
 
 
 
-function mapeLoop(webAppInput::String)
-    global globalID
-    println("run webapp input MAPE-Loop")
-    # 1. get PerceivedRobot with the color
-    percRobot = getPercRobotByColor(webAppInput)
 
-    if percRobot == nothing
-        println("robot not found :(")
-        return
-    end
-
-    # 2. Assign/Disassign MonitoringTeam
-    # if Robot has already the Role of SUT --> disassign this team
-    if hasRole(percRobot, SUT, MonitoringTeam)
-        monitoringTeams = getDynamicTeams(MonitoringTeam)
-        for team in monitoringTeams
-            if team.color == percRobot.color 
-                println("team disassigned again")
-                observer = getObjectsOfRole(team, Observer)[1] # TODO: for all observers
-                sendMessageRobot(observer.port, 1.0, 2.0, "driving")
-                disassignRoles(MonitoringTeam, team.ID)
-            end
-        end
-    # assign it as SUT and add the closest robot as observer TODO: receive Radius from Webapp 
-    else
-        robot = getRobotWithShortestDistanceToSUT(percRobot)
-        if robot != nothing
-            globalID = globalID+1
-            @assignRoles MonitoringTeam begin
-                name = globalID
-                color = webAppInput
-                robot >> Observer(0.4)
-                percRobot >> SUT()
-            end
-            # INFO- send new Target-Message
-            println(robot.name)
-            sendMessageRobot(robot.port, percRobot.position.x, percRobot.position.y, "monitoring")
-        end
-    end
-end
 
 # case1: SUT Position updated
 # --> send updated new Target to the respective client
@@ -280,7 +295,7 @@ sleep(5)
 mapeLoop("red")
 
 while true
-
+    
     # if new message from the webapp or from the messages component arrives --> update corresponding robot and send messages only for it
     # trigger MAPE-Loop per robot??
 

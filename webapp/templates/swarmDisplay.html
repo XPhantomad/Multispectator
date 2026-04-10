@@ -413,6 +413,14 @@
                 headerRow.appendChild(th);
             });
 
+             // add action column only for discoveredRobots
+            if (tableId === "discoveredRobots") {
+                let th = document.createElement("th");
+                th.textContent = "Action";
+                headerRow.appendChild(th);
+            }
+
+
             thead.appendChild(headerRow);
 
             let tbody = document.createElement("tbody");
@@ -447,6 +455,38 @@
 
                 row.appendChild(td);
             });
+
+
+            // add button only for discoveredRobots
+            if (tableId === "discoveredRobots") {
+                let td = document.createElement("td");
+
+                let button = document.createElement("button");
+                button.textContent = "Start Monitoring";
+                button.dataset.active = "false";
+
+                button.onclick = function () {
+                    let isActive = button.dataset.active === "true";
+
+                    if (!isActive) {
+                        button.textContent = "Stop Monitoring";
+                        button.dataset.active = "true";
+                    } else {
+                        button.textContent = "Start Monitoring";
+                        button.dataset.active = "false";
+                    }
+
+                    // send ONLY color
+                    socket.emit("runAction", {
+                        color: item.color
+                    });
+
+                    console.log("Sent:", item.color);
+                };
+
+                td.appendChild(button);
+                row.appendChild(td);
+            }
 
             tbody.appendChild(row);
         });

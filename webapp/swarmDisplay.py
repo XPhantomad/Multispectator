@@ -67,7 +67,7 @@ def connect():
     global thread
     print('Client connected')
     
-    tcpServerConn.sendto(str.encode("hello"), (HOST, PORT))
+    #tcpServerConn.send(str.encode("hello"))
 
     with thread_lock:
         if thread is None:
@@ -82,8 +82,6 @@ Decorator for disconnect
 @socketio.on('disconnect')
 def disconnect():
     print('Client disconnected',  request.sid)
-    if(tcpServerConn != None):
-        tcpServerConn.send(str.encode(json.dumps("testMesage")), (HOST, PORT))
 
 """
 Decorator for Receiving formData
@@ -95,7 +93,7 @@ def getInput(args):
     print(args)
     print(tcpServerConn)
     if(tcpServerConn != None):
-        tcpServerConn.send(str.encode(json.dumps(args)), (HOST, PORT))
+        tcpServerConn.send(str.encode(json.dumps(args) + "\n"))
         msg = tcpServerConn.recv(bufferSize) # BLOCKS
         socketio.emit('updateSensorData', msg.decode())
 
