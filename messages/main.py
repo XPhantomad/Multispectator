@@ -71,38 +71,16 @@ while(True):
         filteredBlobs= {}  # dict: color -> blob mit kleinster Distanz
 
         for blob in blobs:
-            # # Filter out blobs behind the robot
-            # if -1.3 < blob.angle < 1.3:
-            #     # take the blob, if the color is not in the dict or if it is closer than the former blob with this color
+            
+            
             if blob.color not in filteredBlobs or blob.distance < filteredBlobs[blob.color].distance:
                 filteredBlobs[blob.color] = blob
 
         # interpret the sorted blobs to messages
         for color, blob in filteredBlobs.items():
             xAbs, yAbs = getGlobalCoordinates(blob.angle, blob.distance)
-
-            #if color == "red":
             messageList.append({"color":color, "xPos": xAbs, "yPos": yAbs})
-            # elif color == "yellow" and not any(msg[0] == msg_robotWithLoad for msg in messageList):
-            #     messageList.append([msg_robotWithLoad, xAbs, yAbs])
-            # elif color == "magenta" and not any(msg[0] == msg_Chainmember_Join for msg in messageList):
-            #     messageList.append([msg_Chainmember_Join, xAbs, yAbs])
-            # elif color == "white":
-            #     messageList.append([msg_Joiner_Loading, xAbs, yAbs])
-            # elif color == "green":
-            #     messageList.append([msg_Joiner, xAbs, yAbs])
-            
-            # # EXTRA:Flocking
-            # elif color == "purple" and not any(msg[0] == msg_Leader for msg in messageList):
-            #     messageList.append([msg_Leader, xAbs, yAbs])
-            # elif color == "cyan" and not any(msg[0] == msg_Deputy for msg in messageList):
-            #     messageList.append([msg_Deputy, xAbs, yAbs])
-            # elif color == "orange" and not any(msg[0] == msg_Follower for msg in messageList):
-            #     messageList.append([msg_Follower, xAbs, yAbs])
-            # elif color == "brown" and not any(msg[0] == msg_Stopper for msg in messageList):
-            #     messageList.append([msg_Stopper, xAbs, yAbs])
-        #print(messageList)
-        #print(messagesList_old)
+
         if messageList and messageList != messagesList_old:                          
             msg = {"observation" : messageList}
             udpClientSocket.send(str.encode(json.dumps(msg)+ "\n")) 

@@ -80,9 +80,6 @@ function sendMessageWebApp()
     )
 
     json_msg = JSON.json(msg)
-    #println(msg)
-    #println(json_msg)
-
     write(socketWebApp, json_msg * "\n")
 end
 
@@ -124,7 +121,7 @@ function mapeLoop(webAppInput::String)
                 percRobot >> SUT()
             end
             # INFO- send new Target-Message
-            println(robot.name)
+            #println(robot.name)
             sendMessageRobot(robot.port, percRobot.position.x, percRobot.position.y, "monitoring")
         else
             println("unfortunately no robot free for observation")
@@ -136,8 +133,8 @@ end
 # mape loop running after an updated PercRobot Position
 function mapeLoop(percRobot::PerceivedRobot)
     # check, if perceived Robot is an SUT and has an Observer
-    println(getRoles(percRobot))
-    println(hasRole(percRobot, SUT, MonitoringTeam))
+    #println(getRoles(percRobot))
+    #println(hasRole(percRobot, SUT, MonitoringTeam))
     if hasRole(percRobot, SUT, MonitoringTeam)
         # get Observer
         monitoringTeams = getDynamicTeams(MonitoringTeam)
@@ -263,6 +260,8 @@ Threads.@spawn while true
     end
 end
 
+
+# Receive WebApp Goal Messages and trigger MAPE-Loop subsequently
 Threads.@spawn while true
     global answer
     if isopen(socketWebApp)
@@ -274,135 +273,11 @@ Threads.@spawn while true
 end
 
 
-# color (later ID from QRCode) for the Discovered Robot and name for the Exploration Robot 
-#webAppInput = "red"
-
-
-
-
-
-# case1: SUT Position updated
-# --> send updated new Target to the respective client
-# 1. trigger MAPE
-# 2. select Observer Robot, build message, send message
-
-# case2: New Monitoring Goal Config from Webapp 
-# --> send updated Target to the respective Client (quit monitoring/hire robot for monitoring)
-# 1. adapt runtimemodel
-# 2. choose Observer Robot/Former Observer Robot 
-# 3. build its new message, send message
-
-# --> Eventbased MAPE-K activation
-sleep(5)
-mapeLoop("red")
-
+# MAIN-Loop
+# pubilsh current State to the Webapp
 while true
-    
-    # if new message from the webapp or from the messages component arrives --> update corresponding robot and send messages only for it
-    # trigger MAPE-Loop per robot??
-
-    global webAppInput, globalID
-
-    # Analyse: create new MonitoringTeam with the received SUT and Observer
-    # identifier of the MonitoringTeam corresponds to the SUT 
-    # increase team ID at each allocation
-
-
-
-    # # 1. get PerceivedRobot with the color
-    # percRobot = getPercRobotByColor(webAppInput)
-    
-    # # 2. Assign/Disassign MonitoringTeam
-    # # if Robot has already the Role of SUT --> disassign this team
-    # if percRobot != nothing && hasRole(percRobot, SUT, MonitoringTeam)
-    #     monitoringTeams = getDynamicTeams(MonitoringTeam)
-    #     for team in monitoringTeams
-    #         if team.color == percRobot.color 
-    #             println("team disassigned again")
-    #             disassignRoles(MonitoringTeam, team.id)
-    #         end
-    #     end
-    # # assign it as SUT and add the closest robot as observer TODO: receive Radius from Webapp 
-    # else
-    #     robot = getRobotWithShortestDistanceToSUT(percRobot)
-    #     if robot != nothing
-    #         globalID = globalID+1
-    #         @assignRoles MonitoringTeam begin
-    #             name = globalID
-    #             color = webAppInput
-    #             robot >> Observer(0.4)
-    #             percRobot >> SUT()
-    #         end
-    #         # INFO- send new Target-Message
-    #     end
-    # end
-        
-    #sut = getSUTByColor(webAppInput)
-    #     monitoringTeam = getMonitoringTeamBySUTColor(webAppInput)
-    #     if monitoringTeam != nothing
-    #         disassignRoles(monitoringTeam)
-    #     end
-    # end
-
-    # 2. get robot with the shortest distance to the SUT
-    # if percRobot != nothing &&  getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), Exploration) != nothing
-    #     robot = getRobotWithShortestDistanceToSUT(percRobot)
-
-    # # 3. check that currently no other Monitoring Team with this objects exists
-    # if length(keys(getRoles(robotSelf)[nothing])) == 1 && length(keys(getRoles(percRobot)[nothing])) == 1
-
-    # @assignRoles MonitoringTeam begin
-    #     name = 1
-    #     dummy1 >> Exploration()
-    #     dummy2 >> Exploration()
-    # end
-
-    sleep(4)
-    #println(getRolesOfTeam(getDynamicTeam(MultiSpectatorTeam, 1)))
-    # WARNING: unsafe
-    # robots = getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), Exploration)
-    # percRobots = getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), DiscoveredRobot)
-    # target = findfirst(obj -> obj.color == "red", percRobots)
-    # target = target !== nothing ? percRobots[target] : nothing
-    # #println(target)
-    # if target !== nothing
-    #     for r in robots
-    #         if r.name == "fb_0"
-    #             # TODO: send only, if something has changed in the position of the SUT
-    #             sendMessageRobot(r.port, target.position.x,target.position.y, "monitoring")
-    #         end
-    #     end
-    # end
-
-    # Execute MAPE-K Loop only, if WebApp Request occurs or if SUT moves
-
-    # Monitor
-    # get webapp request, get changed information from Messages and Runtimemodel
-    # set new robot or SUT position --> already done in receive functions
-    
-    # ANALYSE = determine whether the target is a SUT or a Position
-        # set the new Observer-SUT-Pair in the runtimemodel (--> Iterate over all Exploration Robots, which is closest to the target --> get Port and perform dispatch)
-        # determine if the position of an SUT has changed --> send new Message in the Execute Step
-
-    # Plan = get TargetPos and build Messages
-
-    # iterate over all Discovered Robots and 
-        #check which of them have the SUT Role 
-        #(check if the Position has been changed recently)
-        # get tho observer to the SUT and with that the client Port 
-        # --> build message with client port and target position
-
-    # percRobots = getObjectsOfRole(getDynamicTeam(MultiSpectator, 1), DiscoveredRobot)
-    # for robot in percRobots
-    #     if hasRole(robot, MonitoringTeam, SUT)
-    #         getDynamicTeam()
-    #     end
-
-    # end
-
-    # Execute: Send Status message to Webapp 
+    sleep(2)
     sendMessageWebApp()
-
 end
 
 
