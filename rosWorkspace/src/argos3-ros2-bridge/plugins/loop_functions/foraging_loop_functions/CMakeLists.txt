@@ -1,0 +1,25 @@
+link_directories(${CMAKE_BINARY_DIR}/plugins/bridge)
+set(foraging_loop_functions_SOURCES foraging_loop_functions.cpp)
+set(foraging_qt_user_functions_SOURCES foraging_qt_user_functions.cpp)
+
+add_library(foraging_loop_functions MODULE ${foraging_loop_functions_SOURCES})
+target_link_libraries(foraging_loop_functions
+  argos_ros_bridge
+  argos3core_simulator
+  argos3plugin_simulator_dynamics2d
+  argos3plugin_simulator_entities
+  argos3plugin_simulator_footbot
+  argos3plugin_simulator_genericrobot
+  argos3plugin_simulator_media)
+  
+add_library(foraging_qt_user_functions MODULE ${foraging_qt_user_functions_SOURCES})
+target_link_libraries(foraging_qt_user_functions
+  argos_ros_bridge
+  argos3core_simulator
+  argos3plugin_simulator_dynamics2d
+  argos3plugin_simulator_entities
+  argos3plugin_simulator_footbot
+  argos3plugin_simulator_genericrobot
+  argos3plugin_simulator_media)
+
+

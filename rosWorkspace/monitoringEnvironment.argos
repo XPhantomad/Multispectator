@@ -1,0 +1,206 @@
+<?xml version="1.0" ?>
+<argos-configuration>
+
+  <!-- ************************* -->
+  <!-- * General configuration * -->
+  <!-- ************************* -->
+  <framework>
+    <!--
+        System configuration:
+        - threads: the number of slave threads to parallelize the
+          computation. For less than 100 robots thread management is not
+          beneficial, so here we set it to 0. When set to 0, it means that
+          the computation is not parallelized: the main thread does
+          everything.
+    -->
+    <system threads="0" />
+    <!--
+        Experiment configuration:
+        - length: total experiment time in seconds (0 means the experiment
+          has no time limit)
+        - ticks_per_second: number of ticks per second (int value)
+        - random_seed: seed of the main random number generator. If unset
+          or set to zero, this value is taken from the clock and a warning
+          message is displayed.
+    -->
+    <experiment length="0"
+                ticks_per_second="10"
+                random_seed="124" />
+  </framework>
+
+  <!-- *************** -->
+  <!-- * Controllers * -->
+  <!-- *************** -->
+  <controllers>
+
+    <!-- 
+         Here you list the controllers to be used in the experiment.
+         The XML tag is set by the REGISTER_CONTROLLER(class, "tag") macro.
+         You find it in the .cpp file of your controller.
+         For this example, the macro is called in
+         controllers/footbot_diffusion.cpp:100.
+    -->
+
+    <!--
+        The attributes are:
+        - id: a unique a identifier for this controller, to be used in the
+          subsequent <arena> section to say which robots use which
+          controller
+        - library: the path to the compiled library containing you
+          controller.
+    -->
+    <argos_ros_bot_controller id="lrb"
+                                  library="build/argos3_ros2_bridge/plugins/bridge/libargos_ros_bridge.so">
+      <actuators>
+        <differential_steering implementation="default" />
+        <leds                  implementation="default" medium="leds" />
+        <footbot_gripper       implementation="default" />
+      </actuators>
+      <sensors>
+        <positioning implementation="default" />
+        <colored_blob_omnidirectional_camera implementation="rot_z_only" medium="leds" show_rays="true" />
+        <footbot_proximity implementation="default" show_rays="false" />
+      </sensors>
+      
+      <params stopWithoutSubscriberCount="20000" />
+    </argos_ros_bot_controller>
+
+  </controllers>
+  
+  <!-- ****************** -->
+  <!-- * Loop functions * -->
+  <!-- ****************** -->
+  <loop_functions library="build/argos3_ros2_bridge/plugins/loop_functions/foraging_loop_functions/libforaging_loop_functions.so"
+                  label="foraging_loop_functions">
+    <foraging items="10"
+              radius="0.2"
+              xpos="4"
+              ypos="1"
+              energy_per_item="1000"
+              energy_per_walking_robot="1"
+              output="foraging.txt" />
+  </loop_functions>
+
+  <!-- *********************** -->
+  <!-- * Arena configuration * -->
+  <!-- *********************** -->
+  <!--
+      Here you place all the objects in the arena.
+      All linear measures are expressed in meters.
+      Angles are expressed in degrees.
+      The 'size' attribute contains the size of the arena around the
+      origin.
+      To get help about which entities are available, type at the command
+      prompt:
+      
+      $ argos3 -q entities
+
+      and to get help about a specific entity (for instance, the box)
+
+      $ argos3 -q box
+  -->
+  <arena size="30, 30, 1" center="0,0,0.5">
+
+    <floor id="floor"
+           source="loop_functions"
+           pixels_per_meter="50" />
+
+    <!-- Place a foot-bot in the origin and bind it to the controller -->
+    
+    <!--light id="Prey"
+           position="4,1,0.2"
+           orientation="0,0,0"
+           color="red"
+           intensity="1.0"
+           medium="leds" />
+    <light id="Nest"
+           position="-1,1.2,0.2"
+           orientation="0,0,0"
+           color="orange"
+           intensity="1.0"
+           medium="leds" />
+    <foot-bot id="Nest">
+      <body position="-3,1.2,0" orientation="0,0,0" />    
+      <controller config="lrb"/>
+    </foot-bot-->
+
+    <distribute>
+      <position method="uniform" min="0,-2,0" max="3,3,0" />
+      <orientation method="uniform" min="0,0,0" max="360,0,0" />
+      <entity quantity="4" max_trials="100">
+        <foot-bot id="SUT">
+          <controller config="lrb" />
+        </foot-bot>
+      </entity>
+    </distribute>    
+
+    <distribute>
+      <position method="uniform" min="0,-2,0" max="3,3,0" />
+      <orientation method="uniform" min="0,0,0" max="360,0,0" />
+      <entity quantity="4" max_trials="100">
+        <foot-bot id="fb_">
+          <controller config="lrb" />
+        </foot-bot>
+      </entity>
+    </distribute> 
+    
+  </arena>
+
+  <!-- ******************* -->
+  <!-- * Physics engines * -->
+  <!-- ******************* -->
+  <!--
+      In ARGoS, multiple physics engines can run at the same time.
+      In this section you say which engines to use for the experiment.
+      To know which engines are available, type at the command prompt:
+      
+      $ argos3 -q physics_engines
+  -->
+  <physics_engines>
+    <!--
+        Use a 2D dynamics engine.
+    -->
+    <dynamics2d id="dyn2d" />
+  </physics_engines>
+
+  <!-- ********* -->
+  <!-- * Media * -->
+  <!-- ********* -->
+  <!--
+      Here you specify the media in use. Media allow robots to communicate.
+      In this experiment, robots do not communicate, so no media are
+      specified.
+      To know which media are available, type at the command prompt:
+
+      $ argos3 -q media
+  -->
+  <media>
+    <led id="leds" />
+  </media>
+  <!-- ****************** -->
+  <!-- * Visualization * -->
+  <!-- ****************** -->
+  <!--
+      Here you specify which visualization to use.
+      You can also not specify a visualization at all, in which case ARGoS
+      will run without showing anything.
+      Having no visualization is useful when you run ARGoS in a batch of
+      experiments to collect statistics.
+      To know which visualizations are available, type at the command
+      prompt:
+
+      $ argos3 -q visualizations
+  -->
+  <visualization>
+    <qt-opengl>
+      <camera>
+        <placements>
+          <placement index="0" position="-1.25117,-3.59055,8.80269" look_at="-0.964939,-3.16827,7.94261" up="0.482569,0.711951,0.510149" lens_focal_length="65" />
+        </placements>
+      </camera>
+      <user_functions library="build/argos3_ros2_bridge/plugins/loop_functions/foraging_loop_functions/libforaging_qt_user_functions.so"
+                  label="foraging_qt_user_functions" />
+    </qt-opengl>
+  </visualization>
+
+</argos-configuration>
