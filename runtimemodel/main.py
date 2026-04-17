@@ -30,7 +30,7 @@ def receiveMessages():
         if(msg.decode() == "start"):
             start = True
         else:
-            print(msg)
+            #print(msg)
             msg = json.loads(msg.decode().splitlines()[0])
             if(len(msg)>=2):
                 model.implementation(msg["xTarget"],msg["yTarget"], msg["SUTxPos"], msg["SUTyPos"], msg["state"])

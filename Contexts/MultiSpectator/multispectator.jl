@@ -4,20 +4,23 @@ using Sockets
 using JSON
 using DelimitedFiles
 
+# socket for connection to SRL-Loops of all Robots
 server = listen(3004) 
+# socket connection to Messages Component of all Robots
 serverO = listen(3005)
 
 println("waiting for webapp")
+
 # TCP Socket for the webapp connection
 socketWebApp = connect(ip"127.0.0.1", 4004)
 write(socketWebApp, "MultiSpectator connected :)\n")
-
 
 println("waiting for clients ...")
 
 clients = Dict() # dictionary: port => client
 globalID = 1
 
+# ============== Initialization ====================
 dummy1 = Robot("dummy1", Position(20,2), 0.0, false, false, 40)
 dummy2 = Robot("dummy2", Position(30,4), 0.0, false, false, 40)
 
@@ -27,6 +30,8 @@ dummy2 = Robot("dummy2", Position(30,4), 0.0, false, false, 40)
     dummy1 >> Exploration()
     dummy2 >> Exploration()
 end
+
+# ================= Message funcitons ===================
 
 function sendMessageRobot(port, xPos, yPos, state)
     # get correct socket from the clients dicitonary
@@ -43,7 +48,6 @@ function sendMessageRobot(port, xPos, yPos, state)
         write(socket, goal * "\n")
     end
 end
-
 
 function sendMessageWebApp()
     # Monitoring
@@ -84,20 +88,33 @@ function sendMessageWebApp()
 end
 
 
+# ================= Exploration Function ========== 
 
+# Plan & Execute Step in Exploration case
+function exploration(robot::Robot)
+    # Exploration Area
+    areaPos1 = Position(-2,0)
+	areaPos2 = Position(5,2) 
+    # TODO: check, if robot currently is close to this position
+    sendMessageRobot(robot.port, rand(areaPos1.x:areaPos2.x), rand(areaPos1.y:areaPos2.y), "driving")
+end
 
+# ======================= 2 Parallel MAPE-K Loops ================
+
+# MAPE-K loop which handles new WebApp input
+#   calculates next goal from input and current configuration
 function mapeLoop(webAppInput::String)
     global globalID
     println("run webapp input MAPE-Loop")
+
     # 1. get PerceivedRobot with the color
     percRobot = getPercRobotByColor(webAppInput)
-
-    if percRobot == nothing
-        println("robot not found :(")
+    if percRobot === nothing
+        println("SUT not found :(")
         return
     end
 
-    # 2. Assign/Disassign MonitoringTeam
+    # 2. Assign/Disassign MonitoringTeam (Toggle)
     # if Robot has already the Role of SUT --> disassign this team
     if hasRole(percRobot, SUT, MonitoringTeam)
         monitoringTeams = getDynamicTeams(MonitoringTeam)
@@ -105,14 +122,15 @@ function mapeLoop(webAppInput::String)
             if team.color == percRobot.color 
                 println("team disassigned again")
                 observer = getObjectsOfRole(team, Observer)[1] # TODO: for all observers
-                sendMessageRobot(observer.port, 1.0, 2.0, "driving")
+                # PLAN + EXECUTE 
+                exploration(observer)
                 disassignRoles(MonitoringTeam, team.ID)
             end
         end
-    # assign it as SUT and add the closest robot as observer TODO: receive Radius from Webapp 
+    # otherwise assign it as SUT and add the closest robot as observer TODO: receive Radius from Webapp 
     else
         robot = getRobotWithShortestDistanceToSUT(percRobot)
-        if robot != nothing
+        if robot !== nothing
             globalID = globalID+1
             @assignRoles MonitoringTeam begin
                 name = globalID
@@ -120,8 +138,8 @@ function mapeLoop(webAppInput::String)
                 robot >> Observer(0.4)
                 percRobot >> SUT()
             end
-            # INFO- send new Target-Message
-            #println(robot.name)
+
+            # PLAN + EXECUTE
             sendMessageRobot(robot.port, percRobot.position.x, percRobot.position.y, "monitoring")
         else
             println("unfortunately no robot free for observation")
@@ -130,7 +148,8 @@ function mapeLoop(webAppInput::String)
 end
 
 
-# mape loop running after an updated PercRobot Position
+# MAPE-K loop running after an updated PerceivedRobot Position
+#   checks, if the PercRobot is an SUT and send an updated goal message to the respective Observer(s)
 function mapeLoop(percRobot::PerceivedRobot)
     # check, if perceived Robot is an SUT and has an Observer
     #println(getRoles(percRobot))
@@ -142,40 +161,14 @@ function mapeLoop(percRobot::PerceivedRobot)
             if getObjectsOfRole(team, SUT)[1] == percRobot
                 observer = getObjectsOfRole(team, Observer)[1] # TODO: for all observers
                 sendMessageRobot(observer.port, percRobot.position.x, percRobot.position.y, "monitoring")
-                println("run update MAPE-Loop")
+                println("run update SUT MAPE-Loop")
             end
         end
     end
 end
 
-function handle_client_robot(sock)
-    global clients
-    client_ip, client_port = getpeername(sock)
-    println("Handling client ", client_ip, ":", client_port)
 
-    # save socket in a dict to use it later for sending
-    clients[client_port] = sock
-    println(readline(sock))
-
-    # initially add new robot
-    if isopen(sock) 
-        msg = JSON.parse(readline(sock))       
-        # add new robot to model 
-        name = get(get(msg, "robot", 0), "name", 0)
-        robot = Robot(name, Position(4,40), 0.0, false, false, client_port)
-        @changeRoles MultiSpectatorTeam 1 begin
-            robot >> Exploration()
-        end
-    end
-
-    # constantly update robots attributes
-    while isopen(sock)
-        msg = JSON.parse(readline(sock)) # busy wait for next message?
-        robot.position = Position(get(get(msg, "robot", 0),"xPos",22), get(get(msg, "robot", 0),"yPos",22))
-    end
-end
-
-
+# Monitoring Step for the Messages Component
 function addORupdatePerceivedRobot(observation)
     color = get(observation, "color", "black")
     discoveredRobots = getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), DiscoveredRobot)
@@ -195,6 +188,42 @@ function addORupdatePerceivedRobot(observation)
     robot = PerceivedRobot("didi", color, Position(get(observation, "xPos", 0), get(observation, "yPos", 0)))
     @changeRoles MultiSpectatorTeam 1 begin
         robot >> DiscoveredRobot()
+    end
+end
+
+# ================= Multi-Connection Handling for Robots ============
+function handle_client_robot(sock)
+    global clients
+    client_ip, client_port = getpeername(sock)
+    println("Handling client ", client_ip, ":", client_port)
+
+    # save socket in a dict to use it later for sending
+    clients[client_port] = sock
+    println(readline(sock))
+
+    # initially add new robot
+    if isopen(sock) 
+        msg = JSON.parse(readline(sock))       
+        # add new robot to model 
+        name = get(get(msg, "robot", 0), "name", 0)
+        robot = Robot(name, Position(4,40), 0.0, false, false, client_port)
+        @changeRoles MultiSpectatorTeam 1 begin
+            robot >> Exploration()
+        end
+        # initially trigger exploration
+        exploration(robot)
+    end
+
+    # constantly update robots attributes
+    while isopen(sock)
+        msg = JSON.parse(readline(sock)) # busy wait for next message?
+        robot.position = Position(get(get(msg, "robot", 0),"xPos",22), get(get(msg, "robot", 0),"yPos",22))
+
+        # trigger Exploration if goal has been reached
+        if !robot.goalReached && get(get(msg, "robot", 0),"goalReached", false)
+            exploration(robot) # TODO: better trigger exploration by Hand from the Webapp??
+        end
+        robot.goalReached = get(get(msg, "robot", 0),"goalReached", false)
     end
 end
 
@@ -273,10 +302,13 @@ Threads.@spawn while true
 end
 
 
-# MAIN-Loop
-# pubilsh current State to the Webapp
+
+
+# =========================== MAIN-Loop ===============================
+#   pubilshs current State to the Webapp
 while true
     sleep(2)
+    # TBD: execute exploration strategy
     sendMessageWebApp()
 end
 

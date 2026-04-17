@@ -15,7 +15,7 @@ mutable struct Robot <: AbstractRobot
 	position::Position
 	theta::Float64
 	waiting::Bool
-	goalGiven::Bool
+	goalReached::Bool
 	port::Int64
 end
 
