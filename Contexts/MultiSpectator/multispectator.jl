@@ -94,9 +94,14 @@ end
 function exploration(robot::Robot)
     # Exploration Area
     areaPos1 = Position(-2,0)
-	areaPos2 = Position(5,2) 
-    # TODO: check, if robot currently is close to this position
-    sendMessageRobot(robot.port, rand(areaPos1.x:areaPos2.x), rand(areaPos1.y:areaPos2.y), "driving")
+	areaPos2 = Position(5,2)
+    
+    nextPos = Position(rand(areaPos1.x:areaPos2.x), rand(areaPos1.y:areaPos2.y))
+    # check, if robot cis to close to its next Exploration Position
+    while getDistance(robot.position, nextPos) < 1
+        nextPos = Position(rand(areaPos1.x:areaPos2.x), rand(areaPos1.y:areaPos2.y))
+    end
+    sendMessageRobot(robot.port, nextPos.x, nextPos.y, "driving")
 end
 
 # ======================= 2 Parallel MAPE-K Loops ================

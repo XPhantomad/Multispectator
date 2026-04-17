@@ -23,13 +23,14 @@ app = Flask("MultiSpectator", template_folder=os.path.dirname(__file__) + "/temp
 app.config['SECRET_KEY'] = 'donsky!'
 socketio = SocketIO(app, cors_allowed_origins='*')
 
-
+global tcpSocket
 global tcpServerConn
 # establish tcp connection to the MultiSpectator Application
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.bind((HOST,PORT))
     s.listen()
     tcpServerConn, addr = s.accept()
+    tcpSocket = s
 
 print(f"Listening on {(HOST,PORT)}")
 
@@ -41,12 +42,11 @@ Background Thread
 def background_thread():
 
     global tcpServerConn, bufferSize 
-    print("bgTh Started")   
     while(True):
         if tcpServerConn is None:
             continue  # Wait until the socket is initialized
         msg = tcpServerConn.recv(bufferSize) # BLOCKS
-        print(msg.decode())
+        #print(msg.decode())
         socketio.emit('updateSensorData', msg.decode())
 
 """
@@ -84,8 +84,6 @@ Decorator for Receiving formData
 @socketio.on('runAction')
 def getInput(args):
     global updClientSocket
-    print(args)
-    print(tcpServerConn)
     if(tcpServerConn != None):
         tcpServerConn.send(str.encode(json.dumps(args) + "\n"))
         msg = tcpServerConn.recv(bufferSize) # BLOCKS
@@ -93,11 +91,11 @@ def getInput(args):
 
 
 def cleanup():
-    global stop_thread, tcpServerConn
+    global stop_thread, tcpServerConn, tcpSocket
     stop_thread = True
     print("Cleaning up sockets")
     try:
-        tcpServerConn.close()
+        tcpSocket.close()
     except Exception as e:
         print(f"Error during cleanup: {e}")
 
