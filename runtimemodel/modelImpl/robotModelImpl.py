@@ -18,9 +18,6 @@ class RobotImpl(Robot):
     
     def setmessage(self, message=None):
         self.message = message
-    
-    def setSUT(self, sut=None):
-        self.sut = sut
 
     # calculates and sets the forward and roation speed of the robot
     def calculateSpeeds(self, repulsion, xTarget, yTarget):
@@ -103,10 +100,6 @@ class RobotImpl(Robot):
         else: 
             return waypoints[secondClosestWPIndex]
 
-class SUTImpl(SUT):
-    
-    def __init__(self, yPos=None, xPos=None):
-        super().__init__(yPos, xPos)
 
 class ModelImpl(Model):
 
@@ -122,7 +115,7 @@ class ModelImpl(Model):
         self.robots= None
     
     # takes data from goal-message and implement them to a specific goal for the runtimemodel
-    def implementation(self, xTarget, yTarget, SUTxPos, SUTyPos, stateName):
+    def implementation(self, xTarget, yTarget, stateName):
         robot = self.robots
         if(robot != None): 
             robot.xTarget = float(xTarget)
@@ -133,10 +126,6 @@ class ModelImpl(Model):
                 if(state.getname() == stateName):
                     robot.state = state
                     print("State setted " + state.getname())
-            
-            # sut = SUT(float(SUTyPos),float(SUTxPos))
-            # robot.setSUT(sut)
-            print("SUT setted")
         return False
 
 class StateImpl(State):

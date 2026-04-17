@@ -42,8 +42,6 @@ function sendMessageRobot(port, xPos, yPos, state)
             "xTarget" => xPos,
             "yTarget" => yPos,
             "state" => state,
-            "SUTxPos" => xPos,
-            "SUTyPos" => yPos
         ))
         write(socket, goal * "\n")
     end

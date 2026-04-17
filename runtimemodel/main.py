@@ -33,7 +33,7 @@ def receiveMessages():
             #print(msg)
             msg = json.loads(msg.decode().splitlines()[0])
             if(len(msg)>=2):
-                model.implementation(msg["xTarget"],msg["yTarget"], msg["SUTxPos"], msg["SUTyPos"], msg["state"])
+                model.implementation(msg["xTarget"],msg["yTarget"], msg["state"])
 
 # creates a Status message in JSON of the runtime model and sent it via Socket to the Swarm Element Loop
 # runs with 10Hz to meet the frequency of the initial checks of the SEL
@@ -103,12 +103,11 @@ while(True):
     xTarget = robot1.getxTarget()
     yTarget = robot1.getyTarget()
 
-    # if state is monitoring, set Target position to individually calculated position
+    # MONITORING: if state is monitoring, set target position to individually calculated position
     if robot1.state == monitoring:
         nextWaypoint = robot1.calculateNextWaypoint(0.4,robot1.getxTarget(), robot1.getyTarget())
         xTarget = nextWaypoint[0]
         yTarget = nextWaypoint[1]
-
 
     # Plan - calculates and sets speeds for the robot
     if(not robot1.getgoalReached() and (robot1.state == driving or robot1.state == monitoring)):
@@ -123,8 +122,6 @@ while(True):
     if(not robot1.getgoalReached()):
         robotSupervisor.publishVelocity(robot1.speed,robot1.rotationSpeed)
 
-    
-    
 robotSupervisor.destroy_node()
 rclpy.shutdown()
 
