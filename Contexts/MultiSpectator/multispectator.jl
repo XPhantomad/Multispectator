@@ -151,7 +151,6 @@ function mapeLoop(sutColor::String, numberOfObservers::Int64) # TODO: add Target
     else
         # 1. find monitoring team
         actualTeam = nothing
-        currentNumberOfObservers = 0
         monitoringTeams = getDynamicTeams(MonitoringTeam)
         for team in monitoringTeams
             if team.color == percRobot.color
@@ -164,36 +163,39 @@ function mapeLoop(sutColor::String, numberOfObservers::Int64) # TODO: add Target
             return
         end
         println("add SECOND Observer 222222222")
-
+        println(numberOfObservers)
         # exit monitoring and disassign monitoring team
         if numberOfObservers <= 0 
-            disassignRoles(MonitoringTeam, teamID)
+            disassignRoles(MonitoringTeam, actualTeam.ID)
+            println("dissasigned everything")
         
         # no changes required
-        elseif length(getObjectsOfRole(team, Observer)) == numberOfObservers
+        elseif length(getObjectsOfRole(actualTeam, Observer)) == numberOfObservers
             return
             
         # decrease Number of Observers
-        elseif length(getObjectsOfRole(team, Observer)) > numberOfObservers
+        elseif length(getObjectsOfRole(actualTeam, Observer)) > numberOfObservers
             # disassign observers until numbers match
-            while length(getObjectsOfRole(team, Observer)) > numberOfObservers
-                firstObserver = getObjectsOfRole(team, Observer)[1]
-                @changeRoles typeof(team) team.ID begin
+            while length(getObjectsOfRole(actualTeam, Observer)) > numberOfObservers
+                firstObserver = getObjectsOfRole(actualTeam, Observer)[1]
+                @changeRoles typeof(actualTeam) actualTeam.ID begin
                    firstObserver << Observer
                 end
                 # PLAN + EXECUTE 
                 exploration(firstObserver)
+                println("decrease")
             end
 
         # increase Number of Observers
-        elseif length(getObjectsOfRole(team, Observer)) < numberOfObservers
+        elseif length(getObjectsOfRole(actualTeam, Observer)) < numberOfObservers
             # assign observers until numbers match
-            while length(getObjectsOfRole(team, Observer)) < numberOfObservers
+            while length(getObjectsOfRole(actualTeam, Observer)) < numberOfObservers
                 ## TODO: make function out of that
-                result = addObserver(team, percRobot)
+                result = addObserver(actualTeam, percRobot)
                 if result == 1
                     return 
                 end
+                println("increase")
             end
         end
     end

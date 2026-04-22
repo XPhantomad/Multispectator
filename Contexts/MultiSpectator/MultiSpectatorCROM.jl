@@ -33,7 +33,7 @@ end
 	@relationalAttributes begin
 		color::String
 	end
-	@role Observer << Robot [1..4] begin
+	@role Observer << Robot [1..6] begin
 		radius::Float64
 	end
 	@role SUT << AbstractXUT [1] begin
@@ -51,5 +51,4 @@ end
 
 	# add other team of Detected Objects, which can have the role interesting or uninteresting
 	@role DiscoveredRobot << PerceivedRobot [0..Inf] begin end
-
 end
