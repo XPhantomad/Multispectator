@@ -53,7 +53,7 @@ function sendMessageWebApp()
     monitoring_json = [
     Dict(
         "sut" => getObjectsOfRole(team, SUT)[1].color,
-        "observer" => getObjectsOfRole(team, Observer)[1].name
+        "observer" => [obj.name for obj in getObjectsOfRole(team, Observer)]
     )
     for team in monitoringTeams]
 
@@ -106,46 +106,95 @@ end
 
 # MAPE-K loop which handles new WebApp input
 #   calculates next goal from input and current configuration
-function mapeLoop(webAppInput::String)
+function mapeLoop(sutColor::String, numberOfObservers::Int64) # TODO: add Target Position
     global globalID
     println("run webapp input MAPE-Loop")
 
     # 1. get PerceivedRobot with the color
-    percRobot = getPercRobotByColor(webAppInput)
+    percRobot = getPercRobotByColor(sutColor)
     if percRobot === nothing
         println("SUT not found :(")
         return
     end
 
-    # 2. Assign/Disassign MonitoringTeam (Toggle)
-    # if Robot has already the Role of SUT --> disassign this team
-    if hasRole(percRobot, SUT, MonitoringTeam)
-        monitoringTeams = getDynamicTeams(MonitoringTeam)
-        for team in monitoringTeams
-            if team.color == percRobot.color 
-                println("team disassigned again")
-                observer = getObjectsOfRole(team, Observer)[1] # TODO: for all observers
-                # PLAN + EXECUTE 
-                exploration(observer)
-                disassignRoles(MonitoringTeam, team.ID)
-            end
-        end
-    # otherwise assign it as SUT and add the closest robot as observer TODO: receive Radius from Webapp 
-    else
-        robot = getRobotWithShortestDistanceToSUT(percRobot)
-        if robot !== nothing
-            globalID = globalID+1
-            @assignRoles MonitoringTeam begin
-                name = globalID
-                color = webAppInput
-                robot >> Observer(0.4)
-                percRobot >> SUT()
+    # robot is not monitored
+    if !hasRole(percRobot, SUT, MonitoringTeam)
+        if numberOfObservers > 0 #assign team and given numberOfObservers of robots
+            
+            # 1. create team and assign first observer
+            robot = getRobotWithShortestDistanceToSUT(percRobot)
+            if robot !== nothing
+                globalID = globalID+1
+                MTteam = @assignRoles MonitoringTeam begin
+                    name = globalID
+                    color = sutColor
+                    robot >> Observer(0.4)
+                    percRobot >> SUT()
+                end
+                # PLAN + EXECUTE
+                sendMessageRobot(robot.port, percRobot.position.x, percRobot.position.y, "monitoring")
+            else
+                println("unfortunately no robot free for observation")
+                return
             end
 
-            # PLAN + EXECUTE
-            sendMessageRobot(robot.port, percRobot.position.x, percRobot.position.y, "monitoring")
-        else
-            println("unfortunately no robot free for observation")
+            # 2. assign more observers
+            for i in 2:numberOfObservers
+                # TODO: make function out of it
+                println("add SECOND Observer")
+                result = addObserver(MTteam, percRobot)
+                if result == 1
+                    return
+                end
+            end
+        end
+    else
+        # 1. find monitoring team
+        actualTeam = nothing
+        currentNumberOfObservers = 0
+        monitoringTeams = getDynamicTeams(MonitoringTeam)
+        for team in monitoringTeams
+            if team.color == percRobot.color
+                actualTeam = team
+            end
+        end
+        # handle the case, if no team was found
+        if actualTeam == nothing
+            println("team not found :(")
+            return
+        end
+        println("add SECOND Observer 222222222")
+
+        # exit monitoring and disassign monitoring team
+        if numberOfObservers <= 0 
+            disassignRoles(MonitoringTeam, teamID)
+        
+        # no changes required
+        elseif length(getObjectsOfRole(team, Observer)) == numberOfObservers
+            return
+            
+        # decrease Number of Observers
+        elseif length(getObjectsOfRole(team, Observer)) > numberOfObservers
+            # disassign observers until numbers match
+            while length(getObjectsOfRole(team, Observer)) > numberOfObservers
+                firstObserver = getObjectsOfRole(team, Observer)[1]
+                @changeRoles typeof(team) team.ID begin
+                   firstObserver << Observer
+                end
+                # PLAN + EXECUTE 
+                exploration(firstObserver)
+            end
+
+        # increase Number of Observers
+        elseif length(getObjectsOfRole(team, Observer)) < numberOfObservers
+            # assign observers until numbers match
+            while length(getObjectsOfRole(team, Observer)) < numberOfObservers
+                ## TODO: make function out of that
+                result = addObserver(team, percRobot)
+                if result == 1
+                    return 
+                end
+            end
         end
     end
 end
@@ -299,7 +348,8 @@ Threads.@spawn while true
     if isopen(socketWebApp)
 		msg = JSON.parse(readline(socketWebApp))
         println(msg)
-        mapeLoop(get(msg, "color", "black"))
+        mapeLoop(get(msg, "color", "black"), get(msg, "observers", 0)) 
+        # get(msg, "targetXPos", 0), get(msg, "targetyPos", 0))
 	end
     sleep(0.5)
 end
@@ -311,7 +361,6 @@ end
 #   pubilshs current State to the Webapp
 while true
     sleep(2)
-    # TBD: execute exploration strategy
     sendMessageWebApp()
 end
 

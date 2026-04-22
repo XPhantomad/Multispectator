@@ -26,13 +26,18 @@ socketio = SocketIO(app, cors_allowed_origins='*')
 global tcpSocket
 global tcpServerConn
 # establish tcp connection to the MultiSpectator Application
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    s.bind((HOST,PORT))
-    s.listen()
-    tcpServerConn, addr = s.accept()
-    tcpSocket = s
+def init_socket():
+    global tcpSocket, tcpServerConn
 
-print(f"Listening on {(HOST,PORT)}")
+    tcpSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    tcpSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+    tcpSocket.bind((HOST, PORT))
+    tcpSocket.listen()
+
+    print(f"Listening on {(HOST, PORT)}")
+
+    tcpServerConn, addr = tcpSocket.accept()
 
 
 """
@@ -81,7 +86,7 @@ def disconnect():
 Decorator for Receiving formData
 """
 # receive goal from webapp and send it to MultiSpectatorApp
-@socketio.on('runAction')
+@socketio.on('applyObserverCount')
 def getInput(args):
     global updClientSocket
     if(tcpServerConn != None):
@@ -89,17 +94,25 @@ def getInput(args):
         msg = tcpServerConn.recv(bufferSize) # BLOCKS
         socketio.emit('updateSensorData', msg.decode())
 
-
 def cleanup():
     global stop_thread, tcpServerConn, tcpSocket
     stop_thread = True
     print("Cleaning up sockets")
     try:
-        tcpSocket.close()
+        if tcpServerConn:
+            tcpServerConn.close()
     except Exception as e:
-        print(f"Error during cleanup: {e}")
+        print(f"Error closing connection: {e}")
+
+    try:
+        if tcpSocket:
+            tcpSocket.close()
+    except Exception as e:
+        print(f"Error closing socket: {e}")
+
 
 atexit.register(cleanup)
 
 if __name__ == '__main__':
+    init_socket()
     socketio.run(app)

@@ -461,32 +461,120 @@
             if (tableId === "discoveredRobots") {
                 let td = document.createElement("td");
 
+                let input = document.createElement("input");
+                input.type = "number";
+                input.min = "1";
+                input.placeholder = "#Observers";
+                input.style.width = "80px";
+
                 let button = document.createElement("button");
-                button.textContent = "Start Monitoring";
-                button.dataset.active = "false";
+                button.textContent = "Apply";
+
 
                 button.onclick = function () {
-                    let isActive = button.dataset.active === "true";
+                    const count = parseInt(input.value);
 
-                    if (!isActive) {
-                        button.textContent = "Stop Monitoring";
-                        button.dataset.active = "true";
-                    } else {
-                        button.textContent = "Start Monitoring";
-                        button.dataset.active = "false";
+                    if (!count || count <= 0) {
+                        alert("Please enter a valid number of observers");
+                        return;
                     }
 
-                    // send ONLY color
-                    socket.emit("runAction", {
-                        color: item.color
+                    socket.emit("applyObserverCount", {
+                        color: item.color,   
+                        observers: count
                     });
 
-                    console.log("Sent:", item.color);
+                    console.log("Apply Observer Count:", item.id, "with", count);
                 };
 
+                td.appendChild(input);
                 td.appendChild(button);
                 row.appendChild(td);
             }
+
+            tbody.appendChild(row);
+        });
+    }
+
+    function generateMonitoringTable(tableId, caption, dataArray) {
+        if (!dataArray || dataArray.length === 0) return;
+
+        let table = document.getElementById(tableId) || (() => {
+            let newTable = document.createElement("table");
+            newTable.className = "styled-table";
+            newTable.id = tableId;
+
+            let cap = newTable.createCaption();
+            cap.textContent = caption;
+
+            let thead = document.createElement("thead");
+            let headerRow = document.createElement("tr");
+
+            // derive columns from first object
+            Object.keys(dataArray[0]).forEach(key => {
+                let th = document.createElement("th");
+                th.textContent = key;
+                headerRow.appendChild(th);
+            });
+
+             // add action column
+            let th = document.createElement("th");
+            th.textContent = "Exit Monitoring";
+            headerRow.appendChild(th);
+
+            thead.appendChild(headerRow);
+
+            let tbody = document.createElement("tbody");
+            tbody.id = tableId + "Body";
+
+            newTable.appendChild(thead);
+            newTable.appendChild(tbody);
+
+            document.getElementById("table-container").appendChild(newTable);
+            return newTable;
+        })();
+
+        let tbody = document.getElementById(tableId + "Body");
+        tbody.innerHTML = "";
+
+        dataArray.forEach(item => {
+            let row = document.createElement("tr");
+
+            // SUT
+            let tdSut = document.createElement("td");
+            tdSut.textContent = item.sut;
+            row.appendChild(tdSut);
+
+            // Observers (LIST)
+            let tdObservers = document.createElement("td");
+            let ul = document.createElement("ul");
+
+            item.observer.forEach(obs => {
+                let li = document.createElement("li");
+                li.textContent = obs;
+                ul.appendChild(li);
+            });
+
+            tdObservers.appendChild(ul);
+            row.appendChild(tdObservers);
+
+            // Stop button
+            let tdAction = document.createElement("td");
+            let stopBtn = document.createElement("button");
+            stopBtn.textContent = "Stop";
+
+            // send Message with Observers = 0 to quit Monitoring
+            stopBtn.onclick = function () {
+                socket.emit("applyObserverCount", {
+                    color: item.sut,
+                    observers : 0
+                });
+
+                console.log("Stop monitoring:", item.sut);
+            };
+
+            tdAction.appendChild(stopBtn);
+            row.appendChild(tdAction);
 
             tbody.appendChild(row);
         });
@@ -505,7 +593,7 @@
             generateOrUpdateGenericTable("explorers", "Explorers", data.explorers);
         }
         if (data.monitoring) {
-            generateOrUpdateGenericTable("monitoring", "Monitoring", data.monitoring);
+            generateMonitoringTable("monitoring", "Monitoring", data.monitoring);
         }
     });
 </script>

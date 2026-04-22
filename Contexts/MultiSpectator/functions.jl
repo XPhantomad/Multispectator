@@ -58,6 +58,21 @@ function getMonitoringTeamBySUTColor(color)
 end
 
 
+function addObserver(team::MonitoringTeam, percRobot::PerceivedRobot)
+	robot = getRobotWithShortestDistanceToSUT(percRobot)
+	if robot !== nothing
+		@changeRoles typeof(team) team.ID begin
+			robot >> Observer(0.4)
+		end
+		# PLAN + EXECUTE
+		sendMessageRobot(robot.port, percRobot.position.x, percRobot.position.y, "monitoring")
+	else
+		println("unfortunately no robot free for observation")
+		return 1
+	end
+end
+
+
 # TODO: combine to get object by attribute and roööe
 function infoInMessage(message, text)
 	for info in message 

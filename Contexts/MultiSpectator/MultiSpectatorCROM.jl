@@ -1,7 +1,7 @@
 include("../src/Contexts.jl")
 using .Contexts
 
-abstract type AbstractRobot end
+abstract type AbstractXUT end
 
 mutable struct Position
 	x:: Float64
@@ -10,7 +10,7 @@ end
 
 Base.:(==)(a::Position, b::Position) = a.x == b.x && a.y == b.y
 
-mutable struct Robot <: AbstractRobot
+mutable struct Robot
 	name::String
 	position::Position
 	theta::Float64
@@ -21,7 +21,7 @@ end
 
 
 # generalize this to Oservation, to include also Object and let roles define, which type it is
-mutable struct PerceivedRobot <: AbstractRobot
+mutable struct PerceivedRobot <: AbstractXUT
 	name::String
 	color::String
 	position::Position
@@ -36,10 +36,13 @@ end
 	@role Observer << Robot [1..4] begin
 		radius::Float64
 	end
-	@role SUT << PerceivedRobot [1] begin
+	@role SUT << AbstractXUT [1] begin
 		
 	end
 end
+
+
+#abstract type DiscoveredRobot <: Role end
 
 @newDynamicTeam MultiSpectatorTeam begin
 	@IDAttribute ID::Int64
@@ -48,4 +51,5 @@ end
 
 	# add other team of Detected Objects, which can have the role interesting or uninteresting
 	@role DiscoveredRobot << PerceivedRobot [0..Inf] begin end
+
 end
