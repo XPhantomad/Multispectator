@@ -1,8 +1,17 @@
+using Colors
 
 function getDistance(pos1, pos2)
 	return abs(hypot((pos1.x - pos2.x),(pos1.y-pos2.y)))
 end
 
+
+function int_to_color(n::Int)
+    l = 50 + 20 * sin(n * 1.3)
+    a = 40 * sin(n * 2.1)
+    b = 40 * cos(n * 1.7)
+
+    return "#" * hex(RGB(Lab(l, a, b)))
+end
 
 function getRobotByName(name)
 	robots = getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), Exploration)
@@ -38,6 +47,28 @@ function getRobotWithShortestDistanceToSUT(percRobot)
 	return closestRobot
 end
 
+function getRobotWithShortestDistanceToPosition(position)
+
+	robots = getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), Exploration)
+	println(robots)
+	closestRobot = nothing
+	for robot in robots 
+		#IMPORTANT: consider only the exploration robots
+		if !hasRole(robot, Observer, MonitoringTeam)
+			# only for the first iteration
+			if closestRobot == nothing
+				closestRobot = robot
+				continue
+			end
+
+			if getDistance(robot.position, position) < getDistance(closestRobot.position, position)
+				closestRobot = robot
+			end
+		end
+	end
+	return closestRobot
+end
+
 function getSUTByColor(color)
 
 	percRobots = getObjectsOfRole(getDynamicTeam(MonitoringTeam, 1), DiscoveredRobot)
@@ -58,14 +89,14 @@ function getMonitoringTeamBySUTColor(color)
 end
 
 
-function addObserver(team::MonitoringTeam, percRobot::PerceivedRobot)
-	robot = getRobotWithShortestDistanceToSUT(percRobot)
+function addObserver(team::MonitoringTeam, SUTposition::Position)
+	robot = getRobotWithShortestDistanceToPosition(SUTposition)
 	if robot !== nothing
 		@changeRoles typeof(team) team.ID begin
 			robot >> Observer(0.4)
 		end
 		# PLAN + EXECUTE
-		sendMessageRobot(robot.port, percRobot.position.x, percRobot.position.y, "monitoring")
+		sendMessageRobot(robot.port, SUTposition.x, SUTposition.y, "monitoring")
 	else
 		println("unfortunately no robot free for observation")
 		return 1

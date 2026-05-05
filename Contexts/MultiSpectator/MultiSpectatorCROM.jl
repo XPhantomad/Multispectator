@@ -3,7 +3,7 @@ using .Contexts
 
 abstract type AbstractXUT end
 
-mutable struct Position
+mutable struct Position <: AbstractXUT
 	x:: Float64
 	y:: Float64
 end
@@ -36,6 +36,15 @@ end
 	@role Observer << Robot [1..6] begin
 		radius::Float64
 	end
+
+	# currently not implemented
+	@role CamControlledObserver << Robot [0..1] begin end     
+	@role ManualControlledObserver << Robot [0..1] begin end  
+	@role AccidentInspection << Robot [0..10] begin end
+	
+	# Plan to switch role, if SUT moves and fall back to Hexagonal Observation only when SUT stands for X seconds   
+	# @role Follow SUT << Robot [1..6]  begin end 
+	
 	@role SUT << AbstractXUT [1] begin
 		
 	end

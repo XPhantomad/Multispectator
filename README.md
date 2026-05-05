@@ -130,6 +130,7 @@ Verify Installation
     - Pkg.add("Sockets")
     - Pkg.add("JSON")
     - Pkg.add("Parameters")
+    - Pkg.add("Colors")
 
 ### Setup Startup-Script
 

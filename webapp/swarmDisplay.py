@@ -94,6 +94,16 @@ def getInput(args):
         msg = tcpServerConn.recv(bufferSize) # BLOCKS
         socketio.emit('updateSensorData', msg.decode())
 
+@socketio.on("setTarget")
+def handle_set_target(args):
+    x = args["xTarget"]
+    y = args["yTarget"]
+    observers = args["observers"]
+
+    print(f"Target received: {observers} -> ({x}, {y})")
+
+    tcpServerConn.send(str.encode(json.dumps(args) + "\n"))
+
 def cleanup():
     global stop_thread, tcpServerConn, tcpSocket
     stop_thread = True

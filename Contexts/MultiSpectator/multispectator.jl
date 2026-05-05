@@ -13,7 +13,7 @@ println("waiting for webapp")
 
 # TCP Socket for the webapp connection
 socketWebApp = connect(ip"127.0.0.1", 4004)
-write(socketWebApp, "MultiSpectator connected :)\n")
+#write(socketWebApp, "MultiSpectator connected :)\n")
 
 println("waiting for clients ...")
 
@@ -52,7 +52,7 @@ function sendMessageWebApp()
     monitoringTeams = getDynamicTeams(MonitoringTeam)
     monitoring_json = [
     Dict(
-        "sut" => getObjectsOfRole(team, SUT)[1].color,
+        "sut" => team.color,
         "observer" => [obj.name for obj in getObjectsOfRole(team, Observer)]
     )
     for team in monitoringTeams]
@@ -106,9 +106,46 @@ end
 
 # MAPE-K loop which handles new WebApp input
 #   calculates next goal from input and current configuration
-function mapeLoop(sutColor::String, numberOfObservers::Int64) # TODO: add Target Position
+function mapeLoop(sutColor, numberOfObservers::Int64, targetxPos::Int64, targetyPos::Int64) # TODO: add Target Position
     global globalID
     println("run webapp input MAPE-Loop")
+
+    # target Position given instead of color 
+    if sutColor === nothing
+        targetPosition = Position(targetxPos, targetyPos)
+        if numberOfObservers > 0 #assign team with given numberOfObservers of robots
+            print("herer")
+            # 1. create team and assign first observer
+            robot = getRobotWithShortestDistanceToPosition(targetPosition)
+            if robot !== nothing
+                globalID = globalID+1
+                MTteam = @assignRoles MonitoringTeam begin
+                    name = globalID
+                    color = int_to_color(globalID)
+                    robot >> Observer(0.4)
+                    targetPosition >> SUT()
+                end
+                # PLAN + EXECUTE
+                sendMessageRobot(robot.port, targetPosition.x, targetPosition.y, "monitoring")
+            else
+                println("unfortunately no robot free for observation")
+                return
+            end
+
+            # 2. assign more observers
+            for i in 2:numberOfObservers
+                println("add SECOND Observer")
+                result = addObserver(MTteam, targetPosition)
+                if result == 1
+                    return
+                end
+            end
+        end
+        return
+    end
+
+
+
 
     # 1. get PerceivedRobot with the color
     percRobot = getPercRobotByColor(sutColor)
@@ -119,10 +156,10 @@ function mapeLoop(sutColor::String, numberOfObservers::Int64) # TODO: add Target
 
     # robot is not monitored
     if !hasRole(percRobot, SUT, MonitoringTeam)
-        if numberOfObservers > 0 #assign team and given numberOfObservers of robots
-            
+        if numberOfObservers > 0 #assign team with given numberOfObservers of robots
+            print("herer")
             # 1. create team and assign first observer
-            robot = getRobotWithShortestDistanceToSUT(percRobot)
+            robot = getRobotWithShortestDistanceToPosition(percRobot.position)
             if robot !== nothing
                 globalID = globalID+1
                 MTteam = @assignRoles MonitoringTeam begin
@@ -140,9 +177,8 @@ function mapeLoop(sutColor::String, numberOfObservers::Int64) # TODO: add Target
 
             # 2. assign more observers
             for i in 2:numberOfObservers
-                # TODO: make function out of it
-                println("add SECOND Observer")
-                result = addObserver(MTteam, percRobot)
+                println("add SECOND Observer Accident UC")
+                result = addObserver(MTteam, percRobot.position)
                 if result == 1
                     return
                 end
@@ -190,8 +226,7 @@ function mapeLoop(sutColor::String, numberOfObservers::Int64) # TODO: add Target
         elseif length(getObjectsOfRole(actualTeam, Observer)) < numberOfObservers
             # assign observers until numbers match
             while length(getObjectsOfRole(actualTeam, Observer)) < numberOfObservers
-                ## TODO: make function out of that
-                result = addObserver(actualTeam, percRobot)
+                result = addObserver(actualTeam, percRobot.position)
                 if result == 1
                     return 
                 end
@@ -213,9 +248,11 @@ function mapeLoop(percRobot::PerceivedRobot)
         monitoringTeams = getDynamicTeams(MonitoringTeam)
         for team in monitoringTeams
             if getObjectsOfRole(team, SUT)[1] == percRobot
-                observer = getObjectsOfRole(team, Observer)[1] # TODO: for all observers
-                sendMessageRobot(observer.port, percRobot.position.x, percRobot.position.y, "monitoring")
-                println("run update SUT MAPE-Loop")
+                observers = getObjectsOfRole(team, Observer)
+                for observer in observers
+                    sendMessageRobot(observer.port, percRobot.position.x, percRobot.position.y, "monitoring")
+                    println("run update SUT MAPE-Loop")
+                end 
             end
         end
     end
@@ -224,6 +261,7 @@ end
 
 # Monitoring Step for the Messages Component
 function addORupdatePerceivedRobot(observation)
+    global globalID
     color = get(observation, "color", "black")
     discoveredRobots = getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), DiscoveredRobot)
     for r in discoveredRobots
@@ -239,7 +277,8 @@ function addORupdatePerceivedRobot(observation)
     # TODO: race condition in parallel threads!!!
     println(observation)
     # add new Discovered Robot
-    robot = PerceivedRobot("didi", color, Position(get(observation, "xPos", 0), get(observation, "yPos", 0)))
+    globalID = globalID+1
+    robot = PerceivedRobot("robot " * string(globalID), color, Position(get(observation, "xPos", 0), get(observation, "yPos", 0)))
     @changeRoles MultiSpectatorTeam 1 begin
         robot >> DiscoveredRobot()
     end
@@ -350,8 +389,13 @@ Threads.@spawn while true
     if isopen(socketWebApp)
 		msg = JSON.parse(readline(socketWebApp))
         println(msg)
-        mapeLoop(get(msg, "color", "black"), get(msg, "observers", 0)) 
-        # get(msg, "targetXPos", 0), get(msg, "targetyPos", 0))
+        try
+            mapeLoop(get(msg, "color", nothing), get(msg, "observers", 0), get(msg, "xTarget", 0), get(msg, "yTarget", 0))
+        catch e
+            @error "Thread failed" exception=(e, catch_backtrace())
+        finally
+            println("Web app connection down")
+        end
 	end
     sleep(0.5)
 end
