@@ -465,7 +465,6 @@
                 } else {
                     td.textContent = value;
                 }
-
                 row.appendChild(td);
             });
 
@@ -477,6 +476,7 @@
                 let input = document.createElement("input");
                 input.type = "number";
                 input.min = "1";
+                input.id = "discRobot"+index
                 input.placeholder = "#Observers";
                 input.style.width = "80px";
 
@@ -650,7 +650,7 @@
         <input id="target-y" type="number" placeholder="y" />
         <input id="numberOfObservers" type="number" placeholder="# Observers"/>
 
-        <button onclick="sendTarget()">Apply</button>
+        <button id="start" onclick="sendTarget()">Apply</button>
     </div>
 </div>
 

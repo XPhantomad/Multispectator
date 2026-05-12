@@ -82,6 +82,7 @@ function sendMessageWebApp()
     )
 
     json_msg = JSON.json(msg)
+    println(json_msg)
     write(socketWebApp, json_msg * "\n")
 end
 
@@ -99,7 +100,7 @@ function exploration(robot::Robot)
     while getDistance(robot.position, nextPos) < 1
         nextPos = Position(rand(areaPos1.x:areaPos2.x), rand(areaPos1.y:areaPos2.y))
     end
-    sendMessageRobot(robot.port, nextPos.x, nextPos.y, "driving")
+    sendMessageRobot(robot.port, nextPos.x, nextPos.y, "waiting")
 end
 
 # ======================= 2 Parallel MAPE-K Loops ================
@@ -397,7 +398,7 @@ Threads.@spawn while true
             println("Web app connection down")
         end
 	end
-    sleep(0.5)
+    sleep(0.1)
 end
 
 
