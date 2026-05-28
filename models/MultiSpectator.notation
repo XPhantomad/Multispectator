@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:notation="http://www.eclipse.org/glsp/notation">
+  <semanticElement elementId="root"/>
+  <elements xsi:type="notation:Shape">
+    <semanticElement elementId="4da3df07-c3fd-4f60-9b76-3e1561ecaabb"/>
+    <position x="265.0272981080356" y="23.35594502271502"/>
+    <size width="164.90226169500772" height="252.72233503298094"/>
+  </elements>
+  <elements xsi:type="notation:Shape">
+    <semanticElement elementId="312ed73e-ee98-45a8-a54f-a84e4e155fe0"/>
+    <position x="45.8856673665216" y="24.344410502513057"/>
+    <size width="90.22158018256494" height="51.982086615761546"/>
+  </elements>
+  <elements xsi:type="notation:Shape">
+    <semanticElement elementId="c4f7b2d2-09d1-48b8-bf58-475a1bf5b305"/>
+    <position x="38.552916022790555" y="116.77133473304315"/>
+    <size width="104.6116913160148" height="41.211911051880236"/>
+  </elements>
+  <elements xsi:type="notation:Shape">
+    <semanticElement elementId="5d313372-4d64-42ee-b31c-646b628384da"/>
+    <position x="454.23240378725734" y="25.898630256559983"/>
+    <size width="311.6082835393065" height="250.3046080579796"/>
+  </elements>
+  <elements xsi:type="notation:Shape">
+    <semanticElement elementId="6f25090c-ca8c-4e13-b0ac-6bcfb7e003a6"/>
+    <position x="43.44215450202131" y="19.683362905316372"/>
+    <size width="80.3125" height="32.0"/>
+  </elements>
+  <elements xsi:type="notation:Shape">
+    <semanticElement elementId="1ff02b3e-d097-4cc6-8ecf-7b8f8c69881c"/>
+    <position x="171.6656006467049" y="117.73943834428624"/>
+    <size width="124.48902893066406" height="32.0"/>
+  </elements>
+  <elements xsi:type="notation:Shape">
+    <semanticElement elementId="b9bec473-8bae-4622-a7dc-5a354d74982b"/>
+    <position x="190.95626964030106" y="19.457842107298745"/>
+    <size width="84.97941589355469" height="32.0"/>
+  </elements>
+  <elements xsi:type="notation:Shape">
+    <semanticElement elementId="2731689d-cff6-4bb4-8a9c-10a1134f4a43"/>
+    <position x="306.6034910776967" y="322.8848621236557"/>
+    <size width="79.0" height="68.0"/>
+  </elements>
+  <elements xsi:type="notation:Shape">
+    <semanticElement elementId="bc9a569c-b29f-4c50-a31b-05c76543adb3"/>
+  </elements>
+  <elements xsi:type="notation:Shape">
+    <semanticElement elementId="424b6121-3a78-46ac-a030-9469950a4503"/>
+  </elements>
+  <elements xsi:type="notation:Edge" source="//@elements.7" target="//@elements.1">
+    <semanticElement elementId="b042faf5-29a9-417e-8d50-2c233611943b"/>
+    <bendPoints x="284.93116719594235" y="363.7971369104949"/>
+    <bendPoints x="286.3248073171196" y="142.48000993939291"/>
+  </elements>
+  <elements xsi:type="notation:Shape">
+    <semanticElement elementId="777415f9-2826-423d-8253-53fbb1fd7a4e"/>
+    <position x="588.3985236675529" y="307.00587389094716"/>
+    <size width="128.125" height="84.0"/>
+  </elements>
+  <elements xsi:type="notation:Shape">
+    <semanticElement elementId="fa56fcb5-27ee-42f3-a747-a2332fdcabf3"/>
+  </elements>
+  <elements xsi:type="notation:Shape">
+    <semanticElement elementId="86571263-39f1-4fed-8ff0-c82604d429b9"/>
+  </elements>
+  <elements xsi:type="notation:Shape">
+    <semanticElement elementId="27b9d2f1-4e23-4d6f-8416-efe09b9aca0c"/>
+  </elements>
+  <elements xsi:type="notation:Edge" source="//@elements.11" target="//@elements.2">
+    <semanticElement elementId="0e8a0551-6270-49aa-9eac-345ed515e7d0"/>
+    <bendPoints x="652.8420652606922" y="288.7823221390457"/>
+    <bendPoints x="354.52111539568" y="288.9858698630238"/>
+  </elements>
+  <elements xsi:type="notation:Edge" source="//@elements.11" target="//@elements.6">
+    <semanticElement elementId="69c7c5ce-3d10-4a0a-a48a-31d6f7439364"/>
+    <bendPoints x="760.5423827970443" y="350.15417680056686"/>
+    <bendPoints x="760.7725019156942" y="112.65661919035163"/>
+  </elements>
+  <elements xsi:type="notation:Edge" source="//@elements.0" target="//@elements.4">
+    <semanticElement elementId="162ea562-b17b-409d-b6ac-3c308b1e7e00"/>
+  </elements>
+  <elements xsi:type="notation:Shape">
+    <semanticElement elementId="8b793e5d-8f68-4dc6-933b-e8160bc3bb98"/>
+    <position x="436.05702611490176" y="391.8724286451828"/>
+    <size width="114.923828125" height="52.0"/>
+  </elements>
+  <elements xsi:type="notation:Shape">
+    <semanticElement elementId="fbb13da6-fd89-40c2-ad1e-631d80f20856"/>
+  </elements>
+  <elements xsi:type="notation:Edge" source="//@elements.18" target="//@elements.5">
+    <semanticElement elementId="653cd343-43b5-4b16-9443-f2b4a682969f"/>
+    <bendPoints x="535.9912914432276" y="387.0110007982573"/>
+    <bendPoints x="540.1422502752943" y="258.11814319408194"/>
+    <bendPoints x="689.0902997914243" y="257.6472084359088"/>
+  </elements>
+  <elements xsi:type="notation:Shape">
+    <semanticElement elementId="a858c11f-46dc-4f25-ba01-790b3877f769"/>
+  </elements>
+  <elements xsi:type="notation:Edge" source="//@elements.1" target="//@elements.2">
+    <semanticElement elementId="efd632ec-2abe-4c2d-81a4-780b7844ae74"/>
+  </elements>
+  <elements xsi:type="notation:Shape">
+    <semanticElement elementId="2226b28a-7175-4681-986e-de9a2d6b3f60"/>
+  </elements>
+  <elements xsi:type="notation:Shape">
+    <semanticElement elementId="f1bca33b-86c2-4f8b-8b1e-ea3bee5966c5"/>
+  </elements>
+  <elements xsi:type="notation:Edge" source="//@elements.6" target="//@elements.5">
+    <semanticElement elementId="1f0aa80e-579e-45c6-9a37-fd6be45b31a4"/>
+  </elements>
+  <elements xsi:type="notation:Shape">
+    <semanticElement elementId="3f8e6771-e37e-477e-8abd-4040f7ff4f6b"/>
+    <position x="47.39170949741856" y="117.92675567935123"/>
+    <size width="79.5427474975586" height="32.0"/>
+  </elements>
+  <elements xsi:type="notation:Edge" source="//@elements.18" target="//@elements.1">
+    <semanticElement elementId="ea44cfee-69f7-405b-82e3-cb816ceeec16"/>
+    <bendPoints x="284.563922732524" y="417.06035022835744"/>
+    <bendPoints x="286.5784862638899" y="141.60938171684006"/>
+  </elements>
+  <elements xsi:type="notation:Shape">
+    <semanticElement elementId="ca296456-27a6-4660-a873-72a67fd5c68a"/>
+  </elements>
+  <elements xsi:type="notation:Edge" source="//@elements.2" target="//@elements.6">
+    <semanticElement elementId="df8288af-dfa5-4ca4-b83f-ee8ead4e801d"/>
+  </elements>
+  <elements xsi:type="notation:Edge" source="//@elements.26" target="//@elements.5">
+    <semanticElement elementId="d44ba95d-855a-4b82-9560-d59da5dc530a"/>
+  </elements>
+  <elements xsi:type="notation:Edge" source="//@elements.4" target="//@elements.6">
+    <semanticElement elementId="1e019d0d-8e78-4c69-96ac-082ec5e197e5"/>
+  </elements>
+  <elements xsi:type="notation:Edge" source="//@elements.18" target="//@elements.26">
+    <semanticElement elementId="5f20f61f-c87d-43d5-96ce-b848ae35699a"/>
+    <bendPoints x="536.7447260580192" y="389.3777828880868"/>
+  </elements>
+</notation:Diagram>
