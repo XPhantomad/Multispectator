@@ -20,7 +20,7 @@ function getRobotByName(name)
 end
 
 function getPercRobotByColor(color)
-	percRobots = getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), DiscoveredRobot)
+	percRobots = getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), Uninteresting)
     percRobot = findfirst(obj -> obj.color == color, percRobots)
     return percRobot !== nothing ? percRobots[percRobot] : nothing
 end
@@ -69,12 +69,12 @@ function getRobotWithShortestDistanceToPosition(position)
 	return closestRobot
 end
 
-function getSUTByColor(color)
+# function getSUTByColor(color)
 
-	percRobots = getObjectsOfRole(getDynamicTeam(MonitoringTeam, 1), DiscoveredRobot)
-    percRobot = findfirst(obj -> obj.color == color, percRobots)
-    return percRobot !== nothing ? percRobots[percRobot] : nothing
-end
+# 	percRobots = getObjectsOfRole(getDynamicTeam(MonitoringTeam, 1), Uninteresting)
+#     percRobot = findfirst(obj -> obj.color == color, percRobots)
+#     return percRobot !== nothing ? percRobots[percRobot] : nothing
+# end
 
 
 function getMonitoringTeamBySUTColor(color)
@@ -89,7 +89,8 @@ function getMonitoringTeamBySUTColor(color)
 end
 
 
-function addObserver(team::MonitoringTeam, SUTposition::Position)
+function addObserver(team::MonitoringTeam)
+	SUTposition = getObjectsOfRole(team, SUT)[1].position
 	robot = getRobotWithShortestDistanceToPosition(SUTposition)
 	if robot !== nothing
 		@changeRoles typeof(team) team.ID begin

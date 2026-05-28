@@ -51,7 +51,7 @@ end
 end
 
 
-#abstract type DiscoveredRobot <: Role end
+abstract type DiscoveredRobot <: Role end
 
 @newDynamicTeam MultiSpectatorTeam begin
 	@IDAttribute ID::Int64
@@ -59,5 +59,6 @@ end
 	@role Exploration << Robot [0..Inf] begin end
 
 	# add other team of Detected Objects, which can have the role interesting or uninteresting
-	@role DiscoveredRobot << PerceivedRobot [0..Inf] begin end
+	@role Uninteresting << PerceivedRobot <: DiscoveredRobot [0..Inf] begin end
+	@role Interesting << PerceivedRobot <: DiscoveredRobot [0..Inf] begin end
 end

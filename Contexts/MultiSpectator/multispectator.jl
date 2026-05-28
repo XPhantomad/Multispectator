@@ -58,7 +58,7 @@ function sendMessageWebApp()
     for team in monitoringTeams]
 
     # Discovered Robots
-    discRobots = getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), DiscoveredRobot)
+    discRobots = getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), Uninteresting)
     discRobots_json = [Dict(
         "name" => r.name,
         "x" => r.position.x,
@@ -100,18 +100,19 @@ function exploration(robot::Robot)
     while getDistance(robot.position, nextPos) < 1
         nextPos = Position(rand(areaPos1.x:areaPos2.x), rand(areaPos1.y:areaPos2.y))
     end
-    sendMessageRobot(robot.port, nextPos.x, nextPos.y, "waiting")
+    sendMessageRobot(robot.port, nextPos.x, nextPos.y, "driving")
 end
 
 # ======================= 2 Parallel MAPE-K Loops ================
 
 # MAPE-K loop which handles new WebApp input
 #   calculates next goal from input and current configuration
-function mapeLoop(sutColor, numberOfObservers::Int64, targetxPos::Int64, targetyPos::Int64) # TODO: add Target Position
+function mapeLoop(sutColor, numberOfObservers::Int64, targetxPos::Int64, targetyPos::Int64)
     global globalID
     println("run webapp input MAPE-Loop")
+    println(sutColor)
 
-    # target Position given instead of color 
+    # A) Target Position given instead of color 
     if sutColor === nothing
         targetPosition = Position(targetxPos, targetyPos)
         if numberOfObservers > 0 #assign team with given numberOfObservers of robots
@@ -136,7 +137,7 @@ function mapeLoop(sutColor, numberOfObservers::Int64, targetxPos::Int64, targety
             # 2. assign more observers
             for i in 2:numberOfObservers
                 println("add SECOND Observer")
-                result = addObserver(MTteam, targetPosition)
+                result = addObserver(MTteam)
                 if result == 1
                     return
                 end
@@ -145,10 +146,54 @@ function mapeLoop(sutColor, numberOfObservers::Int64, targetxPos::Int64, targety
         return
     end
 
+    # Find monitoring team
+    actualTeam = nothing
+    monitoringTeams = getDynamicTeams(MonitoringTeam)
+    for team in monitoringTeams
+        if team.color == sutColor
+            actualTeam = team
+        end
+    end
 
+    println(numberOfObservers)
 
+    # B) Exit monitoring and disassign monitoring team (handles both Target and SUT Monitoring)
+    if actualTeam !== nothing 
+        if numberOfObservers <= 0 
+            observers = getObjectsOfRole(actualTeam, Observer)
+            disassignRoles(MonitoringTeam, actualTeam.ID)
+            println("dissasigned everything")
+            for freeRobot in observers
+                exploration(freeRobot)
+            end       
+        # decrease Number of Observers
+        elseif length(getObjectsOfRole(actualTeam, Observer)) > numberOfObservers
+            # disassign observers until numbers match
+            while length(getObjectsOfRole(actualTeam, Observer)) > numberOfObservers
+                firstObserver = getObjectsOfRole(actualTeam, Observer)[1]
+                @changeRoles typeof(actualTeam) actualTeam.ID begin
+                   firstObserver << Observer
+                end
+                # PLAN + EXECUTE 
+                exploration(firstObserver)
+                println("decrease")
+            end
 
-    # 1. get PerceivedRobot with the color
+        # increase Number of Observers
+        elseif length(getObjectsOfRole(actualTeam, Observer)) < numberOfObservers
+            # assign observers until numbers match
+            while length(getObjectsOfRole(actualTeam, Observer)) < numberOfObservers
+                result = addObserver(actualTeam)
+                if result == 1
+                    return 
+                end
+                println("increase")
+            end
+        end
+        return
+    end
+        
+    # Get PerceivedRobot with the color
     percRobot = getPercRobotByColor(sutColor)
     if percRobot === nothing
         println("SUT not found :(")
@@ -179,61 +224,13 @@ function mapeLoop(sutColor, numberOfObservers::Int64, targetxPos::Int64, targety
             # 2. assign more observers
             for i in 2:numberOfObservers
                 println("add SECOND Observer Accident UC")
-                result = addObserver(MTteam, percRobot.position)
+                result = addObserver(MTteam)
                 if result == 1
                     return
                 end
             end
         end
-    else
-        # 1. find monitoring team
-        actualTeam = nothing
-        monitoringTeams = getDynamicTeams(MonitoringTeam)
-        for team in monitoringTeams
-            if team.color == percRobot.color
-                actualTeam = team
-            end
-        end
-        # handle the case, if no team was found
-        if actualTeam == nothing
-            println("team not found :(")
-            return
-        end
-        println("add SECOND Observer 222222222")
-        println(numberOfObservers)
-        # exit monitoring and disassign monitoring team
-        if numberOfObservers <= 0 
-            disassignRoles(MonitoringTeam, actualTeam.ID)
-            println("dissasigned everything")
-        
-        # no changes required
-        elseif length(getObjectsOfRole(actualTeam, Observer)) == numberOfObservers
-            return
-            
-        # decrease Number of Observers
-        elseif length(getObjectsOfRole(actualTeam, Observer)) > numberOfObservers
-            # disassign observers until numbers match
-            while length(getObjectsOfRole(actualTeam, Observer)) > numberOfObservers
-                firstObserver = getObjectsOfRole(actualTeam, Observer)[1]
-                @changeRoles typeof(actualTeam) actualTeam.ID begin
-                   firstObserver << Observer
-                end
-                # PLAN + EXECUTE 
-                exploration(firstObserver)
-                println("decrease")
-            end
-
-        # increase Number of Observers
-        elseif length(getObjectsOfRole(actualTeam, Observer)) < numberOfObservers
-            # assign observers until numbers match
-            while length(getObjectsOfRole(actualTeam, Observer)) < numberOfObservers
-                result = addObserver(actualTeam, percRobot.position)
-                if result == 1
-                    return 
-                end
-                println("increase")
-            end
-        end
+       
     end
 end
 
@@ -264,9 +261,10 @@ end
 function addORupdatePerceivedRobot(observation)
     global globalID
     color = get(observation, "color", "black")
-    discoveredRobots = getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), DiscoveredRobot)
+    discoveredRobots = getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), Uninteresting)
     for r in discoveredRobots
         if r.color == color
+            # update each perc robots position if it is observed by the robot
             r.position = Position(get(observation, "xPos", 0), get(observation, "yPos", 0))
             println("updated")
             
@@ -281,7 +279,7 @@ function addORupdatePerceivedRobot(observation)
     globalID = globalID+1
     robot = PerceivedRobot("robot " * string(globalID), color, Position(get(observation, "xPos", 0), get(observation, "yPos", 0)))
     @changeRoles MultiSpectatorTeam 1 begin
-        robot >> DiscoveredRobot()
+        robot >> Uninteresting()
     end
 end
 
