@@ -582,6 +582,7 @@
             stopBtn.textContent = "Stop";
 
             // send Message with Observers = 0 to quit Monitoring
+            console.log(item.sut);
             stopBtn.onclick = function () {
                 socket.emit("applyObserverCount", {
                     color: item.sut,
@@ -589,6 +590,8 @@
                 });
 
                 console.log("Stop monitoring:", item.sut);
+                // remove row with stopped monitoring immediately
+                row.remove();
             };
 
             tdAction.appendChild(stopBtn);

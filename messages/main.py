@@ -58,7 +58,7 @@ def getGlobalCoordinates(blobAngle, blobDistance):
 blobs_old = []
 messagesList_old = []
 
-# ##### MAPE-Loop
+###### MAPE-Loop
 while(True):
     #start = time.time()
     blobs = robotSupervisor.getBlobs()
@@ -69,17 +69,17 @@ while(True):
     messageList = []
     if blobs != []:
         filteredBlobs= {}  # dict: color -> blob mit kleinster Distanz
-
         for blob in blobs:
-            
-            
-            if blob.color not in filteredBlobs or blob.distance < filteredBlobs[blob.color].distance:
-                filteredBlobs[blob.color] = blob
-
+            # detect robots with more than 1 light on as INTERESTING robots
+            if blob.color in filteredBlobs: 
+                filteredBlobs[blob.color] = (blob, True)
+            else:
+                filteredBlobs[blob.color] = (blob, False)
+                
         # interpret the sorted blobs to messages
         for color, blob in filteredBlobs.items():
-            xAbs, yAbs = getGlobalCoordinates(blob.angle, blob.distance)
-            messageList.append({"color":color, "xPos": xAbs, "yPos": yAbs})
+            xAbs, yAbs = getGlobalCoordinates(blob[0].angle, blob[0].distance)
+            messageList.append({"color":color, "xPos": xAbs, "yPos": yAbs, "interesting": blob[1]})
 
         if messageList and messageList != messagesList_old:                          
             msg = {"observation" : messageList}

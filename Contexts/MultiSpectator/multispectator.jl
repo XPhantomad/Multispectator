@@ -117,19 +117,9 @@ function mapeLoop(sutColor, numberOfObservers::Int64, targetxPos::Int64, targety
         targetPosition = Position(targetxPos, targetyPos)
         if numberOfObservers > 0 #assign team with given numberOfObservers of robots
             print("herer")
-            # 1. create team and assign first observer
-            robot = getRobotWithShortestDistanceToPosition(targetPosition)
-            if robot !== nothing
-                globalID = globalID+1
-                MTteam = @assignRoles MonitoringTeam begin
-                    name = globalID
-                    color = int_to_color(globalID)
-                    robot >> Observer(0.4)
-                    targetPosition >> SUT()
-                end
-                # PLAN + EXECUTE
-                sendMessageRobot(robot.port, targetPosition.x, targetPosition.y, "monitoring")
-            else
+            # 1. create team and assign first observer TODO: make function out of it
+            MTteam = assignNewMonitoringTeam(targetPosition)
+            if MTteam == 1
                 println("unfortunately no robot free for observation")
                 return
             end
@@ -160,12 +150,9 @@ function mapeLoop(sutColor, numberOfObservers::Int64, targetxPos::Int64, targety
     # B) Exit monitoring and disassign monitoring team (handles both Target and SUT Monitoring)
     if actualTeam !== nothing 
         if numberOfObservers <= 0 
-            observers = getObjectsOfRole(actualTeam, Observer)
-            disassignRoles(MonitoringTeam, actualTeam.ID)
+            disassignMonitoringTeam(actualTeam)
             println("dissasigned everything")
-            for freeRobot in observers
-                exploration(freeRobot)
-            end       
+     
         # decrease Number of Observers
         elseif length(getObjectsOfRole(actualTeam, Observer)) > numberOfObservers
             # disassign observers until numbers match
@@ -204,19 +191,10 @@ function mapeLoop(sutColor, numberOfObservers::Int64, targetxPos::Int64, targety
     if !hasRole(percRobot, SUT, MonitoringTeam)
         if numberOfObservers > 0 #assign team with given numberOfObservers of robots
             print("herer")
-            # 1. create team and assign first observer
-            robot = getRobotWithShortestDistanceToPosition(percRobot.position)
-            if robot !== nothing
-                globalID = globalID+1
-                MTteam = @assignRoles MonitoringTeam begin
-                    name = globalID
-                    color = sutColor
-                    robot >> Observer(0.4)
-                    percRobot >> SUT()
-                end
-                # PLAN + EXECUTE
-                sendMessageRobot(robot.port, percRobot.position.x, percRobot.position.y, "monitoring")
-            else
+            
+            # 1. assign initial monitoring team
+            MTteam = assignNewMonitoringTeam(percRobot)
+            if MTteam == 1
                 println("unfortunately no robot free for observation")
                 return
             end
@@ -230,7 +208,6 @@ function mapeLoop(sutColor, numberOfObservers::Int64, targetxPos::Int64, targety
                 end
             end
         end
-       
     end
 end
 
@@ -238,9 +215,8 @@ end
 # MAPE-K loop running after an updated PerceivedRobot Position
 #   checks, if the PercRobot is an SUT and send an updated goal message to the respective Observer(s)
 function mapeLoop(percRobot::PerceivedRobot)
+    global globalID
     # check, if perceived Robot is an SUT and has an Observer
-    #println(getRoles(percRobot))
-    #println(hasRole(percRobot, SUT, MonitoringTeam))
     if hasRole(percRobot, SUT, MonitoringTeam)
         # get Observer
         monitoringTeams = getDynamicTeams(MonitoringTeam)
@@ -257,29 +233,51 @@ function mapeLoop(percRobot::PerceivedRobot)
 end
 
 
-# Monitoring Step for the Messages Component
-function addORupdatePerceivedRobot(observation)
+# Monitoring Step for the Messages Component 
+function addORupdatePerceivedRobot(observation) #receives single observations
     global globalID
     color = get(observation, "color", "black")
-    discoveredRobots = getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), Uninteresting)
+    discoveredRobots = [getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), Uninteresting); getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), Interesting)] # TODO get all Robots with the abstract roletype DiscoveredRobot
+    
+    # iterate over all existing robots to update the respective position
     for r in discoveredRobots
         if r.color == color
             # update each perc robots position if it is observed by the robot
             r.position = Position(get(observation, "xPos", 0), get(observation, "yPos", 0))
+            if hasRole(r, Uninteresting, MultiSpectatorTeam) && get(observation, "interesting", 0) == true
+                @changeRoles MultiSpectatorTeam 1 begin
+                    r << Uninteresting
+                    r >> Intersting()
+                end
+                addObserverToPercRobot(r) # assign new MonitoringTeam, if it not already exists
+                # INFO: messages to the robots will be send in the MAPE Loop call below
+            end
+            if hasRole(r, Interesting, MultiSpectatorTeam) && get(observation, "interesting", 0) == false
+                @changeRoles MultiSpectatorTeam 1 begin
+                    r << Interesting
+                    r >> Unintersting()
+                end
+                disassignMonitoringTeam(r)
+            end
             println("updated")
-            
-            # trigger Update of the Observer Robots, if the Perceived Robot is an SUT
             mapeLoop(r)
             return
         end
     end
+
     # TODO: race condition in parallel threads!!!
-    println(observation)
     # add new Discovered Robot
     globalID = globalID+1
-    robot = PerceivedRobot("robot " * string(globalID), color, Position(get(observation, "xPos", 0), get(observation, "yPos", 0)))
-    @changeRoles MultiSpectatorTeam 1 begin
-        robot >> Uninteresting()
+    percRobot = PerceivedRobot("robot " * string(globalID), color, Position(get(observation, "xPos", 0), get(observation, "yPos", 0)))
+    if get(observation, "interesting", 0) == false
+        @changeRoles MultiSpectatorTeam 1 begin
+            percRobot >> Uninteresting()
+        end
+    else 
+        @changeRoles MultiSpectatorTeam 1 begin
+            percRobot >> Interesting()
+        end
+        assignNewMonitoringTeam(percRobot)
     end
 end
 
@@ -291,7 +289,7 @@ function handle_client_robot(sock)
 
     # save socket in a dict to use it later for sending
     clients[client_port] = sock
-    println(readline(sock))
+    #println(readline(sock))
 
     # initially add new robot
     if isopen(sock) 
@@ -309,13 +307,21 @@ function handle_client_robot(sock)
     # constantly update robots attributes
     while isopen(sock)
         msg = JSON.parse(readline(sock)) # busy wait for next message?
+        
+        # Monitor
         robot.position = Position(get(get(msg, "robot", 0),"xPos",22), get(get(msg, "robot", 0),"yPos",22))
-
-        # trigger Exploration if goal has been reached
+        
+        # PLAN: trigger Exploration if goal has been reached
         if !robot.goalReached && get(get(msg, "robot", 0),"goalReached", false)
             exploration(robot) # TODO: better trigger exploration by Hand from the Webapp??
         end
+        # Monitor
         robot.goalReached = get(get(msg, "robot", 0),"goalReached", false)
+
+        # Plan:
+        # - get current Role and Team of the Robot --> send new Target to the Robot (if required)
+
+        # sendMessageRobot
     end
 end
 
@@ -331,7 +337,7 @@ function handle_client_observation(sock)
     # constantly update robots attributes
     while isopen(sock)
         msg = JSON.parse(readline(sock)) # busy wait for next message?
-
+        println(msg)
         # IMPORTANT: can not be moved to MAPE-K because it runs for each socket connection individually
         observationList = get(msg, "observation", 0)
 

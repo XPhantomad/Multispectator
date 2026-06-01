@@ -88,6 +88,62 @@ function getMonitoringTeamBySUTColor(color)
 
 end
 
+# only once, when robot switches from interesting to uninteresting
+function disassignMonitoringTeam(percRobot)
+	# robot is already in a Monitoring Team
+	if hasRole(percRobot, SUT, MonitoringTeam)
+		monitoringTeams = getDynamicTeams(MonitoringTeam)
+        for team in monitoringTeams
+            if getObjectsOfRole(team, SUT)[1] == percRobot
+				# command all robots to exploration, before disassigning the monitoring team
+				for observer in getObjectsOfRole(team, Observer)
+					exploration(observer)
+				end
+				disassignRoles(team)
+			end
+		end
+	end
+end
+
+
+function addObserverToPercRobot(percRobot)
+	# robot is already in a Monitoring Team
+	if hasRole(percRobot, SUT, MonitoringTeam)
+		monitoringTeams = getDynamicTeams(MonitoringTeam)
+        for team in monitoringTeams
+            if getObjectsOfRole(team, SUT)[1] == percRobot
+				return addObserver(team)
+			end
+		end
+	else
+		return assignNewMonitoringTeam(percRobot)
+	end
+end
+
+function assignNewMonitoringTeam(XUT)
+	global globalID 
+
+	# handle the case, if XUT is a Robot not a Position
+	position = XUT
+	if typeof(XUT) != Position
+		position = XUT.position
+	end
+
+    robot = getRobotWithShortestDistanceToPosition(position)
+	if robot !== nothing
+		globalID = globalID+1
+		MTteam = @assignRoles MonitoringTeam begin
+			name = globalID
+			color = sutColor
+			robot >> Observer(0.4)
+			XUT >> SUT()
+		end
+		# PLAN + EXECUTE
+		sendMessageRobot(robot.port, position.x, position.y, "monitoring")
+		return MTteam
+	end
+	return 1
+end
 
 function addObserver(team::MonitoringTeam)
 	SUTposition = getObjectsOfRole(team, SUT)[1].position
@@ -98,6 +154,7 @@ function addObserver(team::MonitoringTeam)
 		end
 		# PLAN + EXECUTE
 		sendMessageRobot(robot.port, SUTposition.x, SUTposition.y, "monitoring")
+		return robot
 	else
 		println("unfortunately no robot free for observation")
 		return 1
