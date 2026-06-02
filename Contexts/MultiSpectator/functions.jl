@@ -125,16 +125,19 @@ function assignNewMonitoringTeam(XUT)
 
 	# handle the case, if XUT is a Robot not a Position
 	position = XUT
+	color = color = int_to_color(globalID)
 	if typeof(XUT) != Position
 		position = XUT.position
+		color = XUT.color
 	end
+
 
     robot = getRobotWithShortestDistanceToPosition(position)
 	if robot !== nothing
 		globalID = globalID+1
 		MTteam = @assignRoles MonitoringTeam begin
 			name = globalID
-			color = sutColor
+			color = color
 			robot >> Observer(0.4)
 			XUT >> SUT()
 		end

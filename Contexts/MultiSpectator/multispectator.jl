@@ -117,7 +117,7 @@ function mapeLoop(sutColor, numberOfObservers::Int64, targetxPos::Int64, targety
         targetPosition = Position(targetxPos, targetyPos)
         if numberOfObservers > 0 #assign team with given numberOfObservers of robots
             print("herer")
-            # 1. create team and assign first observer TODO: make function out of it
+            # 1. create team and assign first observer
             MTteam = assignNewMonitoringTeam(targetPosition)
             if MTteam == 1
                 println("unfortunately no robot free for observation")
@@ -150,9 +150,12 @@ function mapeLoop(sutColor, numberOfObservers::Int64, targetxPos::Int64, targety
     # B) Exit monitoring and disassign monitoring team (handles both Target and SUT Monitoring)
     if actualTeam !== nothing 
         if numberOfObservers <= 0 
-            disassignMonitoringTeam(actualTeam)
+           	for observer in getObjectsOfRole(actualTeam, Observer)
+                exploration(observer)
+            end
+			disassignRoles(actualTeam)
             println("dissasigned everything")
-     
+            
         # decrease Number of Observers
         elseif length(getObjectsOfRole(actualTeam, Observer)) > numberOfObservers
             # disassign observers until numbers match

@@ -12,7 +12,10 @@ print(os.getcwd())
 # Inititalize SUTs
 for i in range(4):
     print(colors[i])
-    threading.Thread(target=lambda: subprocess.run([os.getcwd() + "/SUT-initializer.sh", "SUT"+ str(i), colors[i]])).start()
+    if i%2 == 0:
+        threading.Thread(target=lambda: subprocess.run([os.getcwd() + "/SUT-initializer.sh", "SUT"+ str(i), colors[i]])).start()
+    else:
+        threading.Thread(target=lambda: subprocess.run([os.getcwd() + "/SUT-initializerInteresting.sh", "SUT"+ str(i), colors[i]])).start()
     time.sleep(0.1)
 
 
