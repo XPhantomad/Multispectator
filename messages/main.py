@@ -19,20 +19,7 @@ HOST = "127.0.0.1"  # Standard loopback interface address (localhost)
 PORT = 3005 # Port to listen on (non-privileged ports are > 1023)
 addrPort = (HOST,PORT)
 
-#Message Types
-msg_Joiner = "Joiner"
-msg_robotWithLoad = "Robot with Load"
-msg_perceivedRobot = "PerceivedRobot"
-msg_Chainmember_Join = "Chainmember(Join)"
-msg_Joiner_Loading = "Joiner with Loading State"
-msg_nothing = "nothing"
-
-# EXTRA:Flocking
-msg_Leader = "Leader"
-msg_Deputy = "Deputy"
-msg_Follower = "Follower"
-msg_GlobalLight = "GlobalLight"
-msg_Stopper = "SUT"
+LIGHT_RANGE = 74 # range of the LED of the center of the robot (distance in which a robot is clearly identifiable (interesting/uninteresting))
 
 # run robotSupervisor-Node
 rclpy.init(args=None)
@@ -73,9 +60,9 @@ while(True):
             # detect robots with more than 1 light on as INTERESTING robots
             if blob.color in filteredBlobs: 
                 filteredBlobs[blob.color] = (blob, True)
-            else:
+            elif blob.distance <= LIGHT_RANGE:
                 filteredBlobs[blob.color] = (blob, False)
-                
+         
         # interpret the sorted blobs to messages
         for color, blob in filteredBlobs.items():
             xAbs, yAbs = getGlobalCoordinates(blob[0].angle, blob[0].distance)

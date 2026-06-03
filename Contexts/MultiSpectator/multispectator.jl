@@ -58,7 +58,7 @@ function sendMessageWebApp()
     for team in monitoringTeams]
 
     # Discovered Robots
-    discRobots = getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), Uninteresting)
+    discRobots = [getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), Uninteresting); getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), Interesting)]
     discRobots_json = [Dict(
         "name" => r.name,
         "x" => r.position.x,
@@ -155,7 +155,7 @@ function mapeLoop(sutColor, numberOfObservers::Int64, targetxPos::Int64, targety
             end
 			disassignRoles(actualTeam)
             println("dissasigned everything")
-            
+
         # decrease Number of Observers
         elseif length(getObjectsOfRole(actualTeam, Observer)) > numberOfObservers
             # disassign observers until numbers match
@@ -250,7 +250,7 @@ function addORupdatePerceivedRobot(observation) #receives single observations
             if hasRole(r, Uninteresting, MultiSpectatorTeam) && get(observation, "interesting", 0) == true
                 @changeRoles MultiSpectatorTeam 1 begin
                     r << Uninteresting
-                    r >> Intersting()
+                    r >> Interesting()
                 end
                 addObserverToPercRobot(r) # assign new MonitoringTeam, if it not already exists
                 # INFO: messages to the robots will be send in the MAPE Loop call below
@@ -258,7 +258,7 @@ function addORupdatePerceivedRobot(observation) #receives single observations
             if hasRole(r, Interesting, MultiSpectatorTeam) && get(observation, "interesting", 0) == false
                 @changeRoles MultiSpectatorTeam 1 begin
                     r << Interesting
-                    r >> Unintersting()
+                    r >> Uninteresting()
                 end
                 disassignMonitoringTeam(r)
             end
