@@ -10,14 +10,13 @@ from rclpy.node import Node
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 from sensor_msgs.msg import LaserScan
-from tf_transformations import euler_from_quaternion
 
 
 # ── Konfig ────────────────────────────────────────────────────────────────────
 COLLISION_FOV_DEG  = 60      # Öffnungswinkel des Vorwärtssektors (±30°)
 PROXIMITY_THRESH   = 0.55    # m – wie dein "i.value > 0.55" (Nähe für Load-Exchange)
 PROXIMITY_FOV_RAD  = 1.4     # rad – wie dein "i.angle <= 1.4 and >= -1.4"
-REPULSION_DIST     = 1.0     # m – alles näher erzeugt Repulsion
+REPULSION_DIST     = 0.3     # m – alles näher erzeugt Repulsion
 
 
 class UGVSupervisor(Node):
@@ -46,12 +45,13 @@ class UGVSupervisor(Node):
 
         # ── Subscriptions ─────────────────────────────────────────────────
         # Odometry  →  /odom  (nav_msgs/Odometry)
-        self.create_subscription(Odometry,  '/odom',  self._odom_cb,  1)
+        self.create_subscription(Odometry,  '/odom_rf2o',  self._odom_cb,  1)
 
         # Laserscanner → /scan  (sensor_msgs/LaserScan)
         self.create_subscription(LaserScan, '/scan',  self._scan_cb,  1)
 
         self.get_logger().info(f'UGVSupervisor "{robot_name}" bereit.')
+
 
     # ── Callbacks ─────────────────────────────────────────────────────────────
 
@@ -65,8 +65,7 @@ class UGVSupervisor(Node):
         self.zPos = msg.pose.pose.position.z  # (war im Original ein Tippfehler: position.x)
 
         q = msg.pose.pose.orientation
-        _, _, yaw = euler_from_quaternion([q.x, q.y, q.z, q.w])
-        self.theta = yaw   # Original nutzt roll, UGV-Bewegung liegt in yaw
+        self.theta = math.atan2(2.0*(q.x*q.y + q.w*q.z), q.w*q.w + q.x*q.x - q.y*q.y - q.z*q.z)
 
     def _scan_cb(self, msg: LaserScan):
         """
@@ -83,15 +82,16 @@ class UGVSupervisor(Node):
         valid_points = 0
         self.proximity = False
 
-        n     = len(msg.ranges)
-        d_ang = (msg.angle_max - msg.angle_min) / max(n - 1, 1)
+        #MOUNT_OFFSET = -math.pi / 2  # 90° gegen Uhrzeigersinn → -90° Korrektur
+        
+        n = len(msg.ranges)
 
         for i, r in enumerate(msg.ranges):
             # Ungültige Messungen überspringen
             if not (msg.range_min < r < msg.range_max):
                 continue
 
-            angle = msg.angle_min + i * d_ang  # Winkel im Roboter-Frame
+            angle = msg.angle_min + i * msg.angle_increment #+ MOUNT_OFFSET   # Winkel im Roboter-Frame
 
             # ── Repulsion (wie dein proximity_sensor_callback) ────────────
             if r < REPULSION_DIST:
@@ -117,7 +117,6 @@ class UGVSupervisor(Node):
     def getyPos(self):       return self.yPos
     def getzPos(self):       return self.zPos
     def getTheta(self):      return self.theta
-    def getLoad(self):       return self.load        # immer False beim UGV
     def getProximity(self):  return self.proximity
     def getv_repulsion(self): return self.v_repulsion
 
@@ -130,10 +129,3 @@ class UGVSupervisor(Node):
         msg.angular.z = float(angle)
         self._cmd_pub.publish(msg)
 
-    def publishLight(self, led_color: str):
-        """No-op: UGV-LED wird hier nicht angesteuert."""
-        pass
-
-    def publishGripper(self, grip: bool, release: bool):
-        """No-op: Kein Greifer am UGV."""
-        pass

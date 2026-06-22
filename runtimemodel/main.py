@@ -1,7 +1,7 @@
 import json
 import threading
 import time
-from modelUtils.robotSupervisor import *
+from modelUtils.ugv_supervisor import *
 import rclpy
 import socket
 from modelImpl.robotModelImpl import *
@@ -19,8 +19,7 @@ bufferSize = 1024
 HOST = "127.0.0.1"  
 PORT = 3004 
 addrPort = (HOST,PORT)
-DIST_TOLERANCE = 0.1  # Distance tolerance for defining the goal as reached
-DIST_LOADING = 0.3  
+DIST_TOLERANCE = 0.2  # Distance tolerance for defining the goal as reached 
 
 # receives Messages from the Swarm Element Loop
 def receiveMessages():
@@ -59,7 +58,7 @@ print("Staaaart")
 exploration = StateImpl(1, "exploration", 1.0)
 driving = StateImpl(2, "driving", 1.0)
 waiting = StateImpl(3, "waiting", 0.0)
-monitoring = StateImpl(3, "monitoring", 1.0, 0.7)  
+monitoring = StateImpl(3, "monitoring", 1.0, 0.8)  
 
 model = ModelImpl(None, [waiting, driving, waiting, monitoring], [])
 robot1=RobotImpl(0.0, 0.0, 0.0,0.0, 0.0, name, 1)
@@ -70,7 +69,7 @@ model.addRobot(robot1)
 # run robotSupervisor-Node
 rclpy.init(args=None)
 
-robotSupervisor = RobotSupervisor(robot1.getname())
+robotSupervisor = UGVSupervisor(robot1.getname())
 threading.Thread(target=lambda: rclpy.spin(robotSupervisor)).start()
 
 # Socket for Connection to SEL
@@ -83,14 +82,18 @@ threading.Thread(target=lambda: receiveMessages()).start()
 #Publish to SEL
 threading.Thread(target=lambda: publishMessages()).start()
 
+counter = 0
 ##### MAPE-Loop
 while(True): 
 
     #Monitor
     robot1.setPos(robotSupervisor.getxPos(), robotSupervisor.getyPos(),robotSupervisor.getzPos(), robotSupervisor.getTheta())
     repulsion = robotSupervisor.getv_repulsion()
-
+    #if (counter % 10000 == 0):
+    #  print(repulsion)
     
+    #counter+=1
+
     #Analyse - makes the abstraction and checks if goal is reached
     # GoalReached is only interesting if robot makes target approximation
     if robot1.geDistanceToTarxet()>DIST_TOLERANCE:
@@ -105,7 +108,8 @@ while(True):
 
     # MONITORING: if state is monitoring, set target position to individually calculated position
     if robot1.state == monitoring:
-        nextWaypoint = robot1.calculateNextWaypoint(0.4,robot1.getxTarget(), robot1.getyTarget())
+        nextWaypoint = robot1.calculateNextWaypoint(robot1.state.getradius(),robot1.getxTarget(), robot1.getyTarget())
+        #print("moinitoring")
         xTarget = nextWaypoint[0]
         yTarget = nextWaypoint[1]
 
@@ -118,6 +122,14 @@ while(True):
         robot1.speed = robot1.rotationSpeed = 0.0
         robot1.goalReached = False #required to send last velocity command with 0 and 0 to stop the robot    
 
+    #if (counter % 10000 == 0):
+     # print(f"Pos: ({robot1.xPos:.2f}, {robot1.yPos:.2f}) "
+      #  f"Ziel: ({robot1.xTarget:.2f}, {robot1.yTarget:.2f}) "
+       # f"Dist: {robot1.geDistanceToTarxet():.3f} "
+        #f"Theta: {robotSupervisor.getTheta():.3f}")
+    
+    #counter+=1
+    
     #Execute - send speeds to robotSupervisor to publish them to ROS
     if(not robot1.getgoalReached()):
         robotSupervisor.publishVelocity(robot1.speed,robot1.rotationSpeed)
