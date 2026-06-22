@@ -2,7 +2,7 @@ import json
 import threading
 import time
 import re
-from utils.robotSupervisor import *
+from utils.ugv_robot_message import *
 import rclpy
 import socket
 import sys
@@ -15,11 +15,28 @@ global addr, udpClientSocket, bufferSize
 start = False
 addr = None
 bufferSize = 1024
-HOST = "127.0.0.1"  # Standard loopback interface address (localhost)
+HOST = "192.168.137.201"  # Standard loopback interface address (localhost)
 PORT = 3005 # Port to listen on (non-privileged ports are > 1023)
 addrPort = (HOST,PORT)
 
 LIGHT_RANGE = 74 # range of the LED of the center of the robot (distance in which a robot is clearly identifiable (interesting/uninteresting))
+
+TAG_COLOR_MAP = {
+    10:  "red",
+    2:  "blue",
+    3:  "green",
+    46:  "yellow",
+    4:  "magenta",
+    5:  "cyan",
+    6:  "orange",
+    7:  "white",
+    8:  "purple",
+    9:  "pink",
+}
+
+DEFAULT_COLOR = "pink"  # fallback if tag ID is not in map
+
+
 
 # run robotSupervisor-Node
 rclpy.init(args=None)
@@ -55,22 +72,17 @@ while(True):
     
     messageList = []
     if blobs != []:
-        filteredBlobs= {}  # dict: color -> blob mit kleinster Distanz
-        for blob in blobs:
-            # detect robots with more than 1 light on as INTERESTING robots
-            if blob.color in filteredBlobs: 
-                filteredBlobs[blob.color] = (blob, True)
-            elif blob.distance <= LIGHT_RANGE:
-                filteredBlobs[blob.color] = (blob, False)
-         
-        # interpret the sorted blobs to messages
-        for color, blob in filteredBlobs.items():
-            xAbs, yAbs = getGlobalCoordinates(blob[0].angle, blob[0].distance)
-            messageList.append({"color":color, "xPos": xAbs, "yPos": yAbs, "interesting": blob[1]})
+       for blob in blobs:
+          xAbs = round(robotSupervisor.getxPos() + blob["x"], 2)
+          yAbs = round(robotSupervisor.getyPos() + blob["z"], 2)
+          # translate tag_ids to colors by hand
+          messageList.append({"color":TAG_COLOR_MAP.get(int(blob["tag_id"]), DEFAULT_COLOR), "xPos": xAbs, "yPos": yAbs, "interesting": False})
 
-        if messageList and messageList != messagesList_old:                          
-            msg = {"observation" : messageList}
-            udpClientSocket.send(str.encode(json.dumps(msg)+ "\n")) 
+       if messageList and messageList != messagesList_old:                          
+          msg = {"observation" : messageList}
+          print(msg)
+          print(json.dumps(msg)+ "\n")
+          udpClientSocket.send(str.encode(json.dumps(msg)+ "\n")) 
     blobs_old = blobs
     messagesList_old = messageList
     
