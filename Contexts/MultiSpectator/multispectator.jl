@@ -21,8 +21,8 @@ clients = Dict() # dictionary: port => client
 globalID = 1
 
 # ============== Initialization ====================
-dummy1 = Robot("dummy1", Position(20,2), 0.0, false, false, 40)
-dummy2 = Robot("dummy2", Position(30,4), 0.0, false, false, 40)
+dummy1 = Robot("dummy1", Position(20.0,2.0), 0.0, false, false, 40)
+dummy2 = Robot("dummy2", Position(30.0,4.0), 0.0, false, false, 40)
 
 # initialize MultiSpectator team
 @assignRoles MultiSpectatorTeam begin
@@ -329,6 +329,45 @@ function handle_client_robot(sock)
 end
 
 
+
+function receiveMessages(sock)
+    buffer = ""
+    while true
+        try
+            data = readline(sock)
+            buffer *= data
+
+            # Skip empty lines
+            if isempty(strip(buffer))
+                buffer = ""
+                continue
+            end
+
+            # Try to parse
+            try
+                msg = JSON.parse(buffer)
+                buffer = ""  # clear buffer on success
+                if msg == "start"
+                    global start = true
+                elseif length(msg) >= 2
+                    return msg
+                end
+
+            catch e
+                if isa(e, JSON.ParserError)
+                    println("JSON parse error: $e | raw: '$buffer'")
+                    buffer = ""  # discard malformed message
+                end
+            end
+
+        catch e
+            println("Socket error: $e")
+            break
+        end
+    end
+end 
+
+
 function handle_client_observation(sock)
     global clients
     client_ip, client_port = getpeername(sock)
@@ -340,6 +379,7 @@ function handle_client_observation(sock)
     # constantly update robots attributes
     while isopen(sock)
         msg = JSON.parse(readline(sock)) # busy wait for next message?
+        println(readline(sock))
         println(msg)
         # IMPORTANT: can not be moved to MAPE-K because it runs for each socket connection individually
         observationList = get(msg, "observation", 0)

@@ -27,7 +27,7 @@ dummy2 = PerceivedRobot("dummy2", "red", Position(3,4))
 end
 println(getRole(dummy1, getDynamicTeam(MultiSpectatorTeam, 1)))
 println("test")
-println(getDynamicTeam(getRole(dummy1, MultiSpectatorTeam)))
+println(filter(r -> typeof(r) == DiscoveredRobot, getRolesOfTeam(getDynamicTeam(MultiSpectatorTeam, 1))))
 
 # initialize MultiSpectator team
 

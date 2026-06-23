@@ -105,7 +105,7 @@ while(True):
 
     # MONITORING: if state is monitoring, set target position to individually calculated position
     if robot1.state == monitoring:
-        nextWaypoint = robot1.calculateNextWaypoint(0.4,robot1.getxTarget(), robot1.getyTarget())
+        nextWaypoint = robot1.calculateNextWaypoint(robot1.state.getradius(),robot1.getxTarget(), robot1.getyTarget())
         xTarget = nextWaypoint[0]
         yTarget = nextWaypoint[1]
 

@@ -29,7 +29,6 @@ threading.Thread(target=lambda: rclpy.spin(robotSupervisor)).start()
 # Socket for Connection to Webapp
 udpClientSocket= socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
 udpClientSocket.connect(addrPort)
-#udpClientSocket.send(str.encode("start"))
 
 def getAngleDif(a,b):
     return math.pi - abs(abs(a - b) - math.pi); 
@@ -51,7 +50,6 @@ while(True):
     blobs = robotSupervisor.getBlobs()
     if blobs_old != [] and blobs == []: #send a last nothing message, before stop sending
         print("last message")
-        #udpClientSocket.send(str.encode(json.dumps([[msg_nothing, 0, 0]])+ "\n"))
     
     messageList = []
     if blobs != []:

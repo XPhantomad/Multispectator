@@ -1,6 +1,6 @@
 # Using Context Role-oriented Programming for Swarms to Alleviate the Micro-Macro Problem
 
-This repository contains the code of our implmentation of a Foraging Chain Swarm in ARGoS3 using Context-Role-Oriented Programming.
+This repository contains the code of our implmentation of a Multi-robot Monitoring System (MultiSpectator) in ARGoS3 using CROMMS (Context-Role-Oriented Micro-Macro Swarm Programming)
 
 The overall system is comprised of multiple subsystems, which have to be installed and started independently. 
 
