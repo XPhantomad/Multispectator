@@ -5,9 +5,9 @@ using JSON
 using DelimitedFiles
 
 # socket for connection to SRL-Loops of all Robots
-server = listen(3004) 
+server = listen(ip"192.168.137.201", 3004) 
 # socket connection to Messages Component of all Robots
-serverO = listen(3005)
+serverO = listen(ip"192.168.137.201", 3005)
 
 println("waiting for webapp")
 
