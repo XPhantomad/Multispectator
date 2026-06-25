@@ -133,6 +133,7 @@ while(True):
     #Execute - send speeds to robotSupervisor to publish them to ROS
     if(not robot1.getgoalReached()):
         robotSupervisor.publishVelocity(robot1.speed,robot1.rotationSpeed)
+    time.sleep(0.1)
 
 robotSupervisor.destroy_node()
 rclpy.shutdown()
