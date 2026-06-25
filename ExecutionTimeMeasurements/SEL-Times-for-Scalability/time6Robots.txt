@@ -1,0 +1,542 @@
+to close to prey time:0.03254818916320801
+to close to prey time:0.03231406211853027
+to close to prey time:0.03247809410095215
+to close to prey time:0.03135180473327637
+to close to prey time:0.013416051864624023
+to close to prey time:0.06750202178955078
+nothing changed time:0.00025010108947753906
+nothing changed time:0.0002579689025878906
+to close to prey time:0.0344388484954834
+Robot with Load perceived time:0.10029006004333496
+prey detected time:0.15460991859436035
+to close to prey time:0.01736593246459961
+Robot with Load perceived time:0.11160397529602051
+Joiner perceived time:0.6243610382080078
+Drive to Perceived Robot (update) time:2.193450927734375e-5
+prey detected time:0.03556489944458008
+Robot with Load perceived time:0.02747511863708496
+to close to prey time:1.5020370483398438e-5
+nothing changed time:0.08924388885498047
+to close to prey time:0.024898052215576172
+to close to prey time:0.026523828506469727
+Drive to Perceived Robot (update) time:0.03155994415283203
+Receive Load (JoinChainTeam:JoinChainMember) time:0.07678008079528809
+nothing changed time:0.0003139972686767578
+nothing changed time:0.0774691104888916
+nothing changed time:0.021373987197875977
+deactivateJoinChain() (JoinChainTeam:ChainMember) time:0.00017213821411132812
+nothing changed time:0.03839898109436035
+nothing changed time:0.02981400489807129
+nothing changed time:0.006479978561401367
+nothing changed time:0.00024700164794921875
+nothing changed time:0.09952378273010254
+to close to prey time:0.03034806251525879
+nothing changed time:0.08347487449645996
+nothing changed time:0.08876490592956543
+nothing changed time:0.03067183494567871
+nothing changed time:0.04348587989807129
+Joiner perceived time:0.6877419948577881
+Drive to Perceived Robot (update) time:0.02058100700378418
+Drive to Perceived Robot (update) time:0.011590957641601562
+Drive to Perceived Robot (update) time:0.10584402084350586
+deactivateJoinChain() (JoinChainTeam:ChainMember) time:0.00023293495178222656
+nothing changed time:0.09577608108520508
+nothing changed time:0.03963923454284668
+nothing changed time:0.0034339427947998047
+nothing changed time:0.004462003707885742
+nothing changed time:0.09329485893249512
+Joiner perceived time:0.6389920711517334
+Drive to Perceived Robot (update) time:0.05869102478027344
+Drive to Perceived Robot (update) time:0.04955410957336426
+nothing changed time:0.021542072296142578
+nothing changed time:0.04763603210449219
+nothing changed time:0.08037805557250977
+nothing changed time:0.0713341236114502
+nothing changed time:0.0654611587524414
+nothing changed time:0.05658411979675293
+Drive to Perceived Robot (update) time:0.039034128189086914
+nothing changed time:0.02264404296875
+Receive Load (JoinChainTeam:JoinChainMember) time:0.0445859432220459
+nothing changed time:0.04355788230895996
+to close to nest time:0.0758199691772461
+Release Load (JoinChainTeam:ChainMember) time:0.47229814529418945
+to close to nest time:0.0003108978271484375
+to close to nest time:0.0002579689025878906
+to close to nest time:0.03940105438232422
+Load received (JoinChainTeam:JoinChainMember) time:0.9295530319213867
+Load released (JoinChainTeam:ChainMember) time:1.0013580322265625e-5
+to close to nest time:0.0002701282501220703
+nothing changed time:0.00019693374633789062
+Robot with Load perceived time:0.0001461505889892578
+to close to nest time:0.1004030704498291
+to close to nest time:0.017468929290771484
+to close to nest time:0.09576010704040527
+to close to nest time:0.0002551078796386719
+to close to nest time:0.001425027847290039
+to close to nest time:0.09976506233215332
+nothing changed time:0.00013113021850585938
+to close to nest time:0.0002918243408203125
+nothing changed time:0.0999300479888916
+to close to nest time:0.03951287269592285
+to close to nest time:0.05570793151855469
+to close to nest time:0.10576295852661133
+nothing changed time:0.10049295425415039
+nothing changed time:0.08439898490905762
+to close to nest time:0.04857206344604492
+nothing changed time:0.04591107368469238
+nothing changed time:0.00765681266784668
+to close to nest time:0.06954288482666016
+to close to nest time:0.03355002403259277
+nothing changed time:0.030448198318481445
+Robot with Load perceived time:0.057569026947021484
+Joiner perceived time:0.047178030014038086
+Joiner perceived time:0.0593869686126709
+nothing changed time:0.018357038497924805
+Drive to Perceived Robot (update) time:1.5974044799804688e-5
+prey detected time:0.11896014213562012
+nothing changed time:0.05760002136230469
+Receive Load (JoinChainTeam:JoinChainMember) time:0.0002689361572265625
+Release Load (JoinChainTeam:ChainMember) time:0.30428409576416016
+Load released (JoinChainTeam:ChainMember) time:1.5020370483398438e-5
+Load received (JoinChainTeam:JoinChainMember) time:0.8788728713989258
+Robot with Load perceived time:0.03744006156921387
+prey detected time:0.07112979888916016
+to close to nest time:0.0926671028137207
+nothing changed time:0.00013589859008789062
+nothing changed time:0.01254892349243164
+nothing changed time:0.036376953125
+nothing changed time:0.03530001640319824
+nothing changed time:0.00017404556274414062
+to close to prey time:0.07665014266967773
+Robot with Load perceived time:1.4066696166992188e-5
+to close to preyJoiner perceived time:0.02613091468811035
+ time:0.025054931640625
+to close to prey time:0.009321928024291992
+to close to prey time:0.023464202880859375
+to close to nest time:0.09421014785766602
+to close to nest time:0.00024199485778808594
+to close to nest time:0.0024340152740478516
+to close to prey time:0.04976320266723633
+to close to prey time:0.023540019989013672
+to close to prey time:0.025410890579223633
+nothing changed time:0.03835296630859375
+to close to prey time:0.08574509620666504
+to close to prey time:0.02486109733581543
+to close to prey time:0.02527618408203125
+deactivateJoinChain() (JoinChainTeam:JoinChainMember) time:9.059906005859375e-6
+to close to prey time:0.0890810489654541
+to close to prey time:0.029423952102661133
+to close to prey time:0.0704660415649414
+to close to prey time:0.09550619125366211
+to close to nest time:0.09362196922302246
+to close to nest time:0.07556390762329102
+nothing changed time:0.06864500045776367
+to close to nest time:0.1070871353149414
+to close to nest time:0.08763504028320312
+nothing changed time:0.00632786750793457
+to close to prey time:0.08945512771606445
+nothing changed time:0.08759188652038574
+nothing changed time:0.06743907928466797
+to close to nest time:0.06863117218017578
+Robot with Load perceived time:0.06184792518615723
+Joiner perceived time:0.056977033615112305
+to close to nest time:0.005448102951049805
+Drive to Perceived Robot (update) time:0.3767249584197998
+Joiner perceived time:0.3805670738220215
+Drive to Perceived Robot (update) time:0.00038695335388183594
+Receive Load (JoinChainTeam:JoinChainMember)nothing changed time:0.016565799713134766
+ time:0.10696911811828613
+Release Load (JoinChainTeam:ChainMember) time:0.0835561752319336
+deactivateJoinChain() (JoinChainTeam:ChainMember) time:1.0013580322265625e-5
+nothing changed time:0.04621100425720215
+nothing changed time:0.00023317337036132812
+timeout time:9.918212890625e-5
+nothing changed time:0.03537392616271973
+to close to nest time:0.0471649169921875
+to close to nest time:0.00024199485778808594
+to close to nest time:0.00013017654418945312
+nothing changed time:0.039414167404174805
+Robot with Load perceived time:0.041526079177856445
+nothing changed time:0.07318115234375
+deactivateJoinChain() (JoinChainTeam:JoinChainMember) time:0.04532003402709961
+nothing changed time:0.045205116271972656
+nothing changed time:0.010577917098999023
+nothing changed time:0.09645605087280273
+Robot with Load perceived time:0.07982993125915527
+deactivateJoinChain() (JoinChainTeam:JoinChainMember) time:0.04587697982788086
+Robot with Load perceived time:0.05977892875671387
+Robot with Load perceived time:0.06041312217712402
+nothing changed time:0.05234384536743164
+deactivateJoinChain() (JoinChainTeam:JoinChainMember) time:0.0991969108581543
+nothing changed time:0.09154295921325684
+nothing changed time:0.0064220428466796875
+deactivateJoinChain() (JoinChainTeam:ChainMember) time:1.3113021850585938e-5
+Robot with Load perceived time:0.005589008331298828
+nothing changed time:0.01739501953125
+nothing changed time:0.03248906135559082
+Joiner perceived time:0.0005629062652587891
+Joiner perceived time:0.09685611724853516
+Drive to Perceived Robot (update) time:0.07230186462402344
+Receive Load (JoinChainTeam:JoinChainMember) time:0.5303750038146973
+nothing changed time:0.05750012397766113
+Release Load (JoinChainTeam:ChainMember) time:0.2597229480743408
+nothing changed time:0.01948404312133789
+Load received (JoinChainTeam:JoinChainMember) time:0.9942619800567627
+Load released (JoinChainTeam:ChainMember) time:8.821487426757812e-6
+Receive Load (JoinChainTeam:JoinChainMember) time:0.09071493148803711
+nothing changed time:0.01754593849182129
+Release Load (JoinChainTeam:ChainMember) time:0.08920097351074219
+nothing changed time:0.00014901161193847656
+Load released (JoinChainTeam:ChainMember) time:1.2159347534179688e-5
+Load received (JoinChainTeam:JoinChainMember) time:0.029176950454711914
+nothing changed time:0.020339012145996094
+Robot with Load perceived time:0.00016999244689941406
+Robot with Load perceived time:0.09166908264160156
+nothing changed time:0.0001308917999267578
+nothing changed time:0.00014281272888183594
+nothing changed time:0.10031390190124512
+Robot with Load perceived time:0.0907440185546875
+nothing changed time:0.08933591842651367
+nothing changed time:0.0913548469543457
+nothing changed time:0.085662841796875
+prey detected time:0.07615303993225098
+Robot with Load perceived time:0.0769350528717041
+nothing changed time:0.07087588310241699
+Joiner perceived time:0.09683394432067871
+Drive to Perceived Robot (update) time:0.03393387794494629
+to close to prey time:0.04805803298950195
+to close to prey time:0.029612064361572266
+to close to prey time:0.02119898796081543
+Robot with Load perceived time:0.08227801322937012
+nothing changed time:0.05833601951599121
+to close to prey time:0.05443310737609863
+to close to prey time:0.03943204879760742
+nothing changed time:0.07931017875671387
+prey detected time:0.00016880035400390625
+nothing changed time:0.1026160717010498
+to close to prey time:0.08349609375
+nothing changed time:0.05763578414916992
+Drive to Perceived Robot (update) time:0.07925200462341309
+nothing changed time:0.012477874755859375
+Receive Load (JoinChainTeam:JoinChainMember) time:0.07056212425231934
+nothing changed time:0.009783029556274414
+Release Load (JoinChainTeam:ChainMember) time:0.35176587104797363
+Load received (JoinChainTeam:JoinChainMember) time:0.23843908309936523
+nothing changed time:0.10245704650878906
+Load released (JoinChainTeam:ChainMember) time:0.0001461505889892578
+nothing changed time:0.05582618713378906
+Robot with Load perceived time:0.021722078323364258
+nothing changed time:0.00015497207641601562
+Robot with Load perceived time:0.026307106018066406
+to close to prey time:0.07140493392944336
+nothing changed time:0.00015497207641601562
+prey detected time:0.032724857330322266
+to close to prey time:0.0724790096282959
+to close to prey time:0.09967398643493652
+nothing changed time:0.028397083282470703
+nothing changed time:0.02832818031311035
+nothing changed time:0.051300048828125
+nothing changed time:0.004339933395385742
+to close to prey time:0.07330703735351562
+to close to prey time:0.09977984428405762
+to close to prey time:0.07764196395874023
+nothing changed time:0.08052802085876465
+to close to prey time:0.0703129768371582
+nothing changed time:0.09668111801147461
+to close to prey time:0.08594012260437012
+nothing changed time:0.08246493339538574
+to close to prey time:0.03136491775512695
+nothing changed time:0.03765702247619629
+to close to prey time:0.09836006164550781
+to close to prey time:0.10034608840942383
+to close to prey time:0.09492015838623047
+to close to prey time:0.024777889251708984
+to close to prey time:0.025321006774902344
+to close to prey time:0.061532020568847656
+nothing changed time:0.0726158618927002
+to close to prey time:0.08544588088989258
+Robot with Load perceived time:0.057466983795166016
+Joiner perceived time:0.21076297760009766
+Drive to Perceived Robot (update) time:0.2507190704345703
+to close to prey time:0.020420074462890625
+to close to nest time:0.06827807426452637
+to close to nest time:0.04004788398742676
+to close to nest time:0.03061699867248535
+nothing changed time:0.06450700759887695
+Receive Load (JoinChainTeam:JoinChainMember) time:0.08760404586791992
+nothing changed time:0.09447216987609863
+deactivateJoinChain() (JoinChainTeam:ChainMember) time:0.07584619522094727
+nothing changed time:0.11371397972106934
+nothing changed time:0.07254505157470703
+timeout time:9.059906005859375e-6
+nothing changed time:9.417533874511719e-5
+nothing changed time:0.0015058517456054688
+nothing changed time:0.05665302276611328
+nothing changed time:0.010522127151489258
+Robot with Load perceived time:0.012755870819091797
+Joiner perceived time:0.09513401985168457
+Drive to Perceived Robot (update) time:0.04683494567871094
+deactivateJoinChain() (JoinChainTeam:JoinChainMember) time:0.08034515380859375
+nothing changed time:0.07033109664916992
+nothing changed time:0.016606807708740234
+Receive Load (JoinChainTeam:JoinChainMember) time:0.0014300346374511719
+Release Load (JoinChainTeam:ChainMember) time:0.0896000862121582
+Load released (JoinChainTeam:ChainMember) time:0.07607793807983398
+Load received (JoinChainTeam:JoinChainMember) time:0.05055093765258789
+Robot with Load perceived time:0.002338886260986328
+nothing changed time:0.033612966537475586
+nothing changed time:0.06843900680541992
+nothing changed time:0.08054304122924805
+nothing changed time:0.00943613052368164
+nothing changed time:0.00022912025451660156
+nothing changed time:0.09240388870239258
+nothing changed time:0.04934096336364746
+Robot with Load perceived time:0.024355173110961914
+timeout time:0.07113385200500488
+nothing changed time:0.08960390090942383
+nothing changed time:0.06138205528259277
+Robot with Load perceived time:0.03961896896362305
+Joiner perceived time:0.09926104545593262
+Drive to Perceived Robot (update) time:0.08658504486083984
+Robot with Load perceived time:0.0767521858215332
+nothing changed time:0.05047178268432617
+Receive Load (JoinChainTeam:JoinChainMember) time:0.09340596199035645
+Release Load (JoinChainTeam:ChainMember) time:0.20108580589294434
+Load received (JoinChainTeam:JoinChainMember) time:0.06576180458068848
+Load released (JoinChainTeam:ChainMember) time:0.00010204315185546875
+nothing changed time:0.08838391304016113
+Robot with Load perceived time:0.0019350051879882812
+nothing changed time:0.0013508796691894531
+nothing changed time:0.0014119148254394531
+nothing changed time:0.07337689399719238
+timeout time:0.1184389591217041
+nothing changed time:0.08458995819091797
+nothing changed time:0.10152411460876465
+Robot with Load perceived time:0.0005359649658203125
+Joiner perceived time:0.04777789115905762
+Drive to Perceived Robot (update) time:0.0004520416259765625
+nothing changed time:0.061492919921875
+to close to nest time:0.0869288444519043
+to close to nest time:0.054815053939819336
+to close to nest time:0.04545903205871582
+nothing changed time:0.05580592155456543
+nothing changed time:0.09299302101135254
+Receive Load (JoinChainTeam:JoinChainMember) time:0.04451704025268555
+nothing changed time:0.08157896995544434
+Release Load (JoinChainTeam:ChainMember) time:0.06374502182006836
+Load released (JoinChainTeam:ChainMember) time:0.036355018615722656
+nothing changed time:0.0584869384765625
+Load received (JoinChainTeam:JoinChainMember) time:0.6274840831756592
+Robot with Load perceived time:0.08679509162902832
+Robot with Load perceived time:0.08699607849121094
+nothing changed time:0.0002009868621826172
+Joiner perceived time:0.006190061569213867
+Joiner perceived time:0.006464958190917969
+nothing changed time:0.008359909057617188
+deactivateJoinChain() (JoinChainTeam:JoinChainMember) time:0.00774693489074707
+nothing changed time:0.04256105422973633
+Robot with Load perceived time:0.07981705665588379
+Joiner perceived time:0.08955907821655273
+Drive to Perceived Robot (update) time:0.10065102577209473
+timeout time:0.021500110626220703
+nothing changed time:0.012305974960327148
+nothing changed time:0.018683910369873047
+Joiner perceived time:0.04838395118713379
+Drive to Perceived Robot (update) time:0.007433891296386719
+nothing changed time:0.08840107917785645
+nothing changed time:0.07250785827636719
+Drive to Perceived Robot (update) time:0.006433963775634766
+Joiner perceived time:0.03188300132751465
+nothing changed time:0.010523080825805664
+timeout time:9.489059448242188e-5
+nothing changed time:0.03234601020812988
+nothing changed time:0.008575916290283203
+nothing changed time:0.001435995101928711
+Receive Load (JoinChainTeam:JoinChainMember) time:0.03654193878173828
+nothing changed time:0.0898599624633789
+Release Load (JoinChainTeam:ChainMember) time:0.1038811206817627
+prey detected time:0.10301017761230469
+Release Load (JoinChainTeam:ChainMember) time:0.028657197952270508
+Receive Load (JoinChainTeam:JoinChainMember) time:0.002413034439086914
+Load released (JoinChainTeam:ChainMember) time:0.009860038757324219
+Load received (JoinChainTeam:JoinChainMember) time:0.09472298622131348
+Release Load (JoinChainTeam:ChainMember) time:0.06755805015563965
+timeout time:1.0013580322265625e-5
+deactivateJoinChain() (JoinChainTeam:ChainMember) time:0.1099250316619873
+Robot with Load perceived time:0.00020503997802734375
+nothing changed time:0.06642889976501465
+nothing changed time:0.029324769973754883
+prey detected time:0.08321595191955566
+nothing changed time:0.032401084899902344
+nothing changed time:0.07347416877746582
+nothing changed time:0.08243179321289062
+nothing changed time:0.0644218921661377
+nothing changed time:0.029312849044799805
+nothing changed time:0.019345998764038086
+to close to prey time:0.011667013168334961
+to close to prey time:0.09503388404846191
+to close to prey time:0.09147810935974121
+to close to prey time:0.09798598289489746
+to close to prey time:0.04008007049560547
+to close to prey time:0.07456302642822266
+to close to prey time:0.09419703483581543
+to close to prey time:0.004212856292724609
+to close to prey time:0.004320859909057617
+to close to prey time:0.04035806655883789
+to close to prey time:0.09774494171142578
+to close to prey time:0.029469966888427734
+to close to prey time:0.02834796905517578
+to close to nest time:0.023651838302612305
+to close to prey time:0.07243180274963379
+to close to nest time:0.09755611419677734
+to close to nest time:0.09038090705871582
+to close to prey time:0.09807801246643066
+to close to prey time:0.0343170166015625
+nothing changed time:0.10372805595397949
+to close to nest time:0.09233307838439941
+to close to nest time:0.10051393508911133
+to close to nest time:0.09238290786743164
+to close to nest time:0.08638215065002441
+to close to nest time:0.02933788299560547
+to close to nest time:0.059288978576660156
+to close to nest time:0.04172110557556152
+to close to nest time:0.0002529621124267578
+to close to nest time:0.0013260841369628906
+to close to nest time:0.012356042861938477
+to close to nest time:0.04735612869262695
+to close to nest time:0.06840109825134277
+Robot with Load perceived time:0.07483196258544922
+Joiner perceived time:0.042716026306152344
+Drive to Perceived Robot (update) time:0.08698105812072754
+nothing changed time:0.09452605247497559
+nothing changed time:0.049517154693603516
+Receive Load (JoinChainTeam:JoinChainMember) time:0.07249689102172852
+nothing changed time:0.10652685165405273
+Release Load (JoinChainTeam:ChainMember) time:0.09767889976501465
+Load released (JoinChainTeam:ChainMember) time:0.10392308235168457
+to close to nest time:0.057315826416015625
+to close to nest time:0.023307085037231445
+Load received (JoinChainTeam:JoinChainMember) time:0.4739420413970947
+to close to nest time:0.03742098808288574
+nothing changed time:0.0001380443572998047
+Robot with Load perceived time:0.06354904174804688
+to close to nest time:0.01441812515258789
+to close to nest time:0.09866786003112793
+to close to nest time:0.07056093215942383
+to close to nest time:0.06133317947387695
+nothing changed time:0.04444408416748047
+to close to nest time:0.009388923645019531
+nothing changed time:0.007346153259277344
+to close to nest time:0.04743695259094238
+nothing changed time:0.09539580345153809
+nothing changed time:0.01857304573059082
+prey detected time:0.08292293548583984
+nothing changed time:0.08761191368103027
+nothing changed time:0.08333992958068848
+nothing changed time:0.04134798049926758
+nothing changed time:0.07384181022644043
+nothing changed time:0.02239203453063965
+nothing changed time:0.07440710067749023
+nothing changed time:0.06538009643554688
+nothing changed time:0.009329080581665039
+nothing changed time:0.09635210037231445
+nothing changed time:0.031327009201049805
+to close to prey time:0.04745602607727051
+to close to prey time:0.0189208984375
+to close to prey time:0.010289907455444336
+to close to prey time:0.055538177490234375
+timeout time:0.061077117919921875
+nothing changed time:0.05249595642089844
+Robot with Load perceived time:0.00857090950012207
+nothing changed time:0.10091805458068848
+Joiner perceived time:0.06482410430908203
+Drive to Perceived Robot (update) time:0.0685110092163086
+Robot with Load perceived time:0.09686493873596191
+nothing changed time:0.07451701164245605
+Joiner perceived time:0.04651904106140137
+Drive to Perceived Robot (update) time:0.0547640323638916
+nothing changed time:0.04554295539855957
+nothing changed time:0.04451918601989746
+Receive Load (JoinChainTeam:JoinChainMember) time:0.08092689514160156
+Release Load (JoinChainTeam:ChainMember) time:0.10887908935546875
+Release Load (JoinChainTeam:ChainMember) time:0.0835881233215332
+Load received (JoinChainTeam:JoinChainMember) time:0.02466893196105957
+Load released (JoinChainTeam:ChainMember) time:1.71661376953125e-5
+Robot with Load perceived time:0.10044503211975098
+nothing changed time:0.07116913795471191
+Receive Load (JoinChainTeam:JoinChainMember) time:0.07907295227050781
+nothing changed time:0.11463022232055664
+Release Load (JoinChainTeam:ChainMember) time:0.03541898727416992
+Load released (JoinChainTeam:ChainMember) time:0.013098001480102539
+Robot with Load perceived time:0.004416942596435547
+Load received (JoinChainTeam:JoinChainMember) time:0.07343006134033203
+nothing changed time:0.009295940399169922
+nothing changed time:0.027348995208740234
+nothing changed time:0.06655597686767578
+Robot with Load perceived time:0.018728017807006836
+Robot with Load perceived time:0.08640313148498535
+nothing changed time:0.06304192543029785
+Robot with Load perceived time:0.0493168830871582
+Robot with Load perceived time:0.10574102401733398
+nothing changed time:0.042421817779541016
+nothing changed time:0.0003380775451660156
+Robot with Load perceived time:0.0676581859588623
+nothing changed time:0.09999895095825195
+Robot with Load perceived time:0.030411958694458008
+nothing changed time:0.06030011177062988
+Joiner perceived time:0.0424649715423584
+nothing changed time:0.045432090759277344
+nothing changed time:0.035212039947509766
+nothing changed time:0.026561975479125977
+nothing changed time:0.014426946640014648
+Joiner perceived time:0.0695180892944336
+nothing changed time:0.07985401153564453
+nothing changed time:0.014616012573242188
+Joiner perceived time:0.10970401763916016
+nothing changed time:0.09150815010070801
+deactivateJoinChain() (JoinChainTeam:JoinChainMember) time:0.10517692565917969
+Robot with Load perceived time:0.10516619682312012
+Joiner perceived time:0.07819795608520508
+Drive to Perceived Robot (update) time:0.2445368766784668
+to close to nest time:0.06060194969177246
+to close to nest time:0.042890071868896484
+to close to nest time:0.034304141998291016
+nothing changed time:0.08878397941589355
+Receive Load (JoinChainTeam:JoinChainMember) time:0.05663490295410156
+Release Load (JoinChainTeam:ChainMember) time:0.05659198760986328
+Load released (JoinChainTeam:ChainMember) time:0.02866196632385254
+nothing changed time:0.020317792892456055
+Load received (JoinChainTeam:JoinChainMember) time:0.4649538993835449
+Robot with Load perceived time:0.046331167221069336
+nothing changed time:0.10042190551757812
+Robot with Load perceived time:0.10950613021850586
+nothing changed time:0.075531005859375
+nothing changed time:0.02839493751525879
+nothing changed time:0.03738713264465332
+nothing changed time:0.0002949237823486328
+nothing changed time:0.06549692153930664
+to close to nest time:0.0706181526184082
+to close to nest time:0.08001112937927246
+timeout time:0.06827592849731445
+nothing changed time:0.06046009063720703
+Joiner perceived time:0.07241582870483398
+nothing changed time:0.04330301284790039
+nothing changed time:0.03650498390197754
+to close to nest time:0.030514955520629883
+to close to nest time:0.017649173736572266
+to close to nest time:0.009263038635253906
+nothing changed time:0.02338886260986328
+nothing changed time:0.06146383285522461
+deactivateJoinChain() (JoinChainTeam:JoinChainMember) time:0.03387117385864258
+Robot with Load perceived time:0.04058194160461426
+Joiner perceived time:0.07681798934936523
+prey detected time:0.06888604164123535
+Drive to Perceived Robot (update) time:0.09485793113708496
+nothing changed time:0.08365082740783691
+nothing changed time:0.060563087463378906
+Receive Load (JoinChainTeam:JoinChainMember) time:0.06861400604248047
+to close to prey time:0.015606164932250977
+Release Load (JoinChainTeam:ChainMember) time:0.004544973373413086
+to close to prey time:0.0985860824584961
+to close to prey time:0.0896000862121582
+Load released (JoinChainTeam:ChainMember) time:0.04082202911376953

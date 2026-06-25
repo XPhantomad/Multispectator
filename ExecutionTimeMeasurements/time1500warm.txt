@@ -1,0 +1,1899 @@
+JoinChainMember executed time:0.05942988395690918
+JoinChainMember executed time:0.00014019012451171875
+JoinChainMember fallback time:0.0004439353942871094
+JoinChainMember executed time:0.0034668445587158203
+JoinChainMember executed time:0.0034911632537841797
+nothing changed time:0.02234506607055664
+JoinChainMember executed time:0.000202178955078125
+nothing changed time:0.022342920303344727
+nothing changed time:0.04343295097351074
+nothing changed time:0.044393062591552734
+nothing changed time:0.015294075012207031
+JoinChainMember executed time:0.006330966949462891
+nothing changed time:0.07138991355895996
+nothing changed time:0.008328914642333984
+JoinChainMember executed time:0.0005578994750976562
+nothing changed time:0.01841592788696289
+Chainmember(Join) enabled time:0.009711980819702148
+JoinChainMember fallback time:0.0003859996795654297
+JoinChainMember executed time:0.08787107467651367
+Chainmember(join) fallback time:0.05971407890319824
+nothing changed time:0.050343990325927734
+Chainmember(Join) enabled time:0.04076409339904785
+nothing changed time:0.0326380729675293
+nothing changed time:0.009434938430786133
+nothing changed time:0.00012993812561035156
+nothing changed time:0.00023102760314941406
+nothing changed time:0.0001590251922607422
+Robot with load Position updated time:0.013647079467773438
+nothing changed time:0.05865597724914551
+Robot with load Position updated time:0.04060006141662598
+nothing changed time:0.00012993812561035156
+nothing changed time:0.07640290260314941
+nothing changed time:0.09634804725646973
+nothing changed time:0.026324987411499023
+prey detected time:0.0483090877532959
+JoinChainMember switch to load state time:0.10058403015136719
+nothing changed time:0.09440803527832031
+ChainMember(Join) fallback time:0.5926611423492432
+Transfer for JoinChainMember successful time:0.6439578533172607
+Transfer for Chainmember successful time:0.00013113021850585938
+JoinChainMember executed time:0.0002300739288330078
+nothing changed time:0.0002758502960205078
+nothing changed time:0.00018095970153808594
+nothing changed time:0.07375907897949219
+nothing changed time:0.07468104362487793
+JoinChainMember executed time:0.05570411682128906
+Chainmember(Join) enabled time:0.06169891357421875
+to close to prey time:0.006630897521972656
+to close to prey time:0.08361983299255371
+to close to prey time:0.07500195503234863
+Robot with load Position updated time:0.0035419464111328125
+JoinChainMember switch to load state time:0.04553699493408203
+nothing changed time:0.09032797813415527
+ChainMember(Join) fallback time:0.05833101272583008
+Transfer for Chainmember successful time:0.03079819679260254
+Transfer for JoinChainMember successful time:0.03599095344543457
+JoinChainMember executed time:0.015337228775024414
+nothing changed time:0.08742809295654297
+to close to prey time:0.06745600700378418
+to close to nest time:0.05730795860290527
+nothing changed time:0.01164388656616211
+to close to nest time:0.08464503288269043
+to close to nest time:0.07637906074523926
+nothing changed time:0.011294841766357422
+nothing changed time:0.058351993560791016
+to close to nest time:0.06635284423828125
+JoinChainMember executed time:0.04726099967956543
+Chainmember(Join) enabled time:0.039778947830200195
+Robot with load Position updated time:1.0013580322265625e-5
+nothing changed time:0.038336992263793945
+to close to nest time:0.03536200523376465
+nothing changed time:0.10467290878295898
+nothing changed time:0.008337974548339844
+to close to nest time:0.0733799934387207
+to close to nest time:0.057382822036743164
+Chainmember(join) fallback time:0.00020885467529296875
+JoinChainMember executed time:0.05775094032287598
+nothing changed time:0.0496220588684082
+nothing changed time:0.022423982620239258
+Chainmember(Join) enabled time:0.0005960464477539062
+JoinChainMember switch to load state time:0.057608842849731445
+Robot with load Position updated time:0.04362010955810547
+nothing changed time:0.0734860897064209
+to close to nest time:0.032328128814697266
+to close to nest time:0.044361114501953125
+JoinChainMember switch to load state time:0.09857583045959473
+nothing changed time:0.016494035720825195
+JoinChainMember switch to load state time:0.06454801559448242
+ChainMember(Join) fallback time:0.05633211135864258
+Transfer for Chainmember successful time:0.02970290184020996
+Transfer for JoinChainMember successful time:0.47565197944641113
+JoinChainMember fallback time:0.0006239414215087891
+JoinChainMember executed time:0.0014019012451171875
+nothing changed time:0.10042119026184082
+nothing changed time:0.07137703895568848
+nothing changed time:0.00010991096496582031
+nothing changed time:0.0013208389282226562
+nothing changed time:0.01335000991821289
+nothing changed time:0.08448910713195801
+nothing changed time:9.894371032714844e-5
+prey detected time:0.03131389617919922
+to close to nest time:0.04149603843688965
+to close to nest time:0.04109597206115723
+to close to nest time:0.042372941970825195
+Timeout executed time:1.3113021850585938e-5
+nothing changed time:0.0001628398895263672
+JoinChainMember executed time:0.03738903999328613
+JoinChainMember executed time:0.06423497200012207
+Chainmember(Join) enabled time:0.0004858970642089844
+Robot with load Position updated time:0.017712116241455078
+JoinChainMember executed time:0.026643991470336914
+to close to prey time:0.05418896675109863
+to close to prey time:0.0316929817199707
+to close to prey time:0.022328853607177734
+nothing changed time:0.06073498725891113
+JoinChainMember switch to load state time:0.07735514640808105
+nothing changed time:0.06592798233032227
+ChainMember(Join) fallback time:0.03923296928405762
+Transfer for Chainmember successful time:0.01574087142944336
+Transfer for JoinChainMember successful time:0.0005609989166259766
+nothing changed time:0.05929207801818848
+nothing changed time:0.050286054611206055
+JoinChainMember executed time:0.08996009826660156
+JoinChainMember executed time:0.07669901847839355
+nothing changed time:0.03125786781311035
+JoinChainMember executed time:0.058302879333496094
+nothing changed time:0.012277841567993164
+JoinChainMember executed time:0.0393528938293457
+JoinChainMember executed time:0.02130603790283203
+to close to prey time:0.1052401065826416
+nothing changed time:0.0713810920715332
+JoinChainMember executed time:0.2201390266418457
+Chainmember(Join) enabled time:0.09304404258728027
+JoinChainMember executed time:0.06371402740478516
+Chainmember(Join) enabled time:0.015355110168457031
+Robot with load Position updated time:0.1009531021118164
+nothing changed time:0.00596308708190918
+nothing changed time:0.08868598937988281
+nothing changed time:0.07205486297607422
+JoinChainMember fallback time:0.0004220008850097656
+nothing changed time:0.052642107009887695
+Timeout executed time:0.07875299453735352
+nothing changed time:0.07111382484436035
+nothing changed time:0.10080885887145996
+JoinChainMember executed time:0.08214092254638672
+Chainmember(Join) enabled time:0.09700894355773926
+Robot with load Position updated time:0.0225830078125
+JoinChainMember switch to load state time:0.005388975143432617
+nothing changed time:0.049423933029174805
+nothing changed time:0.08505702018737793
+ChainMember(Join) fallback time:0.025582075119018555
+Transfer for Chainmember successful time:9.059906005859375e-6
+nothing changed time:0.0970611572265625
+Transfer for JoinChainMember successful time:0.08977699279785156
+nothing changed time:0.022305011749267578
+JoinChainMember executed time:0.01367497444152832
+nothing changed time:0.10473203659057617
+JoinChainMember executed time:0.09539508819580078
+JoinChainMember executed time:0.05451798439025879
+nothing changed time:0.11063790321350098
+nothing changed time:0.07242608070373535
+nothing changed time:0.007359027862548828
+nothing changed time:0.0888831615447998
+nothing changed time:0.03547096252441406
+nothing changed time:0.03757500648498535
+nothing changed time:0.05056500434875488
+JoinChainMember switch to load state time:0.006479978561401367
+nothing changed time:0.08673787117004395
+ChainMember(Join) fallback time:0.014599084854125977
+Transfer for Chainmember successful time:0.09779000282287598
+nothing changed time:0.09144401550292969
+Transfer for JoinChainMember successful time:0.10091805458068848
+JoinChainMember executed time:0.08544206619262695
+nothing changed time:0.03128504753112793
+nothing changed time:0.0918729305267334
+nothing changed time:0.016356945037841797
+nothing changed time:0.023365020751953125
+to close to nest time:0.020551204681396484
+to close to nest time:0.0024261474609375
+to close to nest time:0.09452605247497559
+JoinChainMember fallback time:0.07888102531433105
+nothing changed time:0.06955194473266602
+JoinChainMember executed time:0.013344049453735352
+prey detected time:0.00031113624572753906
+JoinChainMember executed time:0.056648969650268555
+Chainmember(Join) enabled time:0.005766153335571289
+Robot with load Position updated time:0.011690139770507812
+nothing changed time:0.051664113998413086
+JoinChainMember executed time:0.009620904922485352
+to close to prey time:0.06670594215393066
+to close to prey time:0.03953099250793457
+to close to prey time:0.0313410758972168
+JoinChainMember switch to load state time:0.05151200294494629
+nothing changed time:0.0024809837341308594
+ChainMember(Join) fallback time:0.08597707748413086
+Transfer for Chainmember successful time:0.05461406707763672
+Transfer for JoinChainMember successful time:0.1311800479888916
+JoinChainMember executed time:0.08493900299072266
+nothing changed time:0.059332847595214844
+to close to prey time:0.0993349552154541
+nothing changed time:0.10149884223937988
+nothing changed time:0.03635001182556152
+nothing changed time:0.04432487487792969
+JoinChainMember executed time:0.10217905044555664
+Chainmember(Join) enabled time:0.10826396942138672
+Robot with load Position updated time:0.06787109375
+nothing changed time:0.07479500770568848
+JoinChainMember executed time:0.0737771987915039
+Chainmember(Join) enabled time:0.08426284790039062
+Robot with load Position updated time:0.07175993919372559
+nothing changed time:0.07550716400146484
+JoinChainMember switch to load state time:0.01253199577331543
+nothing changed time:0.02051687240600586
+ChainMember(Join) fallback time:0.009588956832885742
+Transfer for Chainmember successful time:0.08871102333068848
+nothing changed time:0.07920694351196289
+Transfer for JoinChainMember successful time:0.022060155868530273
+nothing changed time:0.06752490997314453
+JoinChainMember executed time:0.07897520065307617
+nothing changed time:0.06361103057861328
+JoinChainMember executed time:0.05473494529724121
+nothing changed time:0.017596960067749023
+JoinChainMember switch to load state time:0.03554081916809082
+nothing changed time:0.07050895690917969
+nothing changed time:0.01832294464111328
+ChainMember(Join) fallback time:0.06057381629943848
+Transfer for Chainmember successful time:0.03366398811340332
+Transfer for JoinChainMember successful time:0.09894895553588867
+nothing changed time:0.07738280296325684
+nothing changed time:0.02936720848083496
+JoinChainMember executed time:0.07651019096374512
+nothing changed time:0.028374910354614258
+nothing changed time:0.057379961013793945
+nothing changed time:0.03936505317687988
+prey detected time:0.05641889572143555
+nothing changed time:0.013669013977050781
+JoinChainMember executed time:0.033605098724365234
+Chainmember(Join) enabled time:0.07457113265991211
+Robot with load Position updated time:0.0925760269165039
+nothing changed time:0.10350608825683594
+to close to prey time:0.06864190101623535
+to close to prey time:0.04159188270568848
+to close to prey time:0.03238821029663086
+nothing changed time:0.04957294464111328
+nothing changed time:0.06073188781738281
+to close to prey time:0.0014870166778564453
+JoinChainMember switch to load state time:0.005548000335693359
+nothing changed time:0.08013200759887695
+ChainMember(Join) fallback time:0.04049086570739746
+Transfer for Chainmember successful time:0.02296280860900879
+Transfer for JoinChainMember successful time:0.0818929672241211
+nothing changed time:0.01729893684387207
+JoinChainMember executed time:0.10698294639587402
+nothing changed time:0.0886380672454834
+nothing changed time:0.041285037994384766
+to close to nest time:0.0755770206451416
+to close to nest time:0.049712181091308594
+to close to nest time:0.04043388366699219
+nothing changed time:0.0142669677734375
+nothing changed time:0.09867286682128906
+nothing changed time:0.017742156982421875
+Timeout executed time:1.3828277587890625e-5
+nothing changed time:0.030904054641723633
+Timeout executed time:0.09554314613342285
+nothing changed time:0.09054088592529297
+nothing changed time:0.08177018165588379
+JoinChainMember executed time:0.0157470703125
+JoinChainMember executed time:0.10775589942932129
+Chainmember(Join) enabled time:0.09952712059020996
+Robot with load Position updated time:0.03456711769104004
+nothing changed time:0.0013740062713623047
+nothing changed time:0.06522488594055176
+JoinChainMember switch to load state time:0.04457688331604004
+ChainMember(Join) fallback time:0.010573863983154297
+Transfer for JoinChainMember successful time:0.08889603614807129
+Transfer for Chainmember successful time:1.9073486328125e-5
+nothing changed time:0.0225069522857666
+JoinChainMember executed time:0.052416086196899414
+nothing changed time:0.09651803970336914
+nothing changed time:0.09136199951171875
+JoinChainMember executed time:0.0398709774017334
+nothing changed time:0.04439902305603027
+nothing changed time:0.09215879440307617
+nothing changed time:0.1046450138092041
+nothing changed time:0.08348894119262695
+nothing changed time:0.08131194114685059
+nothing changed time:0.09659790992736816
+JoinChainMember executed time:0.08722805976867676
+Chainmember(Join) enabled time:0.10814905166625977
+Robot with load Position updated time:0.0426640510559082
+Timeout executed time:0.030860185623168945
+nothing changed time:0.022594928741455078
+nothing changed time:0.05963611602783203
+nothing changed time:0.0417478084564209
+nothing changed time:0.08672404289245605
+nothing changed time:0.06656885147094727
+nothing changed time:0.05780196189880371
+JoinChainMember switch to load state time:0.0014400482177734375
+nothing changed time:0.021420955657958984
+ChainMember(Join) fallback time:0.002451181411743164
+Transfer for Chainmember successful time:0.08072495460510254
+nothing changed time:0.07199907302856445
+Transfer for JoinChainMember successful time:0.09045600891113281
+nothing changed time:0.040313005447387695
+JoinChainMember executed time:0.042150020599365234
+JoinChainMember executed time:0.0037119388580322266
+Chainmember(Join) enabled time:0.0017168521881103516
+Robot with load Position updated time:0.03477001190185547
+nothing changed time:0.04064607620239258
+nothing changed time:0.07654404640197754
+nothing changed time:0.021350860595703125
+nothing changed time:0.09158515930175781
+JoinChainMember fallback time:0.036280155181884766
+nothing changed time:0.02744007110595703
+nothing changed time:0.030459880828857422
+JoinChainMember switch to load state time:0.031466007232666016
+ChainMember(Join) fallback time:0.10516119003295898
+Transfer for Chainmember successful time:0.07896304130554199
+nothing changed time:0.004365205764770508
+Transfer for JoinChainMember successful time:0.022713899612426758
+JoinChainMember executed time:0.05910897254943848
+nothing changed time:0.06348013877868652
+JoinChainMember executed time:0.0027818679809570312
+nothing changed time:0.08254098892211914
+nothing changed time:0.0023229122161865234
+nothing changed time:0.014307022094726562
+Chainmember(Join) enabled time:0.09624600410461426
+JoinChainMember executed time:0.02270817756652832
+Chainmember(Join) enabled time:0.0566401481628418
+Robot with load Position updated time:0.09218502044677734
+nothing changed time:0.01340484619140625
+Chainmember(Join) enabled time:0.06646203994750977
+nothing changed time:0.07155299186706543
+nothing changed time:0.09241509437561035
+JoinChainMember switch to load state time:0.06772303581237793
+ChainMember(Join) fallback time:0.04456686973571777
+nothing changed time:0.012374162673950195
+Transfer for Chainmember successful time:0.006952047348022461
+Transfer for JoinChainMember successful time:0.05772709846496582
+JoinChainMember executed time:0.09792590141296387
+nothing changed time:0.0934138298034668
+nothing changed time:0.057511091232299805
+nothing changed time:0.08633089065551758
+nothing changed time:0.05232095718383789
+nothing changed time:0.05541086196899414
+prey detected time:0.07848906517028809
+nothing changed time:0.07260680198669434
+Chainmember(Join) enabled time:0.1087949275970459
+to close to nest time:0.07770514488220215
+to close to nest time:0.060604095458984375
+to close to nest time:0.051445960998535156
+to close to prey time:0.023737192153930664
+to close to prey time:0.00550389289855957
+to close to prey time:0.09754800796508789
+nothing changed time:0.0002980232238769531
+Chainmember(Join) enabled time:0.049553871154785156
+nothing changed time:0.0661630630493164
+to close to prey time:0.020468950271606445
+nothing changed time:0.023571014404296875
+nothing changed time:0.08934903144836426
+nothing changed time:0.050592899322509766
+Chainmember(Join) enabled time:0.04239320755004883
+Chainmember(Join) enabled time:0.07960391044616699
+Chainmember(Join) enabled time:0.05747199058532715
+Chainmember(Join) enabled time:0.02942800521850586
+Chainmember(Join) enabled time:0.07345414161682129
+nothing changed time:0.003297090530395508
+nothing changed time:0.09138298034667969
+Chainmember(Join) enabled time:0.04227304458618164
+Robot with load Position updated time:0.05863380432128906
+Robot with load Position updated time:0.04955601692199707
+JoinChainMember executed time:0.0848698616027832
+Chainmember(Join) enabled time:0.10848188400268555
+Robot with load Position updated time:0.04367995262145996
+Robot with load Position updated time:0.0046041011810302734
+Timeout executed time:0.00010180473327636719
+nothing changed time:0.00017786026000976562
+JoinChainMember executed time:0.0878908634185791
+nothing changed time:0.05550694465637207
+Chainmember(Join) enabled time:0.0895681381225586
+JoinChainMember switch to load state time:0.03735089302062988
+nothing changed time:0.08061099052429199
+ChainMember(Join) fallback time:0.061676025390625
+Transfer for Chainmember successful time:0.043931007385253906
+nothing changed time:0.034420013427734375
+Transfer for JoinChainMember successful time:0.08440589904785156
+nothing changed time:0.07552003860473633
+JoinChainMember executed time:0.10783910751342773
+nothing changed time:0.0425419807434082
+JoinChainMember switch to load state time:0.022472858428955078
+nothing changed time:0.01437997817993164
+ChainMember(Join) fallback time:0.009538888931274414
+Transfer for Chainmember successful time:0.09388494491577148
+Transfer for JoinChainMember successful time:0.030771970748901367
+nothing changed time:0.0875389575958252
+JoinChainMember executed time:0.08474183082580566
+nothing changed time:0.008280038833618164
+JoinChainMember fallback time:0.09706902503967285
+nothing changed time:0.0763249397277832
+nothing changed time:0.01756882667541504
+nothing changed time:0.04478192329406738
+nothing changed time:0.007302045822143555
+JoinChainMember executed time:0.04460000991821289
+nothing changed time:0.043605804443359375
+Chainmember(Join) enabled time:0.056099891662597656
+nothing changed time:0.007627964019775391
+nothing changed time:0.04145503044128418
+Chainmember(Join) enabled time:0.04951786994934082
+prey detected time:0.0673530101776123
+nothing changed time:0.03993105888366699
+nothing changed time:0.03138399124145508
+nothing changed time:0.0675508975982666
+nothing changed time:0.038591861724853516
+nothing changed time:0.09967899322509766
+to close to prey time:0.02373480796813965
+to close to prey time:0.0004451274871826172
+to close to prey time:0.09247994422912598
+Timeout executed time:0.060645103454589844
+nothing changed time:0.051299095153808594
+Chainmember(Join) enabled time:0.03340888023376465
+to close to prey time:0.005388975143432617
+nothing changed time:0.005458831787109375
+Chainmember(Join) enabled time:0.03833913803100586
+JoinChainMember executed time:0.043637990951538086
+nothing changed time:0.0345458984375
+to close to nest time:0.0015611648559570312
+Chainmember(Join) enabled time:0.10407304763793945
+to close to nest time:0.08592891693115234
+to close to nest time:0.07749104499816895
+Robot with load Position updated time:0.05954694747924805
+nothing changed time:0.1046760082244873
+nothing changed time:0.08040809631347656
+to close to prey time:0.054373979568481445
+nothing changed time:0.059648990631103516
+Chainmember(Join) enabled time:0.007683992385864258
+nothing changed time:0.03358602523803711
+nothing changed time:0.07541108131408691
+Robot with load Position updated time:0.09669017791748047
+Robot with load Position updated time:0.09071707725524902
+nothing changed time:0.06845998764038086
+nothing changed time:0.05648183822631836
+JoinChainMember switch to load state time:0.059480905532836914
+ChainMember(Join) fallback time:0.01956319808959961
+Robot with load Position updated time:0.04266095161437988
+Transfer for Chainmember successful time:0.09766507148742676
+Transfer for JoinChainMember successful time:0.04272198677062988
+nothing changed time:0.0804300308227539
+JoinChainMember executed time:0.07241702079772949
+nothing changed time:0.0023429393768310547
+nothing changed time:0.04838705062866211
+nothing changed time:0.10500311851501465
+nothing changed time:0.016351938247680664
+JoinChainMember switch to load state time:0.012559175491333008
+nothing changed time:0.08163189888000488
+JoinChainMember switch to load state time:0.06868791580200195
+JoinChainMember executed time:0.08890700340270996
+ChainMember(Join) fallback time:0.10388493537902832
+Chainmember(Join) enabled time:0.029726028442382812
+prey detected time:0.022855043411254883
+Transfer for Chainmember successful time:0.07880902290344238
+Chainmember(Join) enabled time:0.22751212120056152
+Robot with load Position updated time:0.07163596153259277
+JoinChainMember executed time:0.053511857986450195
+prey detected time:0.09777593612670898
+nothing changed time:0.10265684127807617
+nothing changed time:0.07440400123596191
+nothing changed time:0.010522127151489258
+prey detected time:0.02454400062561035
+nothing changed time:0.10048604011535645
+prey detected time:0.05037713050842285
+JoinChainMember switch to load state time:0.1005401611328125
+nothing changed time:0.0585329532623291
+ChainMember(Join) fallback time:0.2078690528869629
+Transfer for JoinChainMember successful time:0.026740074157714844
+Transfer for Chainmember successful time:9.059906005859375e-6
+nothing changed time:0.025419950485229492
+JoinChainMember executed time:0.027384042739868164
+nothing changed time:0.02531599998474121
+nothing changed time:0.0263059139251709
+nothing changed time:0.056610107421875
+nothing changed time:0.03432297706604004
+JoinChainMember executed time:0.05074906349182129
+nothing changed time:0.04250192642211914
+Chainmember(Join) enabled time:0.05265998840332031
+Robot with load Position updated time:0.10781216621398926
+nothing changed time:0.10322022438049316
+JoinChainMember executed time:0.08772706985473633
+Chainmember(Join) enabled time:0.022723913192749023
+to close to prey time:0.005842924118041992
+to close to prey time:0.08652496337890625
+to close to prey time:0.07737588882446289
+Robot with load Position updated time:0.07177495956420898
+nothing changed time:0.001405954360961914
+JoinChainMember switch to load state time:0.05855584144592285
+nothing changed time:0.08009910583496094
+ChainMember(Join) fallback time:0.049633026123046875
+Transfer for Chainmember successful time:0.036769866943359375
+Transfer for JoinChainMember successful time:0.05076909065246582
+to close to prey time:0.018368005752563477
+nothing changed time:0.1005089282989502
+JoinChainMember executed time:0.00937795639038086
+nothing changed time:0.050425052642822266
+JoinChainMember switch to load state time:0.07775115966796875
+ChainMember(Join) fallback time:0.008563041687011719
+Transfer for Chainmember successful time:0.09197115898132324
+Transfer for JoinChainMember successful time:0.33504605293273926
+JoinChainMember executed time:0.04330301284790039
+nothing changed time:0.018615007400512695
+nothing changed time:0.053443193435668945
+nothing changed time:0.00017499923706054688
+nothing changed time:0.04740595817565918
+nothing changed time:0.08527588844299316
+nothing changed time:0.05136990547180176
+nothing changed time:0.09604501724243164
+nothing changed time:0.03332805633544922
+nothing changed time:0.0044939517974853516
+JoinChainMember executed time:0.04584193229675293
+Chainmember(Join) enabled time:0.11038708686828613
+Robot with load Position updated time:0.08169102668762207
+JoinChainMember executed time:0.08647513389587402
+nothing changed time:0.06403398513793945
+Chainmember(Join) enabled time:0.05962395668029785
+Robot with load Position updated time:0.019644975662231445
+nothing changed time:0.0771169662475586
+nothing changed time:0.0015299320220947266
+JoinChainMember switch to load state time:0.0195310115814209
+ChainMember(Join) fallback time:0.07576489448547363
+Transfer for Chainmember successful time:0.05881500244140625
+nothing changed time:0.04946184158325195
+Transfer for JoinChainMember successful time:0.034793853759765625
+nothing changed time:0.10895085334777832
+JoinChainMember executed time:0.028455018997192383
+nothing changed time:0.050306081771850586
+JoinChainMember switch to load state time:0.060559988021850586
+nothing changed time:0.04453301429748535
+JoinChainMember switch to load state time:0.04259991645812988
+ChainMember(Join) fallback time:0.04064798355102539
+nothing changed time:0.0013549327850341797
+Transfer for Chainmember successful time:0.014825105667114258
+prey detected time:0.020771026611328125
+nothing changed time:0.006337165832519531
+prey detected time:0.03941202163696289
+nothing changed time:0.10089421272277832
+nothing changed time:0.09844493865966797
+JoinChainMember executed time:0.06247401237487793
+JoinChainMember executed time:0.023496150970458984
+nothing changed time:0.10661721229553223
+JoinChainMember executed time:0.02776312828063965
+prey detected time:0.03638291358947754
+Chainmember(Join) enabled time:0.006807088851928711
+Robot with load Position updated time:0.08797001838684082
+nothing changed time:0.10096907615661621
+prey detected time:0.03344416618347168
+nothing changed time:0.02259087562561035
+to close to nest time:0.0631861686706543
+JoinChainMember switch to load state time:0.08295416831970215
+to close to nest time:0.04087710380554199
+to close to nest time:0.03131508827209473
+ChainMember(Join) fallback time:0.032981157302856445
+Transfer for JoinChainMember successful time:0.08476710319519043
+Transfer for Chainmember successful time:0.03546404838562012
+nothing changed time:0.026283979415893555
+JoinChainMember executed time:0.08049297332763672
+nothing changed time:0.006268978118896484
+to close to prey time:0.02263808250427246
+nothing changed time:0.09576296806335449
+to close to prey time:0.09664201736450195
+to close to prey time:0.09041690826416016
+nothing changed time:0.01569199562072754
+nothing changed time:0.0915520191192627
+nothing changed time:0.05932903289794922
+nothing changed time:0.0981760025024414
+nothing changed time:0.06185603141784668
+nothing changed time:0.004628181457519531
+nothing changed time:0.008319854736328125
+JoinChainMember executed time:0.10920500755310059
+Chainmember(Join) enabled time:0.10000205039978027
+Robot with load Position updated time:0.053401947021484375
+to close to prey time:0.014400959014892578
+nothing changed time:0.07359719276428223
+nothing changed time:0.016412019729614258
+JoinChainMember switch to load state time:0.06853413581848145
+ChainMember(Join) fallback time:0.08160805702209473
+nothing changed time:0.07152009010314941
+Transfer for Chainmember successful time:0.06620502471923828
+nothing changed time:0.05203413963317871
+Transfer for JoinChainMember successful time:0.06771206855773926
+nothing changed time:0.09341788291931152
+JoinChainMember executed time:0.027499914169311523
+nothing changed time:0.09669303894042969
+nothing changed time:0.09880208969116211
+nothing changed time:0.052330970764160156
+nothing changed time:0.07536697387695312
+Timeout executed time:0.02272510528564453
+nothing changed time:0.01432490348815918
+JoinChainMember executed time:0.08674883842468262
+Chainmember(Join) enabled time:0.0703589916229248
+Robot with load Position updated time:0.03659701347351074
+nothing changed time:0.0045261383056640625
+nothing changed time:0.07298898696899414
+JoinChainMember executed time:0.0076901912689208984
+JoinChainMember switch to load state time:0.049508094787597656
+ChainMember(Join) fallback time:0.06966090202331543
+Transfer for Chainmember successful time:0.04489398002624512
+Transfer for JoinChainMember successful time:0.05765104293823242
+nothing changed time:0.10860991477966309
+Chainmember(Join) enabled time:0.11365699768066406
+JoinChainMember executed time:0.0395050048828125
+Robot with load Position updated time:0.10166788101196289
+nothing changed time:0.03150796890258789
+nothing changed time:0.007515907287597656
+nothing changed time:0.06098604202270508
+Timeout executed time:0.0900418758392334
+nothing changed time:0.09034609794616699
+nothing changed time:0.09434008598327637
+nothing changed time:0.06149911880493164
+prey detected time:0.10737991333007812
+nothing changed time:0.06950116157531738
+nothing changed time:0.0504908561706543
+prey detected time:0.0464169979095459
+prey detected time:0.019427061080932617
+JoinChainMember executed time:0.09841609001159668
+Chainmember(Join) enabled time:0.08351016044616699
+prey detected time:0.0833590030670166
+prey detected time:0.058316946029663086
+Robot with load Position updated time:0.03171110153198242
+Chainmember(join) fallback time:0.01990795135498047
+prey detected time:0.021338939666748047
+prey detected time:0.08542013168334961
+prey detected time:0.0394740104675293
+prey detected time:0.013642072677612305
+prey detected time:0.06951689720153809
+nothing changed time:0.006363868713378906
+nothing changed time:0.05049300193786621
+JoinChainMember switch to load state time:0.0307159423828125
+ChainMember(Join) fallback time:0.015558004379272461
+Transfer for Chainmember successful time:0.09363198280334473
+Transfer for JoinChainMember successful time:0.030886173248291016
+JoinChainMember executed time:0.09248208999633789
+nothing changed time:0.06543207168579102
+prey detected time:0.019392967224121094
+prey detected time:0.04347801208496094
+prey detected time:0.0244290828704834
+prey detected time:0.015551090240478516
+nothing changed time:0.014288902282714844
+prey detected time:0.013430118560791016
+nothing changed time:0.06143307685852051
+nothing changed time:0.03831005096435547
+Timeout executed time:1.0967254638671875e-5
+nothing changed time:0.00017213821411132812
+JoinChainMember executed time:0.06393694877624512
+Timeout executed time:0.04998588562011719
+nothing changed time:0.04758501052856445
+Chainmember(Join) enabled time:0.005587100982666016
+Robot with load Position updated time:0.0024690628051757812
+nothing changed time:0.02674722671508789
+JoinChainMember switch to load state time:0.04564404487609863
+ChainMember(Join) fallback time:0.08462691307067871
+Transfer for JoinChainMember successful time:0.08985304832458496
+Transfer for Chainmember successful time:0.057179927825927734
+JoinChainMember executed time:0.09259414672851562
+nothing changed time:0.0013370513916015625
+nothing changed time:0.07965493202209473
+to close to prey time:0.07055211067199707
+to close to prey time:0.05251789093017578
+to close to prey time:0.04334712028503418
+nothing changed time:0.008311986923217773
+nothing changed time:0.0033190250396728516
+nothing changed time:0.03331398963928223
+nothing changed time:0.07023811340332031
+to close to nest time:0.030464887619018555
+nothing changed time:0.024431943893432617
+nothing changed time:0.01640796661376953
+to close to nest time:0.015501976013183594
+to close to nest time:0.006281137466430664
+nothing changed time:0.04262995719909668
+nothing changed time:0.08645796775817871
+JoinChainMember executed time:0.041071176528930664
+to close to prey time:0.015281200408935547
+nothing changed time:0.004269838333129883
+nothing changed time:0.03926587104797363
+nothing changed time:0.07702112197875977
+nothing changed time:0.050659894943237305
+JoinChainMember executed time:0.07439494132995605
+nothing changed time:0.013363122940063477
+nothing changed time:0.04866600036621094
+Timeout executed time:0.012336015701293945
+nothing changed time:0.0034198760986328125
+nothing changed time:0.10816597938537598
+JoinChainMember executed time:0.06980109214782715
+Chainmember(Join) enabled time:0.061737060546875
+Robot with load Position updated time:0.02966785430908203
+nothing changed time:0.07936787605285645
+JoinChainMember executed time:0.03969287872314453
+Chainmember(Join) enabled time:0.05273795127868652
+nothing changed time:0.09866595268249512
+nothing changed time:0.02555108070373535
+nothing changed time:0.09159994125366211
+JoinChainMember switch to load state time:0.07362484931945801
+ChainMember(Join) fallback time:0.06957483291625977
+Transfer for Chainmember successful time:0.04280519485473633
+Transfer for JoinChainMember successful time:0.059144020080566406
+nothing changed time:0.05067610740661621
+JoinChainMember executed time:0.01857304573059082
+nothing changed time:0.07651019096374512
+nothing changed time:0.009335041046142578
+nothing changed time:0.09259319305419922
+JoinChainMember switch to load state time:0.012485027313232422
+nothing changed time:0.047525882720947266
+ChainMember(Join) fallback time:0.017619848251342773
+Transfer for Chainmember successful time:0.10141301155090332
+Transfer for JoinChainMember successful time:0.022790193557739258
+nothing changed time:0.05431199073791504
+JoinChainMember executed time:0.08339595794677734
+nothing changed time:0.0359499454498291
+nothing changed time:0.08245706558227539
+nothing changed time:0.09456992149353027
+nothing changed time:0.03429913520812988
+JoinChainMember executed time:0.11054301261901855
+Chainmember(Join) enabled time:0.007750988006591797
+Robot with load Position updated time:0.036160945892333984
+Chainmember(Join) enabled time:0.042968034744262695
+Timeout executed time:0.10083389282226562
+nothing changed time:0.09108090400695801
+nothing changed time:0.0034589767456054688
+JoinChainMember executed time:0.012743949890136719
+nothing changed time:0.05882406234741211
+JoinChainMember switch to load state time:0.0274810791015625
+Chainmember(Join) enabled time:0.10403704643249512
+ChainMember(Join) fallback time:0.02250504493713379
+Robot with load Position updated time:0.04955291748046875
+Transfer for Chainmember successful time:0.0983269214630127
+nothing changed time:0.08948397636413574
+Transfer for JoinChainMember successful time:0.5638949871063232
+JoinChainMember executed time:0.06622600555419922
+nothing changed time:0.00011897087097167969
+nothing changed time:0.10691714286804199
+nothing changed time:0.026324987411499023
+nothing changed time:0.04432320594787598
+JoinChainMember switch to load state time:0.04661393165588379
+ChainMember(Join) fallback time:0.01669907569885254
+Transfer for Chainmember successful time:0.10017585754394531
+nothing changed time:0.09940695762634277
+Transfer for JoinChainMember successful time:0.0438539981842041
+JoinChainMember executed time:0.07889509201049805
+nothing changed time:0.0693209171295166
+nothing changed time:0.05233407020568848
+nothing changed time:0.005315065383911133
+nothing changed time:0.06828999519348145
+nothing changed time:0.07458901405334473
+nothing changed time:0.02262091636657715
+prey detected time:0.006356954574584961
+to close to nest time:0.05739092826843262
+to close to nest time:0.0348818302154541
+to close to nest time:0.026255130767822266
+nothing changed time:0.029857873916625977
+JoinChainMember executed time:0.10903096199035645
+nothing changed time:0.02353978157043457
+Chainmember(Join) enabled time:0.00955510139465332
+Robot with load Position updated time:0.07427310943603516
+nothing changed time:0.018520832061767578
+to close to prey time:0.01819896697998047
+to close to prey time:0.0974118709564209
+to close to prey time:0.09079599380493164
+to close to prey time:0.024386167526245117
+Robot with load Position updated time:0.07249689102172852
+Robot with load Position updated time:0.05354499816894531
+nothing changed time:0.0986020565032959
+Robot with load Position updated time:0.020705223083496094
+JoinChainMember switch to load state time:0.012526988983154297
+Robot with load Position updated time:0.09477019309997559
+ChainMember(Join) fallback time:0.09088706970214844
+JoinChainMember switch to load state time:0.05762505531311035
+ChainMember(Join) fallback time:0.08557796478271484
+nothing changed time:0.08063507080078125
+Transfer for Chainmember successful time:0.07204198837280273
+JoinChainMember executed time:0.06747198104858398
+Transfer for JoinChainMember successful time:0.07587814331054688
+JoinChainMember executed time:0.0964210033416748
+nothing changed time:0.10279393196105957
+nothing changed time:0.06372308731079102
+JoinChainMember executed time:0.018312931060791016
+nothing changed time:0.05554795265197754
+JoinChainMember executed time:0.03584098815917969
+Timeout executed time:0.08571100234985352
+nothing changed time:0.07733988761901855
+nothing changed time:0.03177285194396973
+JoinChainMember executed time:0.028622150421142578
+nothing changed time:0.037364959716796875
+Chainmember(Join) enabled time:0.03052687644958496
+Robot with load Position updated time:0.08309793472290039
+nothing changed time:0.04058504104614258
+nothing changed time:0.02447795867919922
+JoinChainMember switch to load state time:0.09037494659423828
+ChainMember(Join) fallback time:0.08921599388122559
+Transfer for Chainmember successful time:0.06845784187316895
+Transfer for JoinChainMember successful time:0.06867408752441406
+nothing changed time:0.10462188720703125
+JoinChainMember executed time:0.026298999786376953
+nothing changed time:0.08350205421447754
+JoinChainMember executed time:0.08740496635437012
+nothing changed time:0.08561015129089355
+Chainmember(Join) enabled time:0.07670092582702637
+nothing changed time:0.03334379196166992
+Chainmember(Join) enabled time:0.06850004196166992
+Robot with load Position updated time:0.10600614547729492
+nothing changed time:0.08954095840454102
+nothing changed time:0.07234787940979004
+nothing changed time:0.004723072052001953
+JoinChainMember switch to load state time:0.03552412986755371
+nothing changed time:0.06699514389038086
+ChainMember(Join) fallback time:0.03957819938659668
+Transfer for Chainmember successful time:0.009578943252563477
+nothing changed time:0.001291036605834961
+Transfer for JoinChainMember successful time:0.06964802742004395
+JoinChainMember executed time:0.08162903785705566
+nothing changed time:0.05931591987609863
+nothing changed time:0.07231783866882324
+nothing changed time:0.03629612922668457
+JoinChainMember executed time:0.05469703674316406
+Chainmember(Join) enabled time:0.0853109359741211
+Robot with load Position updated time:0.08566594123840332
+JoinChainMember switch to load state time:0.00445103645324707
+nothing changed time:0.05963301658630371
+ChainMember(Join) fallback time:0.04259991645812988
+Transfer for Chainmember successful time:0.019713163375854492
+Transfer for JoinChainMember successful time:0.017693042755126953
+JoinChainMember executed time:0.01380610466003418
+nothing changed time:0.05839896202087402
+nothing changed time:0.04501795768737793
+nothing changed time:0.10104179382324219
+nothing changed time:0.0417630672454834
+nothing changed time:0.05240607261657715
+nothing changed time:0.09686994552612305
+prey detected time:0.005320072174072266
+nothing changed time:0.04856705665588379
+to close to nest time:0.02252793312072754
+to close to nest time:0.0953819751739502
+to close to nest time:0.09155678749084473
+to close to prey time:0.08778810501098633
+to close to prey time:0.05985093116760254
+to close to prey time:0.05035400390625
+JoinChainMember executed time:0.02062702178955078
+Chainmember(Join) enabled time:0.09363198280334473
+Robot with load Position updated time:0.01751995086669922
+nothing changed time:0.002460002899169922
+to close to prey time:0.10227394104003906
+nothing changed time:0.053772926330566406
+Robot with load Position updated time:0.022552967071533203
+nothing changed time:0.10171198844909668
+Robot with load Position updated time:0.047158002853393555
+Robot with load Position updated time:0.06708908081054688
+JoinChainMember switch to load state time:0.002399921417236328
+nothing changed time:0.06767582893371582
+JoinChainMember executed time:0.09161686897277832
+Chainmember(Join) enabled time:0.02471184730529785
+ChainMember(Join) fallback time:0.023305892944335938
+Transfer for Chainmember successful time:0.0066258907318115234
+Robot with load Position updated time:0.05071401596069336
+JoinChainMember executed time:0.09953618049621582
+Transfer for JoinChainMember successful time:0.07778286933898926
+nothing changed time:0.003345012664794922
+nothing changed time:0.08157014846801758
+JoinChainMember executed time:0.061395883560180664
+JoinChainMember executed time:0.011538028717041016
+nothing changed time:0.06235504150390625
+nothing changed time:0.009553909301757812
+nothing changed time:0.022714853286743164
+JoinChainMember switch to load state time:0.052546024322509766
+nothing changed time:0.02237415313720703
+ChainMember(Join) fallback time:0.105072021484375
+Transfer for Chainmember successful time:0.07854199409484863
+nothing changed time:0.06990814208984375
+Transfer for JoinChainMember successful time:0.057831764221191406
+nothing changed time:0.002260923385620117
+JoinChainMember executed time:0.0682380199432373
+nothing changed time:0.05937695503234863
+nothing changed time:0.06131601333618164
+nothing changed time:0.09147906303405762
+nothing changed time:0.047698974609375
+JoinChainMember executed time:0.04284095764160156
+Chainmember(Join) enabled time:0.08974695205688477
+Chainmember(Join) enabled time:0.07262706756591797
+Robot with load Position updated time:0.06567811965942383
+nothing changed time:0.07580280303955078
+nothing changed time:0.08978700637817383
+JoinChainMember switch to load state time:0.006410121917724609
+ChainMember(Join) fallback time:0.05997896194458008
+JoinChainMember executed time:0.024616003036499023
+Transfer for Chainmember successful time:0.03763604164123535
+nothing changed time:0.028270959854125977
+Chainmember(Join) enabled time:0.0006639957427978516
+Transfer for JoinChainMember successful time:0.08597183227539062
+Robot with load Position updated time:0.08066892623901367
+JoinChainMember executed time:0.10266995429992676
+nothing changed time:0.07451796531677246
+nothing changed time:0.011278867721557617
+nothing changed time:0.0493168830871582
+nothing changed time:0.07726907730102539
+nothing changed time:0.027538061141967773
+JoinChainMember switch to load state time:0.07867789268493652
+ChainMember(Join) fallback time:0.11005806922912598
+Transfer for Chainmember successful time:0.08190798759460449
+Transfer for JoinChainMember successful time:0.07166099548339844
+nothing changed time:0.09546709060668945
+JoinChainMember executed time:0.03534889221191406
+nothing changed time:0.04339289665222168
+nothing changed time:0.08548092842102051
+nothing changed time:0.0653529167175293
+Timeout executed time:0.1079111099243164
+nothing changed time:0.09030795097351074
+nothing changed time:0.09543180465698242
+nothing changed time:0.015478134155273438
+prey detected time:0.003300905227661133
+to close to nest time:0.06872391700744629
+to close to nest time:0.041635990142822266
+to close to nest time:0.03231382369995117
+nothing changed time:0.1019749641418457
+JoinChainMember executed time:0.04550504684448242
+Chainmember(Join) enabled time:0.06557893753051758
+nothing changed time:0.03655505180358887
+Chainmember(Join) enabled time:0.012668848037719727
+Robot with load Position updated time:0.10693883895874023
+to close to prey time:0.013693094253540039
+nothing changed time:0.011297225952148438
+to close to prey time:0.09823799133300781
+to close to prey time:0.09052109718322754
+Robot with load Position updated time:0.04751992225646973
+nothing changed time:0.07607603073120117
+to close to prey time:0.10601091384887695
+nothing changed time:0.02156805992126465
+nothing changed time:0.09602689743041992
+JoinChainMember switch to load state time:0.07065987586975098
+nothing changed time:0.03136420249938965
+ChainMember(Join) fallback time:0.10265994071960449
+Transfer for Chainmember successful time:0.07869315147399902
+nothing changed time:0.06976580619812012
+Transfer for JoinChainMember successful time:0.06593012809753418
+JoinChainMember executed time:0.06414103507995605
+nothing changed time:0.09546709060668945
+nothing changed time:0.05244588851928711
+nothing changed time:0.04659318923950195
+JoinChainMember executed time:0.0870351791381836
+Chainmember(Join) enabled time:0.07070493698120117
+nothing changed time:0.0965430736541748
+Robot with load Position updated time:0.03763914108276367
+nothing changed time:0.07536792755126953
+Robot with load Position updated time:0.09240579605102539
+Chainmember(Join) enabled time:0.10397815704345703
+Robot with load Position updated time:0.05447101593017578
+nothing changed time:0.09741997718811035
+JoinChainMember switch to load state time:0.08539390563964844
+ChainMember(Join) fallback time:0.05893111228942871
+ChainMember(Join) fallback time:0.06345605850219727
+Transfer for Chainmember successful time:0.041938066482543945
+Transfer for JoinChainMember successful time:0.07883095741271973
+JoinChainMember executed time:0.002357006072998047
+Chainmember(join) fallback time:0.013406991958618164
+nothing changed time:0.08200979232788086
+nothing changed time:0.06338810920715332
+nothing changed time:0.008307933807373047
+JoinChainMember executed time:0.032713890075683594
+Chainmember(Join) enabled time:0.034796953201293945
+nothing changed time:0.07739090919494629
+Robot with load Position updated time:0.0697178840637207
+nothing changed time:0.04448819160461426
+nothing changed time:0.03753495216369629
+JoinChainMember switch to load state time:0.09470820426940918
+ChainMember(Join) fallback time:0.00024390220642089844
+Transfer for Chainmember successful time:0.08316898345947266
+Transfer for JoinChainMember successful time:0.07984304428100586
+nothing changed time:0.007632017135620117
+JoinChainMember executed time:0.07445693016052246
+nothing changed time:0.10047101974487305
+nothing changed time:0.0744020938873291
+nothing changed time:0.008363962173461914
+nothing changed time:0.08138489723205566
+JoinChainMember executed time:0.004520893096923828
+Chainmember(Join) enabled time:0.0437769889831543
+nothing changed time:0.03359103202819824
+Robot with load Position updated time:0.028723955154418945
+prey detected time:0.01730513572692871
+nothing changed time:0.019543886184692383
+JoinChainMember switch to load state time:0.004495859146118164
+ChainMember(Join) fallback time:0.09411501884460449
+Transfer for Chainmember successful time:0.06269192695617676
+nothing changed time:0.05320906639099121
+Transfer for JoinChainMember successful time:0.005760908126831055
+JoinChainMember executed time:0.04852890968322754
+nothing changed time:0.02338385581970215
+nothing changed time:0.057801008224487305
+nothing changed time:0.05252504348754883
+to close to nest time:0.005630970001220703
+to close to nest time:0.07850098609924316
+to close to nest time:0.06930398941040039
+nothing changed time:0.08950400352478027
+nothing changed time:0.0532681941986084
+to close to prey time:0.041552066802978516
+Timeout executed time:0.08756899833679199
+to close to prey time:0.021528005599975586
+nothing changed time:0.07838702201843262
+to close to prey time:0.012344837188720703
+to close to prey time:0.07451295852661133
+JoinChainMember executed time:0.1018061637878418
+Chainmember(Join) enabled time:0.08199000358581543
+Robot with load Position updated time:0.049601078033447266
+to close to nest time:0.006350040435791016
+nothing changed time:0.03637123107910156
+JoinChainMember switch to load state time:0.03651309013366699
+nothing changed time:0.0544428825378418
+ChainMember(Join) fallback time:0.017513036727905273
+Transfer for Chainmember successful time:0.10015416145324707
+nothing changed time:0.07717108726501465
+Transfer for JoinChainMember successful time:0.041628122329711914
+nothing changed time:0.06736111640930176
+JoinChainMember executed time:0.06863903999328613
+nothing changed time:0.03557109832763672
+JoinChainMember executed time:0.03271889686584473
+Chainmember(Join) enabled time:0.07269811630249023
+Robot with load Position updated time:0.06957888603210449
+nothing changed time:0.07045197486877441
+nothing changed time:0.0062940120697021484
+nothing changed time:0.023324012756347656
+to close to nest time:0.04858994483947754
+JoinChainMember switch to load state time:0.056218862533569336
+nothing changed time:0.03428983688354492
+to close to nest time:0.023346900939941406
+to close to nest time:0.009307861328125
+ChainMember(Join) fallback time:0.08586001396179199
+Transfer for Chainmember successful time:0.06727910041809082
+nothing changed time:0.058679819107055664
+Transfer for JoinChainMember successful time:0.09982681274414062
+JoinChainMember executed time:0.04411816596984863
+nothing changed time:0.0885009765625
+nothing changed time:0.016254901885986328
+nothing changed time:0.03731489181518555
+nothing changed time:0.07831501960754395
+nothing changed time:0.06842207908630371
+JoinChainMember executed time:0.06477880477905273
+Chainmember(Join) enabled time:0.003718137741088867
+Robot with load Position updated time:0.0998239517211914
+JoinChainMember executed time:0.01455378532409668
+Chainmember(Join) enabled time:0.09560298919677734
+Robot with load Position updated time:0.05564284324645996
+nothing changed time:0.05151987075805664
+JoinChainMember switch to load state time:0.06763982772827148
+ChainMember(Join) fallback time:0.01462101936340332
+Transfer for Chainmember successful time:0.09699892997741699
+nothing changed time:0.08846116065979004
+Transfer for JoinChainMember successful time:0.05075216293334961
+nothing changed time:0.01747298240661621
+JoinChainMember executed time:0.07722091674804688
+nothing changed time:0.07565498352050781
+JoinChainMember executed time:0.05417203903198242
+Chainmember(Join) enabled time:0.03270411491394043
+nothing changed time:0.09811615943908691
+Robot with load Position updated time:0.011973857879638672
+nothing changed time:0.0363619327545166
+nothing changed time:0.09636282920837402
+JoinChainMember switch to load state time:0.08460092544555664
+ChainMember(Join) fallback time:0.2630629539489746
+Transfer for JoinChainMember successful time:0.021593093872070312
+Transfer for Chainmember successful time:0.00011205673217773438
+nothing changed time:0.02137899398803711
+JoinChainMember executed time:0.024333953857421875
+nothing changed time:0.03232407569885254
+nothing changed time:0.030345916748046875
+nothing changed time:0.017355918884277344
+nothing changed time:0.018128156661987305
+JoinChainMember switch to load state time:0.02750682830810547
+nothing changed time:0.04441118240356445
+ChainMember(Join) fallback time:0.01453709602355957
+Transfer for Chainmember successful time:0.09753704071044922
+nothing changed time:0.09128713607788086
+Transfer for JoinChainMember successful time:0.013833045959472656
+nothing changed time:0.050328969955444336
+JoinChainMember executed time:0.06231212615966797
+nothing changed time:0.007336854934692383
+nothing changed time:0.07050395011901855
+nothing changed time:0.03631997108459473
+prey detected time:0.06331110000610352
+nothing changed time:0.034699201583862305
+nothing changed time:0.0656890869140625
+to close to prey time:0.09667015075683594
+to close to prey time:0.07277798652648926
+to close to prey time:0.06435608863830566
+JoinChainMember executed time:0.06266498565673828
+Chainmember(Join) enabled time:0.04757094383239746
+Robot with load Position updated time:0.09014296531677246
+to close to nest time:0.09002184867858887
+to close to nest time:0.0604090690612793
+to close to prey time:0.09366512298583984
+to close to nest time:0.05125904083251953
+JoinChainMember executed time:0.0436861515045166
+nothing changed time:0.03486514091491699
+Chainmember(Join) enabled time:0.06304478645324707
+Robot with load Position updated time:0.10608601570129395
+JoinChainMember switch to load state time:0.04876208305358887
+nothing changed time:0.07510805130004883
+ChainMember(Join) fallback time:0.0335080623626709
+Transfer for Chainmember successful time:0.014666080474853516
+nothing changed time:0.00528717041015625
+Transfer for JoinChainMember successful time:0.03868913650512695
+JoinChainMember executed time:0.06733989715576172
+nothing changed time:0.04234600067138672
+JoinChainMember switch to load state time:0.004587888717651367
+nothing changed time:0.03424811363220215
+ChainMember(Join) fallback time:0.10788297653198242
+nothing changed time:0.08139801025390625
+Transfer for Chainmember successful time:0.07729721069335938
+Transfer for JoinChainMember successful time:0.09704113006591797
+nothing changed time:0.02337813377380371
+JoinChainMember executed time:0.0488588809967041
+nothing changed time:0.03442096710205078
+nothing changed time:0.06730198860168457
+nothing changed time:0.04829001426696777
+nothing changed time:0.06476497650146484
+nothing changed time:0.041496992111206055
+nothing changed time:0.06757187843322754
+JoinChainMember executed time:0.05304908752441406
+Chainmember(Join) enabled time:0.022938966751098633
+Robot with load Position updated time:0.09779500961303711
+JoinChainMember executed time:0.003548860549926758
+Chainmember(Join) enabled time:0.014639854431152344
+Robot with load Position updated time:0.054052114486694336
+JoinChainMember executed time:0.12131309509277344
+Chainmember(Join) enabled time:0.057695865631103516
+Robot with load Position updated time:0.061573028564453125
+nothing changed time:0.004388093948364258
+JoinChainMember switch to load state time:0.015479087829589844
+ChainMember(Join) fallback time:0.07066917419433594
+Transfer for Chainmember successful time:0.043721914291381836
+nothing changed time:0.03441905975341797
+Transfer for JoinChainMember successful time:0.02381300926208496
+JoinChainMember executed time:0.04165005683898926
+nothing changed time:0.04334402084350586
+nothing changed time:0.03965020179748535
+nothing changed time:0.07715320587158203
+JoinChainMember switch to load state time:0.034584999084472656
+ChainMember(Join) fallback time:0.04272603988647461
+nothing changed time:0.06864190101623535
+JoinChainMember switch to load state time:0.09084105491638184
+Transfer for Chainmember successful time:0.05924797058105469
+nothing changed time:0.062039852142333984
+Transfer for JoinChainMember successful time:0.09088802337646484
+ChainMember(Join) fallback time:0.00041103363037109375
+nothing changed time:0.026408910751342773
+JoinChainMember executed time:0.09578609466552734
+Transfer for Chainmember successful time:0.0764780044555664
+Transfer for JoinChainMember successful time:0.03675413131713867
+nothing changed time:0.08326101303100586
+JoinChainMember executed time:0.05588889122009277
+nothing changed time:0.09638500213623047
+nothing changed time:0.08343505859375
+nothing changed time:0.03165698051452637
+nothing changed time:0.02727818489074707
+nothing changed time:0.10068607330322266
+nothing changed time:0.034451961517333984
+nothing changed time:0.06736302375793457
+prey detected time:0.04931902885437012
+JoinChainMember executed time:0.002574920654296875
+Chainmember(Join) enabled time:0.09225797653198242
+nothing changed time:0.05269002914428711
+Robot with load Position updated time:0.04446291923522949
+JoinChainMember executed time:0.02673196792602539
+nothing changed time:0.018440961837768555
+Chainmember(Join) enabled time:0.0335688591003418
+Robot with load Position updated time:0.08484196662902832
+to close to prey time:0.005566120147705078
+to close to prey time:0.08867216110229492
+to close to prey time:0.08032393455505371
+nothing changed time:0.03555703163146973
+JoinChainMember switch to load state time:0.0937190055847168
+ChainMember(Join) fallback time:0.09965991973876953
+Transfer for Chainmember successful time:0.06281018257141113
+Transfer for JoinChainMember successful time:0.09519004821777344
+nothing changed time:0.040348052978515625
+JoinChainMember executed time:0.053472042083740234
+nothing changed time:0.03529214859008789
+nothing changed time:0.00838613510131836
+JoinChainMember switch to load state time:0.04657292366027832
+nothing changed time:0.07068514823913574
+ChainMember(Join) fallback time:0.07465815544128418
+Transfer for Chainmember successful time:0.04664111137390137
+Transfer for JoinChainMember successful time:0.03085803985595703
+nothing changed time:0.06232404708862305
+JoinChainMember executed time:0.016314983367919922
+to close to prey time:0.0491940975189209
+nothing changed time:0.09732699394226074
+nothing changed time:0.011298179626464844
+nothing changed time:0.08646988868713379
+nothing changed time:0.030274152755737305
+to close to nest time:0.09678888320922852
+to close to nest time:0.07402300834655762
+to close to nest time:0.06544899940490723
+JoinChainMember executed time:0.1079871654510498
+Chainmember(Join) enabled time:0.07335615158081055
+Robot with load Position updated time:0.050997018814086914
+JoinChainMember executed time:0.10069584846496582
+Chainmember(Join) enabled time:0.006816864013671875
+Robot with load Position updated time:0.016516923904418945
+nothing changed time:0.05165290832519531
+JoinChainMember switch to load state time:0.05149197578430176
+ChainMember(Join) fallback time:0.024604082107543945
+Transfer for Chainmember successful time:0.006732940673828125
+Transfer for JoinChainMember successful time:0.04279780387878418
+nothing changed time:0.0275421142578125
+nothing changed time:0.08050012588500977
+JoinChainMember switch to load state time:0.07758903503417969
+JoinChainMember executed time:0.060667991638183594
+ChainMember(Join) fallback time:0.08736395835876465
+Transfer for Chainmember successful time:0.07397317886352539
+Transfer for JoinChainMember successful time:0.06583809852600098
+JoinChainMember executed time:0.02536606788635254
+nothing changed time:0.08632802963256836
+nothing changed time:0.07770085334777832
+nothing changed time:0.0042951107025146484
+nothing changed time:0.04139113426208496
+nothing changed time:0.042330026626586914
+nothing changed time:0.042201995849609375
+nothing changed time:0.07937788963317871
+JoinChainMember executed time:0.10364913940429688
+Chainmember(Join) enabled time:0.0951700210571289
+nothing changed time:0.07998013496398926
+Robot with load Position updated time:0.056260108947753906
+JoinChainMember switch to load state time:0.020534038543701172
+nothing changed time:0.021453142166137695
+prey detected time:0.04129290580749512
+ChainMember(Join) fallback time:0.10602688789367676
+Transfer for JoinChainMember successful time:0.0724937915802002
+Transfer for Chainmember successful time:0.08363199234008789
+nothing changed time:0.07587814331054688
+nothing changed time:0.04445910453796387
+JoinChainMember executed time:0.05701899528503418
+nothing changed time:0.0893251895904541
+nothing changed time:0.041227102279663086
+nothing changed time:0.048310041427612305
+JoinChainMember executed time:0.0852968692779541
+Chainmember(Join) enabled time:0.021791934967041016
+Robot with load Position updated time:0.034642934799194336
+to close to prey time:0.07851886749267578
+to close to prey time:0.05240488052368164
+to close to prey time:0.04332089424133301
+nothing changed time:0.027445077896118164
+nothing changed time:0.060804128646850586
+JoinChainMember switch to load state time:0.08057188987731934
+ChainMember(Join) fallback time:0.025604963302612305
+Transfer for Chainmember successful time:0.0077478885650634766
+Transfer for JoinChainMember successful time:0.024831056594848633
+nothing changed time:0.10767698287963867
+JoinChainMember executed time:0.07129597663879395
+JoinChainMember executed time:0.052577972412109375
+Chainmember(Join) enabled time:0.08080506324768066
+Robot with load Position updated time:0.09052801132202148
+to close to prey time:0.09536910057067871
+nothing changed time:0.0012519359588623047
+nothing changed time:0.07433199882507324
+nothing changed time:0.03931403160095215
+nothing changed time:0.09595084190368652
+JoinChainMember switch to load state time:0.029454946517944336
+ChainMember(Join) fallback time:0.05246901512145996
+Transfer for Chainmember successful time:0.035527944564819336
+nothing changed time:0.02630305290222168
+Transfer for JoinChainMember successful time:0.07673001289367676
+JoinChainMember executed time:0.1006770133972168
+nothing changed time:0.04035806655883789
+nothing changed time:0.05934786796569824
+nothing changed time:0.02034306526184082
+nothing changed time:0.08506393432617188
+JoinChainMember executed time:0.013625860214233398
+Chainmember(Join) enabled time:0.0726621150970459
+Robot with load Position updated time:0.004611968994140625
+to close to nest time:0.0928349494934082
+JoinChainMember switch to load state time:0.06847095489501953
+nothing changed time:0.09056210517883301
+to close to nest time:0.06345200538635254
+to close to nest time:0.05444812774658203
+ChainMember(Join) fallback time:0.028431177139282227
+Transfer for Chainmember successful time:0.010651111602783203
+Transfer for JoinChainMember successful time:0.06876206398010254
+nothing changed time:0.03125905990600586
+JoinChainMember executed time:0.03126883506774902
+JoinChainMember executed time:0.0927422046661377
+Chainmember(Join) enabled time:0.04106307029724121
+Robot with load Position updated time:0.01851487159729004
+nothing changed time:0.04227495193481445
+nothing changed time:0.0042150020599365234
+nothing changed time:0.019334077835083008
+prey detected time:0.1015009880065918
+JoinChainMember switch to load state time:0.0214078426361084
+nothing changed time:0.07056593894958496
+ChainMember(Join) fallback time:0.052618980407714844
+Transfer for Chainmember successful time:0.034934043884277344
+Transfer for JoinChainMember successful time:0.066680908203125
+JoinChainMember executed time:0.10407900810241699
+nothing changed time:0.03432798385620117
+nothing changed time:0.017509937286376953
+nothing changed time:0.07135009765625
+nothing changed time:0.06230902671813965
+nothing changed time:0.06629514694213867
+nothing changed time:0.09344315528869629
+to close to prey time:0.0927131175994873
+to close to prey time:0.06341814994812012
+to close to prey time:0.05461692810058594
+nothing changed time:0.012455940246582031
+JoinChainMember executed time:0.11036014556884766
+Chainmember(Join) enabled time:0.09834623336791992
+Robot with load Position updated time:0.049494028091430664
+JoinChainMember executed time:0.05124497413635254
+Chainmember(Join) enabled time:0.00553584098815918
+Robot with load Position updated time:0.10570192337036133
+to close to prey time:0.0875399112701416
+JoinChainMember switch to load state time:0.05892205238342285
+nothing changed time:0.06662893295288086
+ChainMember(Join) fallback time:0.04459691047668457
+Transfer for Chainmember successful time:0.025924205780029297
+Transfer for JoinChainMember successful time:0.003593921661376953
+nothing changed time:0.01741504669189453
+nothing changed time:0.09038710594177246
+JoinChainMember executed time:0.10127902030944824
+nothing changed time:0.09275484085083008
+JoinChainMember switch to load state time:0.015519857406616211
+ChainMember(Join) fallback time:0.05745100975036621
+Transfer for Chainmember successful time:0.04160904884338379
+Transfer for JoinChainMember successful time:0.07866406440734863
+nothing changed time:0.03732180595397949
+nothing changed time:0.011577844619750977
+JoinChainMember executed time:0.00940394401550293
+nothing changed time:0.04139089584350586
+nothing changed time:0.04176807403564453
+nothing changed time:0.04329109191894531
+nothing changed time:0.07747006416320801
+nothing changed time:0.08444786071777344
+nothing changed time:0.006670951843261719
+nothing changed time:0.011362791061401367
+nothing changed time:0.04744410514831543
+JoinChainMember executed time:0.010659933090209961
+Chainmember(Join) enabled time:0.07617783546447754
+Robot with load Position updated time:0.10065603256225586
+JoinChainMember executed time:0.035054922103881836
+Chainmember(Join) enabled time:0.020685911178588867
+Robot with load Position updated time:0.09992003440856934
+JoinChainMember switch to load state time:0.01147007942199707
+nothing changed time:0.04152393341064453
+ChainMember(Join) fallback time:0.04448986053466797
+Transfer for Chainmember successful time:0.02489495277404785
+nothing changed time:0.015332937240600586
+Transfer for JoinChainMember successful time:0.0177609920501709
+nothing changed time:0.023344993591308594
+JoinChainMember executed time:0.0056269168853759766
+nothing changed time:0.09923720359802246
+JoinChainMember switch to load state time:0.09406304359436035
+ChainMember(Join) fallback time:0.07366800308227539
+Transfer for Chainmember successful time:0.051383018493652344
+nothing changed time:0.042764902114868164
+Transfer for JoinChainMember successful time:0.08550190925598145
+nothing changed time:0.031384944915771484
+nothing changed time:0.03466796875
+JoinChainMember executed time:0.03639101982116699
+nothing changed time:0.05828118324279785
+JoinChainMember executed time:0.08736801147460938
+nothing changed time:0.05945706367492676
+prey detected time:0.06195187568664551
+nothing changed time:0.026283979415893555
+nothing changed time:0.0824589729309082
+nothing changed time:0.019273996353149414
+to close to nest time:0.043520212173461914
+to close to nest time:0.01538395881652832
+to close to nest time:0.006289958953857422
+to close to prey time:0.0756380558013916
+to close to prey time:0.04842495918273926
+to close to prey time:0.039320945739746094
+JoinChainMember executed time:0.03153419494628906
+Chainmember(Join) enabled time:0.0026030540466308594
+Robot with load Position updated time:0.08015203475952148
+nothing changed time:0.03451085090637207
+to close to prey time:0.08831787109375
+JoinChainMember switch to load state time:0.02444291114807129
+nothing changed time:0.02151179313659668
+nothing changed time:0.09051108360290527
+ChainMember(Join) fallback time:0.10490703582763672
+Transfer for Chainmember successful time:0.08225679397583008
+nothing changed time:0.07258105278015137
+Transfer for JoinChainMember successful time:0.022657155990600586
+JoinChainMember executed time:0.0530858039855957
+nothing changed time:0.03834104537963867
+nothing changed time:0.06209897994995117
+nothing changed time:0.04927396774291992
+nothing changed time:0.004307985305786133
+JoinChainMember executed time:0.0842888355255127
+Chainmember(Join) enabled time:0.05356407165527344
+Robot with load Position updated time:0.03157615661621094
+nothing changed time:0.05953502655029297
+Timeout executed time:1.5974044799804688e-5
+nothing changed time:0.03450608253479004
+nothing changed time:0.08301901817321777
+JoinChainMember switch to load state time:0.06042909622192383
+ChainMember(Join) fallback time:0.05550503730773926
+JoinChainMember executed time:0.02663397789001465
+Transfer for JoinChainMember successful time:0.012740135192871094
+Transfer for Chainmember successful time:0.027631044387817383
+nothing changed time:0.01841282844543457
+Chainmember(Join) enabled time:0.03557705879211426
+nothing changed time:0.05730009078979492
+JoinChainMember executed time:0.0643470287322998
+Robot with load Position updated time:0.015471935272216797
+nothing changed time:0.11020588874816895
+nothing changed time:0.01835012435913086
+nothing changed time:0.042916059494018555
+nothing changed time:0.05542182922363281
+JoinChainMember switch to load state time:0.06860899925231934
+ChainMember(Join) fallback time:0.023491859436035156
+Transfer for Chainmember successful time:1.811981201171875e-5
+Transfer for JoinChainMember successful time:0.05547809600830078
+JoinChainMember executed time:0.009302139282226562
+nothing changed time:0.09844684600830078
+nothing changed time:0.009294986724853516
+nothing changed time:0.057533979415893555
+nothing changed time:0.04390692710876465
+nothing changed time:0.08038806915283203
+JoinChainMember executed time:0.049839019775390625
+Chainmember(Join) enabled time:0.03662300109863281
+Robot with load Position updated time:0.0885469913482666
+Timeout executed time:0.11101198196411133
+nothing changed time:0.09858202934265137
+JoinChainMember executed time:0.07772684097290039
+Chainmember(Join) enabled time:0.02775096893310547
+Robot with load Position updated time:0.05254697799682617
+nothing changed time:0.013536930084228516
+JoinChainMember switch to load state time:0.07315587997436523
+nothing changed time:0.07037520408630371
+JoinChainMember switch to load state time:0.07636404037475586
+ChainMember(Join) fallback time:0.041821956634521484
+Transfer for Chainmember successful time:0.018596172332763672
+nothing changed time:0.010447978973388672
+ChainMember(Join) fallback time:0.028634071350097656
+Transfer for JoinChainMember successful time:0.07709193229675293
+Transfer for Chainmember successful time:0.055078983306884766
+JoinChainMember executed time:0.10136103630065918
+nothing changed time:0.10477399826049805
+Transfer for JoinChainMember successful time:0.045664072036743164
+nothing changed time:0.08248114585876465
+JoinChainMember executed time:0.08143901824951172
+nothing changed time:0.08534884452819824
+JoinChainMember executed time:0.016409873962402344
+nothing changed time:0.061817169189453125
+nothing changed time:0.06534695625305176
+nothing changed time:0.01125192642211914
+nothing changed time:0.022275209426879883
+nothing changed time:0.013558149337768555
+to close to nest time:0.09979081153869629
+to close to nest time:0.06859183311462402
+to close to nest time:0.05942511558532715
+prey detected time:0.01634693145751953
+JoinChainMember executed time:0.0707089900970459
+Chainmember(Join) enabled time:0.05628490447998047
+nothing changed time:0.054585933685302734
+Robot with load Position updated time:0.0035669803619384766
+nothing changed time:0.021564006805419922
+nothing changed time:0.0014188289642333984
+JoinChainMember switch to load state time:0.014358997344970703
+ChainMember(Join) fallback time:0.07465696334838867
+Transfer for Chainmember successful time:0.055687904357910156
+nothing changed time:0.047059059143066406
+Transfer for JoinChainMember successful time:0.055667877197265625
+to close to prey time:0.07055211067199707
+JoinChainMember executed time:0.008323907852172852
+nothing changed time:0.006263017654418945
+to close to prey time:0.05257296562194824
+to close to prey time:0.043382883071899414
+nothing changed time:0.07442903518676758
+nothing changed time:0.09831714630126953
+nothing changed time:0.011284112930297852
+to close to prey time:0.04639601707458496
+JoinChainMember executed time:0.06808304786682129
+Chainmember(Join) enabled time:0.03655195236206055
+Robot with load Position updated time:0.012482166290283203
+JoinChainMember executed time:0.05362701416015625
+Chainmember(Join) enabled time:0.010509967803955078
+Robot with load Position updated time:0.10010004043579102
+nothing changed time:0.036401987075805664
+JoinChainMember switch to load state time:0.04754996299743652
+ChainMember(Join) fallback time:0.11021995544433594
+Transfer for JoinChainMember successful time:0.0026819705963134766
+Transfer for Chainmember successful time:0.08340287208557129
+nothing changed time:0.07393693923950195
+JoinChainMember executed time:0.06405282020568848
+nothing changed time:0.08149313926696777
+nothing changed time:0.05348682403564453
+JoinChainMember switch to load state time:0.06561803817749023
+nothing changed time:0.03539395332336426
+nothing changed time:0.015290021896362305
+ChainMember(Join) fallback time:0.06314611434936523
+Transfer for Chainmember successful time:0.03655290603637695
+nothing changed time:0.026571035385131836
+Transfer for JoinChainMember successful time:0.09178400039672852
+nothing changed time:0.08789801597595215
+JoinChainMember executed time:0.10101819038391113
+nothing changed time:0.008321046829223633
+nothing changed time:0.04226183891296387
+nothing changed time:0.0022912025451660156
+nothing changed time:0.02534198760986328
+nothing changed time:0.07845091819763184
+nothing changed time:0.0074770450592041016
+nothing changed time:0.05045914649963379
+nothing changed time:0.010327816009521484
+nothing changed time:0.006306171417236328
+nothing changed time:0.08923196792602539
+nothing changed time:0.04232907295227051
+JoinChainMember executed time:0.033573150634765625
+Chainmember(Join) enabled time:0.07139086723327637
+Robot with load Position updated time:0.06765103340148926
+nothing changed time:0.08561110496520996
+JoinChainMember executed time:0.10063791275024414
+Chainmember(Join) enabled time:0.06763696670532227
+Robot with load Position updated time:0.06048893928527832
+nothing changed time:0.08909416198730469
+JoinChainMember switch to load state time:0.10160493850708008
+nothing changed time:0.07322311401367188
+ChainMember(Join) fallback time:0.048254966735839844
+Transfer for Chainmember successful time:0.03542590141296387
+Transfer for JoinChainMember successful time:0.040701866149902344
+nothing changed time:0.006269931793212891
+JoinChainMember executed time:0.09946298599243164
+nothing changed time:0.09940886497497559
+nothing changed time:0.03534293174743652
+nothing changed time:0.06925702095031738
+nothing changed time:0.07766103744506836
+nothing changed time:0.0484919548034668
+JoinChainMember switch to load state time:0.0823819637298584
+ChainMember(Join) fallback time:0.015474081039428711
+Transfer for Chainmember successful time:0.09824585914611816
+nothing changed time:0.08965682983398438
+Transfer for JoinChainMember successful time:0.0646829605102539
+nothing changed time:0.09429812431335449
+JoinChainMember executed time:0.053297996520996094
+nothing changed time:0.05553388595581055
+nothing changed time:0.09111380577087402
+nothing changed time:0.0643758773803711
+prey detected time:0.012344837188720703
+to close to nest time:0.004453182220458984
+to close to nest time:0.08655214309692383
+to close to nest time:0.07738900184631348
+nothing changed time:0.09954595565795898
+to close to prey time:0.01158595085144043
+to close to prey time:0.0945429801940918
+JoinChainMember executed time:0.05465292930603027
+to close to prey time:0.08642387390136719
+Chainmember(Join) enabled time:0.06277990341186523
+Robot with load Position updated time:0.06439208984375
+to close to prey time:0.00010800361633300781
+JoinChainMember switch to load state time:0.014413833618164062
+nothing changed time:0.08076190948486328
+nothing changed time:0.05946683883666992
+ChainMember(Join) fallback time:0.05763506889343262
+Transfer for Chainmember successful time:0.03902101516723633
+nothing changed time:0.030269861221313477
+Transfer for JoinChainMember successful time:0.0036630630493164062
+JoinChainMember executed time:0.10664010047912598
+nothing changed time:0.0013079643249511719
+nothing changed time:0.03126788139343262
+Timeout executed time:0.04453611373901367
+nothing changed time:0.035321950912475586
+nothing changed time:0.015485048294067383
+nothing changed time:0.0694267749786377
+nothing changed time:0.07354903221130371
+JoinChainMember executed time:0.047644853591918945
+Chainmember(Join) enabled time:0.06356310844421387
+Robot with load Position updated time:0.00044798851013183594
+JoinChainMember executed time:0.0475919246673584
+Chainmember(Join) enabled time:0.03974103927612305
+Robot with load Position updated time:0.09480786323547363
+nothing changed time:0.09120702743530273
+JoinChainMember switch to load state time:0.045419931411743164
+JoinChainMember switch to load state time:0.021453142166137695
+nothing changed time:0.06080889701843262
+nothing changed time:0.04052901268005371
+ChainMember(Join) fallback time:0.037101030349731445
+Transfer for Chainmember successful time:0.022183895111083984
+Transfer for JoinChainMember successful time:0.07324504852294922
+nothing changed time:0.01326608657836914
+nothing changed time:0.10043191909790039
+JoinChainMember executed time:0.04450678825378418
+ChainMember(Join) fallback time:0.020732879638671875
+Transfer for Chainmember successful time:0.0025768280029296875
+Transfer for JoinChainMember successful time:0.01048588752746582
+JoinChainMember executed time:0.07664299011230469
+nothing changed time:0.0472869873046875
+nothing changed time:0.06448602676391602
+nothing changed time:0.1023259162902832
+nothing changed time:0.08849501609802246
+nothing changed time:0.03939485549926758
+nothing changed time:0.06753802299499512
+nothing changed time:0.014355182647705078
+nothing changed time:0.00542902946472168
+JoinChainMember executed time:0.026637792587280273
+Chainmember(Join) enabled time:0.03954911231994629
+nothing changed time:0.0686180591583252
+Robot with load Position updated time:0.08158206939697266
+JoinChainMember executed time:0.04682493209838867
+Chainmember(Join) enabled time:0.0016241073608398438
+Robot with load Position updated time:0.10595703125
+nothing changed time:0.0885322093963623
+JoinChainMember switch to load state time:0.0685720443725586
+ChainMember(Join) fallback time:0.05425286293029785
+Transfer for Chainmember successful time:0.034049034118652344
+nothing changed time:0.02549910545349121
+Transfer for JoinChainMember successful time:0.06975197792053223
+JoinChainMember executed time:0.02363896369934082
+nothing changed time:0.09944701194763184
+nothing changed time:0.028414011001586914
+nothing changed time:0.00023603439331054688
+nothing changed time:0.02760910987854004
+JoinChainMember switch to load state time:0.04875802993774414
+ChainMember(Join) fallback time:0.10217809677124023
+nothing changed time:0.08135104179382324
+Transfer for Chainmember successful time:0.07726597785949707
+nothing changed time:0.06877517700195312
+Transfer for JoinChainMember successful time:0.05274701118469238
+JoinChainMember executed time:0.07337808609008789
+nothing changed time:0.08146190643310547
+nothing changed time:0.07143187522888184
+nothing changed time:0.06246614456176758
+nothing changed time:0.025354862213134766
+Timeout executed time:0.03857302665710449
+nothing changed time:0.030303001403808594
+to close to nest time:0.04658007621765137
+to close to nest time:0.026520967483520508
+to close to nest time:0.018347978591918945
+JoinChainMember executed time:0.0035409927368164062
+Chainmember(Join) enabled time:0.09068989753723145
+Robot with load Position updated time:0.04558992385864258
+prey detected time:0.09642505645751953
+nothing changed time:0.05914497375488281
+JoinChainMember switch to load state time:0.03954887390136719
+ChainMember(Join) fallback time:0.04559183120727539
+Transfer for Chainmember successful time:0.02797102928161621
+Transfer for JoinChainMember successful time:0.06077218055725098
+JoinChainMember executed time:0.01847100257873535
+nothing changed time:0.0897519588470459
+nothing changed time:0.05956101417541504
+nothing changed time:0.09183597564697266
+nothing changed time:0.027320146560668945
+nothing changed time:0.08039093017578125
+JoinChainMember executed time:0.05972480773925781
+Chainmember(Join) enabled time:0.0076940059661865234
+to close to prey time:0.08280515670776367
+to close to prey time:0.05661797523498535
+Robot with load Position updated time:0.011465072631835938
+to close to prey time:0.04737496376037598
+to close to prey time:0.08447504043579102
+JoinChainMember executed time:0.047647953033447266
+Chainmember(Join) enabled time:0.0236661434173584
+Robot with load Position updated time:0.10416889190673828
+nothing changed time:0.05768179893493652
+JoinChainMember switch to load state time:0.07945799827575684
+ChainMember(Join) fallback time:0.020660877227783203
+Transfer for Chainmember successful time:0.09586906433105469
+Transfer for JoinChainMember successful time:0.07485294342041016
+JoinChainMember executed time:0.08658814430236816
+nothing changed time:0.005444049835205078
+nothing changed time:0.001477956771850586
+nothing changed time:0.09375810623168945
+JoinChainMember executed time:0.010321855545043945
+nothing changed time:0.047369956970214844
+JoinChainMember executed time:0.09357309341430664
+nothing changed time:0.02937602996826172
+nothing changed time:0.01749396324157715
+JoinChainMember executed time:0.04347801208496094
+nothing changed time:0.0843501091003418
+JoinChainMember executed time:0.03442883491516113
+nothing changed time:0.07533502578735352
+JoinChainMember executed time:0.08255696296691895
+nothing changed time:0.01532602310180664
+JoinChainMember executed time:0.07405710220336914
+nothing changed time:0.005285024642944336
+JoinChainMember executed time:0.03046703338623047
+nothing changed time:0.059291839599609375
+nothing changed time:0.0033249855041503906
+nothing changed time:0.018779993057250977
+JoinChainMember switch to load state time:0.09865999221801758
+ChainMember(Join) fallback time:0.08188796043395996
+Transfer for Chainmember successful time:0.05360698699951172
+Transfer for JoinChainMember successful time:0.03662300109863281
+nothing changed time:0.045089006423950195
+JoinChainMember executed time:0.10119199752807617
+nothing changed time:0.07332110404968262
+nothing changed time:0.017340898513793945
+nothing changed time:0.05413007736206055
+nothing changed time:0.06932997703552246
+nothing changed time:0.08479619026184082
+JoinChainMember executed time:0.08778810501098633
+Chainmember(Join) enabled time:0.06920695304870605
+Robot with load Position updated time:0.0406949520111084
+nothing changed time:0.10512614250183105
+nothing changed time:0.06280088424682617
+JoinChainMember executed time:0.008481025695800781
+nothing changed time:0.050631046295166016
+JoinChainMember switch to load state time:0.07864999771118164
+Chainmember(Join) enabled time:0.06575202941894531
+ChainMember(Join) fallback time:0.02367687225341797
+Robot with load Position updated time:0.06359100341796875
+nothing changed time:0.05053997039794922
+Transfer for Chainmember successful time:0.10010504722595215
+nothing changed time:0.08713889122009277
+Transfer for JoinChainMember successful time:0.08696293830871582
+JoinChainMember executed time:0.10525894165039062
+nothing changed time:0.012346982955932617
+nothing changed time:0.04549884796142578
+nothing changed time:0.08432388305664062
+nothing changed time:0.06317305564880371
+nothing changed time:0.00043392181396484375
+JoinChainMember switch to load state time:0.006464958190917969
+ChainMember(Join) fallback time:0.07466888427734375
+Transfer for Chainmember successful time:0.04849600791931152
+nothing changed time:0.03938698768615723
+Transfer for JoinChainMember successful time:0.09772801399230957
+nothing changed time:0.02628803253173828
+nothing changed time:0.026612043380737305
+JoinChainMember executed time:0.002346038818359375
+nothing changed time:0.04836702346801758
+nothing changed time:0.10099387168884277
+prey detected time:0.025990009307861328
+nothing changed time:0.0744011402130127
+JoinChainMember executed time:0.07557106018066406
+to close to nest time:0.06385111808776855
+Chainmember(Join) enabled time:0.0551300048828125
+to close to nest time:0.0355381965637207
+to close to nest time:0.027100086212158203
+Robot with load Position updated time:0.015622138977050781
+to close to prey time:0.011750936508178711
+to close to prey time:0.09444713592529297
+to close to prey time:0.08542895317077637
+nothing changed time:0.04540395736694336
+nothing changed time:0.027589082717895508
+to close to prey time:0.056381940841674805
+JoinChainMember switch to load state time:0.06365799903869629
+nothing changed time:0.08067989349365234
+ChainMember(Join) fallback time:0.04153084754943848
+Transfer for Chainmember successful time:0.014849185943603516
+nothing changed time:0.005273103713989258
+Transfer for JoinChainMember successful time:0.0897970199584961
+nothing changed time:0.08752703666687012
+JoinChainMember executed time:0.0699319839477539
+nothing changed time:0.043408870697021484
+nothing changed time:0.08692097663879395
+nothing changed time:0.024342060089111328
+nothing changed time:0.06734800338745117
+JoinChainMember executed time:0.08986091613769531
+Chainmember(Join) enabled time:0.09071207046508789
+nothing changed time:0.0620119571685791
+Robot with load Position updated time:0.023497819900512695
+JoinChainMember executed time:0.027830123901367188
+Chainmember(Join) enabled time:0.09851312637329102
+Robot with load Position updated time:0.08397603034973145
+nothing changed time:0.09354996681213379
+nothing changed time:0.09690213203430176
+JoinChainMember switch to load state time:0.07450294494628906
+ChainMember(Join) fallback time:0.07074594497680664
+Transfer for Chainmember successful time:0.043736934661865234
+nothing changed time:0.03438401222229004
+Transfer for JoinChainMember successful time:0.06594705581665039
+JoinChainMember executed time:0.015320062637329102
+nothing changed time:0.09745287895202637
+JoinChainMember switch to load state time:0.05914497375488281
+nothing changed time:0.09939098358154297
+ChainMember(Join) fallback time:0.07672715187072754
+Transfer for Chainmember successful time:0.05298495292663574
+Transfer for JoinChainMember successful time:0.004621028900146484
+nothing changed time:0.04434800148010254
+nothing changed time:0.0017669200897216797
+JoinChainMember executed time:0.07938385009765625
+nothing changed time:0.03732490539550781
+nothing changed time:0.10425996780395508
+nothing changed time:0.0453948974609375
+nothing changed time:0.03028702735900879
+nothing changed time:0.026401042938232422
+nothing changed time:0.07246613502502441
+nothing changed time:0.026319026947021484
+JoinChainMember executed time:0.10196614265441895
+Chainmember(Join) enabled time:0.0047299861907958984
+Robot with load Position updated time:0.02462601661682129
+JoinChainMember executed time:0.0438230037689209
+Chainmember(Join) enabled time:0.017827987670898438
+Robot with load Position updated time:0.08676409721374512
+nothing changed time:0.03627204895019531
+nothing changed time:0.07398796081542969
+nothing changed time:0.026585102081298828
+JoinChainMember switch to load state time:0.08662796020507812
+ChainMember(Join) fallback time:0.10121917724609375
+Transfer for Chainmember successful time:0.06383204460144043
+nothing changed time:0.0543818473815918
+Transfer for JoinChainMember successful time:0.08683490753173828
+JoinChainMember executed time:0.06361007690429688
+nothing changed time:0.10970306396484375
+nothing changed time:0.00021696090698242188
+nothing changed time:0.021332979202270508
+nothing changed time:0.08845806121826172
+JoinChainMember switch to load state time:0.09267020225524902
+ChainMember(Join) fallback time:0.06159496307373047
+Transfer for Chainmember successful time:0.034765005111694336
+nothing changed time:0.025469064712524414
+Transfer for JoinChainMember successful time:0.08328890800476074
+nothing changed time:0.07380819320678711
+JoinChainMember executed time:0.004306793212890625
+nothing changed time:0.11060500144958496
+nothing changed time:0.06738591194152832
+nothing changed time:0.07639908790588379
+nothing changed time:0.043385982513427734
+nothing changed time:0.08929300308227539
+prey detected time:0.10732913017272949
+JoinChainMember executed time:0.09557008743286133
+Chainmember(Join) enabled time:0.030786991119384766
+Robot with load Position updated time:0.02751898765563965
+to close to nest time:0.09280109405517578
+to close to nest time:0.06693387031555176
+to close to nest time:0.057459115982055664
+to close to prey time:0.0197298526763916
+to close to prey time:0.001477956771850586
+to close to prey time:0.09348011016845703
+nothing changed time:0.08540201187133789
+nothing changed time:0.013434886932373047
+nothing changed time:0.03250002861022949
+JoinChainMember switch to load state time:0.09953117370605469
+ChainMember(Join) fallback time:0.10512685775756836
+Transfer for Chainmember successful time:0.07787704467773438
+nothing changed time:0.0690920352935791
+Transfer for JoinChainMember successful time:0.09395813941955566
+nothing changed time:0.04020881652832031
+JoinChainMember executed time:0.06249690055847168
+nothing changed time:0.016342878341674805
+to close to prey time:0.010385990142822266
+nothing changed time:0.0395350456237793
+nothing changed time:0.0042722225189208984
+nothing changed time:0.015374898910522461
+JoinChainMember executed time:0.10296916961669922
+Chainmember(Join) enabled time:0.04859519004821777
+nothing changed time:0.0593869686126709
+Robot with load Position updated time:0.03256988525390625
+JoinChainMember executed time:0.0884239673614502
+Chainmember(Join) enabled time:0.030437946319580078
+Robot with load Position updated time:0.05544614791870117
+JoinChainMember switch to load state time:0.012388944625854492
+nothing changed time:0.08856678009033203
+ChainMember(Join) fallback time:0.07072091102600098
+Transfer for Chainmember successful time:0.051808834075927734
+nothing changed time:0.04278683662414551
+Transfer for JoinChainMember successful time:0.011636972427368164
+JoinChainMember executed time:0.028596162796020508
+nothing changed time:0.04334306716918945
+nothing changed time:0.027563095092773438
+nothing changed time:0.07268309593200684
+nothing changed time:0.008479833602905273
+nothing changed time:0.05846405029296875
+nothing changed time:0.03330588340759277
+JoinChainMember switch to load state time:0.025270938873291016
+nothing changed time:0.08156490325927734
+ChainMember(Join) fallback time:0.05558180809020996
+Transfer for Chainmember successful time:0.037899017333984375
+Transfer for JoinChainMember successful time:0.07956600189208984
+nothing changed time:0.029346942901611328
+nothing changed time:0.10761785507202148
+JoinChainMember executed time:0.05655384063720703
+nothing changed time:0.10767889022827148
+nothing changed time:0.04282212257385254
+nothing changed time:0.07336592674255371
+JoinChainMember executed time:0.029783010482788086
+Chainmember(Join) enabled time:0.10067009925842285
+Robot with load Position updated time:0.06772303581237793
+nothing changed time:0.08994412422180176
+nothing changed time:0.02474212646484375
+JoinChainMember switch to load state time:0.0014400482177734375
+nothing changed time:0.0738379955291748
+ChainMember(Join) fallback time:0.0453341007232666
+Transfer for Chainmember successful time:0.02763199806213379
+nothing changed time:0.019327163696289062
+Transfer for JoinChainMember successful time:0.009732961654663086
+JoinChainMember executed time:0.013297080993652344
+nothing changed time:0.04639792442321777
+Timeout executed time:0.03558015823364258
+JoinChainMember executed time:0.036605119705200195
+nothing changed time:0.03527092933654785
+Chainmember(Join) enabled time:0.02071213722229004
+nothing changed time:0.1014409065246582
+Robot with load Position updated time:0.092559814453125
+nothing changed time:0.0994410514831543
+nothing changed time:0.05131793022155762
+nothing changed time:0.03935813903808594
+nothing changed time:0.0780949592590332
+JoinChainMember switch to load state time:0.07492804527282715
+ChainMember(Join) fallback time:0.04186701774597168
+Transfer for Chainmember successful time:0.03154802322387695
+Transfer for JoinChainMember successful time:0.06681013107299805
+nothing changed time:0.007286787033081055
+JoinChainMember executed time:0.006376981735229492
+nothing changed time:0.022304058074951172
+nothing changed time:0.07697677612304688
+prey detected time:0.07741785049438477
+nothing changed time:0.01233816146850586
