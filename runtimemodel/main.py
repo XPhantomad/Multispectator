@@ -16,7 +16,7 @@ global addr, udpClientSocket, bufferSize
 addr = None
 start = False
 bufferSize = 1024
-HOST = "127.0.0.1"  
+HOST = "192.168.137.201"  
 PORT = 3004 
 addrPort = (HOST,PORT)
 DIST_TOLERANCE = 0.2  # Distance tolerance for defining the goal as reached 
