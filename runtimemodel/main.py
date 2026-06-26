@@ -17,8 +17,11 @@ addr = None
 start = False
 bufferSize = 1024
 HOST = "192.168.137.201"  
-PORT = 3004 
+PORT = 3004
+HOST_TRACKER = "192.168.0.100"  
+PORT_TRACKER = 5006 
 addrPort = (HOST,PORT)
+addrPort_tracker = (HOST_TRACKER,PORT_TRACKER)
 DIST_TOLERANCE = 0.2  # Distance tolerance for defining the goal as reached 
 
 # receives Messages from the Swarm Element Loop
@@ -48,8 +51,25 @@ def publishMessages():
                 # must call getters, bacause otherwise Area would not return name but only reference               
                 # appends attribute name from getter function name without get and attribute Value
                 d["robot"][(a[3:])] = getattr(robot, a)()
-            #print(robot.getload())
+            #print(robot.getxPos())
             udpClientSocket.send(str.encode(json.dumps(d)+ "\n"))
+            
+        time.sleep(0.5) # depends on the performance of your PC
+        
+def publishMessages_toTracker():
+    global start, udpClientSocket_tracker
+    while True:
+        if(udpClientSocket_tracker):       # The sending of messages only starts when the start message has been received.
+            d = {}
+            robot = model.robots
+            # adds only attributes of robot to dict
+            d["robot"] = {}
+            for a in [a for a in dir(robot) if not a.startswith('__') and callable(getattr(robot, a)) and "get" in a] :
+                # must call getters, bacause otherwise Area would not return name but only reference               
+                # appends attribute name from getter function name without get and attribute Value
+                d["robot"][(a[3:])] = getattr(robot, a)()
+            print(d)
+            udpClientSocket_tracker.send(str.encode(json.dumps(d)+ "\n"))
             
         time.sleep(0.5) # depends on the performance of your PC
 
@@ -73,14 +93,19 @@ robotSupervisor = UGVSupervisor(robot1.getname())
 threading.Thread(target=lambda: rclpy.spin(robotSupervisor)).start()
 
 # Socket for Connection to SEL
-udpClientSocket= socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
-udpClientSocket.connect(addrPort)
+#udpClientSocket= socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+#udpClientSocket.connect(addrPort)
+
+udpClientSocket_tracker = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) 
+udpClientSocket_tracker.connect(addrPort_tracker)
 
 # Reveice from SEL
-threading.Thread(target=lambda: receiveMessages()).start()
+#threading.Thread(target=lambda: receiveMessages()).start()
 
 #Publish to SEL
-threading.Thread(target=lambda: publishMessages()).start()
+#threading.Thread(target=lambda: publishMessages()).start()
+
+threading.Thread(target=lambda: publishMessages_toTracker()).start()
 
 counter = 0
 ##### MAPE-Loop
