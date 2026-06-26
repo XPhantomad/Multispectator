@@ -149,14 +149,20 @@ function assignNewMonitoringTeam(XUT)
 end
 
 function addObserver(team::MonitoringTeam)
-	SUTposition = getObjectsOfRole(team, SUT)[1].position
-	robot = getRobotWithShortestDistanceToPosition(SUTposition)
+
+	XUT = getObjectsOfRole(team, SUT)[1]
+	position = XUT
+	if typeof(XUT) != Position
+		position = XUT.position
+	end
+
+	robot = getRobotWithShortestDistanceToPosition(position)
 	if robot !== nothing
 		@changeRoles typeof(team) team.ID begin
 			robot >> Observer(0.4)
 		end
 		# PLAN + EXECUTE
-		sendMessageRobot(robot.port, SUTposition.x, SUTposition.y, "monitoring")
+		sendMessageRobot(robot.port, position.x, position.y, "monitoring")
 		return robot
 	else
 		println("unfortunately no robot free for observation")

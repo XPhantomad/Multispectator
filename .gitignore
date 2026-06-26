@@ -15,3 +15,5 @@ robotModel/
 geckodriver.log
 
 *__pycache__
+
+/ExecutionTimeMeasurements/*

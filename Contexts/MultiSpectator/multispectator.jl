@@ -82,7 +82,7 @@ function sendMessageWebApp()
     )
 
     json_msg = JSON.json(msg)
-    println(json_msg)
+    #println(json_msg)
     write(socketWebApp, json_msg * "\n")
 end
 
@@ -116,7 +116,6 @@ function mapeLoop(sutColor, numberOfObservers::Int64, targetxPos::Int64, targety
     if sutColor === nothing
         targetPosition = Position(targetxPos, targetyPos)
         if numberOfObservers > 0 #assign team with given numberOfObservers of robots
-            print("herer")
             # 1. create team and assign first observer
             MTteam = assignNewMonitoringTeam(targetPosition)
             if MTteam == 1
@@ -166,7 +165,6 @@ function mapeLoop(sutColor, numberOfObservers::Int64, targetxPos::Int64, targety
                 end
                 # PLAN + EXECUTE 
                 exploration(firstObserver)
-                println("decrease")
             end
 
         # increase Number of Observers
@@ -177,7 +175,6 @@ function mapeLoop(sutColor, numberOfObservers::Int64, targetxPos::Int64, targety
                 if result == 1
                     return 
                 end
-                println("increase")
             end
         end
         return
@@ -193,7 +190,6 @@ function mapeLoop(sutColor, numberOfObservers::Int64, targetxPos::Int64, targety
     # robot is not monitored
     if !hasRole(percRobot, SUT, MonitoringTeam)
         if numberOfObservers > 0 #assign team with given numberOfObservers of robots
-            print("herer")
             
             # 1. assign initial monitoring team
             MTteam = assignNewMonitoringTeam(percRobot)
@@ -309,7 +305,7 @@ function handle_client_robot(sock)
 
     # constantly update robots attributes
     while isopen(sock)
-        msg = JSON.parse(readline(sock)) # busy wait for next message?
+        msg = JSON.parse(readline(sock)) # busy wait for next message
         
         # Monitor
         robot.position = Position(get(get(msg, "robot", 0),"xPos",22), get(get(msg, "robot", 0),"yPos",22))
@@ -324,48 +320,8 @@ function handle_client_robot(sock)
         # Plan:
         # - get current Role and Team of the Robot --> send new Target to the Robot (if required)
 
-        # sendMessageRobot
     end
 end
-
-
-
-function receiveMessages(sock)
-    buffer = ""
-    while true
-        try
-            data = readline(sock)
-            buffer *= data
-
-            # Skip empty lines
-            if isempty(strip(buffer))
-                buffer = ""
-                continue
-            end
-
-            # Try to parse
-            try
-                msg = JSON.parse(buffer)
-                buffer = ""  # clear buffer on success
-                if msg == "start"
-                    global start = true
-                elseif length(msg) >= 2
-                    return msg
-                end
-
-            catch e
-                if isa(e, JSON.ParserError)
-                    println("JSON parse error: $e | raw: '$buffer'")
-                    buffer = ""  # discard malformed message
-                end
-            end
-
-        catch e
-            println("Socket error: $e")
-            break
-        end
-    end
-end 
 
 
 function handle_client_observation(sock)
@@ -378,9 +334,8 @@ function handle_client_observation(sock)
 
     # constantly update robots attributes
     while isopen(sock)
-        msg = JSON.parse(readline(sock)) # busy wait for next message?
-        println(readline(sock))
-        println(msg)
+        msg = JSON.parse(readline(sock)) # busy wait for next message
+
         # IMPORTANT: can not be moved to MAPE-K because it runs for each socket connection individually
         observationList = get(msg, "observation", 0)
 

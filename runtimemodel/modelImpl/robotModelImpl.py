@@ -125,7 +125,7 @@ class ModelImpl(Model):
             for state in self.states:
                 if(state.getname() == stateName):
                     robot.state = state
-                    print("State setted " + state.getname())
+                    #print("State setted " + state.getname())
         return False
 
 class StateImpl(State):
