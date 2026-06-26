@@ -93,7 +93,7 @@ end
 function exploration(robot::Robot)
     # Exploration Area
     areaPos1 = Position(0,0)
-	areaPos2 = Position(1,1)
+	areaPos2 = Position(1,2)
     
     nextPos = Position(rand(areaPos1.x:areaPos2.x), rand(areaPos1.y:areaPos2.y))
     # check, if robot cis to close to its next Exploration Position
