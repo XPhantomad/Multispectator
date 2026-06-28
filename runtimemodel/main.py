@@ -1,7 +1,7 @@
 import json
 import threading
 import time
-from modelUtils.ugv_supervisor import *
+from modelUtils.robotSupervisor import *
 import rclpy
 import socket
 from modelImpl.robotModelImpl import *
@@ -19,7 +19,7 @@ start = False
 bufferSize = 1024
 HOST = "192.168.137.201"  
 PORT = 3004
-HOST_TRACKER = "192.168.0.100"  
+HOST_TRACKER = "192.168.0.255"  
 PORT_TRACKER = 5006 
 addrPort = (HOST, PORT)
 addrPort_tracker = (HOST_TRACKER, PORT_TRACKER)
@@ -88,19 +88,19 @@ model.addRobot(robot1)
 
 # Initialize ROS2
 rclpy.init(args=None)
-robotSupervisor = UGVSupervisor(robot1.getname())
+robotSupervisor = RobotSupervisor(robot1.getname())
 threading.Thread(target=lambda: rclpy.spin(robotSupervisor), daemon=True).start()
 
 # Sockets
-udpClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
-udpClientSocket.connect(addrPort)
+#udpClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+#udpClientSocket.connect(addrPort)
 
 udpClientSocket_tracker = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) 
 udpClientSocket_tracker.connect(addrPort_tracker)
 
 # Start threads as daemon=True so they die automatically when main thread exits
-threading.Thread(target=receiveMessages,          daemon=True).start()
-threading.Thread(target=publishMessages,          daemon=True).start()
+#threading.Thread(target=receiveMessages,          daemon=True).start()
+#threading.Thread(target=publishMessages,          daemon=True).start()
 threading.Thread(target=publishMessages_toTracker, daemon=True).start()
 
 
