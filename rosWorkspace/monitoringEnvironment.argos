@@ -64,13 +64,26 @@
       
       <params stopWithoutSubscriberCount="20000" />
     </argos_ros_bot_controller>
+    
+    <!--eyebot_circle_controller id="ecc" library="/home/adrian/Dokumente/argos3-examples/build/controllers/eyebot_circle/libeyebot_circle.so">
+      <actuators>
+        <quadrotor_position implementation="default" />
+        <range_and_bearing implementation="default" />
+      </actuators>
+      <sensors>
+        <positioning implementation="default" />
+        <range_and_bearing implementation="medium" medium="rab" show_rays="true" />
+        <colored_blob_omnidirectional_camera implementation="rot_z_only" medium="leds" show_rays="true" />
+      </sensors>
+      <params />
+    </eyebot_circle_controller-->
 
   </controllers>
   
   <!-- ****************** -->
   <!-- * Loop functions * -->
   <!-- ****************** -->
-  <loop_functions library="build/argos3_ros2_bridge/plugins/loop_functions/foraging_loop_functions/libforaging_loop_functions.so"
+  <!--loop_functions library="build/argos3_ros2_bridge/plugins/loop_functions/foraging_loop_functions/libforaging_loop_functions.so"
                   label="foraging_loop_functions">
     <foraging items="10"
               radius="0.2"
@@ -79,7 +92,7 @@
               energy_per_item="1000"
               energy_per_walking_robot="1"
               output="foraging.txt" />
-  </loop_functions>
+  </loop_functions-->
 
   <!-- *********************** -->
   <!-- * Arena configuration * -->
@@ -101,9 +114,10 @@
   -->
   <arena size="30, 30, 1" center="0,0,0.5">
 
-    <floor id="floor"
+      <floor id="floor"
            source="loop_functions"
            pixels_per_meter="50" />
+
 
     <!-- Place a foot-bot in the origin and bind it to the controller -->
     
@@ -144,6 +158,8 @@
       </entity>
     </distribute> 
     
+    
+    
   </arena>
 
   <!-- ******************* -->
@@ -161,6 +177,7 @@
         Use a 2D dynamics engine.
     -->
     <dynamics2d id="dyn2d" />
+    <pointmass3d id="pm3d" iterations="10" />
   </physics_engines>
 
   <!-- ********* -->
@@ -176,6 +193,7 @@
   -->
   <media>
     <led id="leds" />
+    <range_and_bearing id="rab" />
   </media>
   <!-- ****************** -->
   <!-- * Visualization * -->
@@ -199,7 +217,7 @@
         </placements>
       </camera>
       <user_functions library="build/argos3_ros2_bridge/plugins/loop_functions/foraging_loop_functions/libforaging_qt_user_functions.so"
-                  label="foraging_qt_user_functions" />
+                  label="foraging_qt_user_functions"/>
     </qt-opengl>
   </visualization>
 
