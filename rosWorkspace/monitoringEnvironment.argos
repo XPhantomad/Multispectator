@@ -83,16 +83,7 @@
   <!-- ****************** -->
   <!-- * Loop functions * -->
   <!-- ****************** -->
-  <!--loop_functions library="build/argos3_ros2_bridge/plugins/loop_functions/foraging_loop_functions/libforaging_loop_functions.so"
-                  label="foraging_loop_functions">
-    <foraging items="10"
-              radius="0.2"
-              xpos="4"
-              ypos="1"
-              energy_per_item="1000"
-              energy_per_walking_robot="1"
-              output="foraging.txt" />
-  </loop_functions-->
+
 
   <!-- *********************** -->
   <!-- * Arena configuration * -->
@@ -121,23 +112,6 @@
 
     <!-- Place a foot-bot in the origin and bind it to the controller -->
     
-    <!--light id="Prey"
-           position="4,1,0.2"
-           orientation="0,0,0"
-           color="red"
-           intensity="1.0"
-           medium="leds" />
-    <light id="Nest"
-           position="-1,1.2,0.2"
-           orientation="0,0,0"
-           color="orange"
-           intensity="1.0"
-           medium="leds" />
-    <foot-bot id="Nest">
-      <body position="-3,1.2,0" orientation="0,0,0" />    
-      <controller config="lrb"/>
-    </foot-bot-->
-
     <distribute>
       <position method="uniform" min="0,-2,0" max="3,3,0" />
       <orientation method="uniform" min="0,0,0" max="360,0,0" />
