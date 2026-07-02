@@ -224,7 +224,7 @@ function mapeLoop(percRobot::PerceivedRobot)
                 observers = getObjectsOfRole(team, Observer)
                 for observer in observers
                     sendMessageRobot(observer.port, percRobot.position.x, percRobot.position.y, "monitoring")
-                    println("run update SUT MAPE-Loop")
+                    #println("run update SUT MAPE-Loop")
                 end 
             end
         end
@@ -258,7 +258,7 @@ function addORupdatePerceivedRobot(observation) #receives single observations
                 end
                 disassignMonitoringTeam(r)
             end
-            println("updated")
+            #println("updated")
             mapeLoop(r)
             return
         end
