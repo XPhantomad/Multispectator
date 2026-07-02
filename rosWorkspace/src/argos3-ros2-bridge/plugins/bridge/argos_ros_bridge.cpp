@@ -434,30 +434,6 @@ void ArgosRosBridge::cmdLedCallback(const Led& ledColor){
 			m_pcLEDs->SetSingleColor(ledColor.index, CColor::BLUE);
 		}
 	}
-	else if ( ledColor.color == "purple"){
-		if (ledColor.mode == "ALL"){
-			m_pcLEDs->SetAllColors(CColor::PURPLE);
-		}
-		else if (ledColor.mode == "SINGLE"){
-			m_pcLEDs->SetSingleColor(ledColor.index, CColor::PURPLE);
-		}
-	}
-	else if ( ledColor.color == "cyan"){
-		if (ledColor.mode == "ALL"){
-			m_pcLEDs->SetAllColors(CColor::CYAN);
-		}
-		else if (ledColor.mode == "SINGLE"){
-			m_pcLEDs->SetSingleColor(ledColor.index, CColor::CYAN);
-		}
-	}
-	else if ( ledColor.color == "brown"){
-		if (ledColor.mode == "ALL"){
-			m_pcLEDs->SetAllColors(CColor::BROWN);
-		}
-		else if (ledColor.mode == "SINGLE"){
-			m_pcLEDs->SetSingleColor(ledColor.index, CColor::BROWN);
-		}
-	}
 }
 void ArgosRosBridge::Destroy() {
 	
