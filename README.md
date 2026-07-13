@@ -1,4 +1,4 @@
-# Using Context Role-oriented Programming for Swarms to Alleviate the Micro-Macro Problem
+# MultiSpectator
 
 This repository contains the code of our implmentation of a Multi-robot Monitoring System (MultiSpectator) in ARGoS3 using CROMMS (Context-Role-Oriented Micro-Macro Swarm Programming)
 
