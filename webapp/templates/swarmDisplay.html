@@ -117,7 +117,9 @@
 <script>
     const config_round_decimals = 2;
 
-    var socket = io.connect();
+    var socket = io.connect(window.location.origin, {
+        path: window.location.pathname + '/socket.io/'
+    });
 
     function isValidColor(value) {
         const s = new Option().style;  
