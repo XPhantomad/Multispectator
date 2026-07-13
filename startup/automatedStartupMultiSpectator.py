@@ -28,7 +28,7 @@ threading.Thread(target=lambda: subprocess.run(["julia", os.getcwd() + "/Context
 time.sleep(7)
 
 # start Robots
-for i in range(4):
+for i in range(12):
     robotName = "fb_"+str(i)
     print("start " + robotName)
     
