@@ -1,0 +1,9 @@
+pyyaml
+flask
+flask_socketio
+numpy
+selenium
+SocketIO
+matplotlib
+parameterized
+pyecore
