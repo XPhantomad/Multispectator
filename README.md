@@ -109,6 +109,7 @@ Verify Installation
 - ```chmod +x ./Flocking_initializeStopper.sh```
 - ```chmod +x ./Flocking_removeStopper.sh```
 
+
 ### Setup Simulation
 - copy the content of the "rosWorkspace" folder in your ```ros_ws``` directory
 - in the directory ```ros_ws```:
@@ -173,6 +174,27 @@ Verify Installation
 - open the swarm dashboard for visualization of the teams and roles: http://localhost:5000/
 
 ![Webapp](webapp/pictureFrontend.png)
+
+### For using more than 16 Robots on one machine:
+
+- increase MaxAutoParticipantIndex explicitly
+- create a Cyclone-DDS config file:
+    - in your home folder: ``` nano ~/cyclonedds.xml ```
+    - content (see ./cyclonedds.xml): 
+        ```xml
+        <?xml version="1.0" encoding="UTF-8" ?>
+        <CycloneDDS xmlns="https://cdds.io/config">
+        <Domain id="any">
+            <Discovery>
+            <MaxAutoParticipantIndex>200</MaxAutoParticipantIndex>
+            </Discovery>
+            <General>
+            <AllowMulticast>true</AllowMulticast>
+            </General>
+        </Domain>
+        </CycloneDDS>
+        ``` 
+    - in terminal: ``` export CYCLONEDDS_URI=~/cyclonedds.xml``` 
 
 ### Run Robots one by one (alternative to startup script --> seperate output for each Robot)
 1. [run simulation](#run-simulation)

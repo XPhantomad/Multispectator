@@ -6,6 +6,11 @@ abstract type AbstractXUT end
 mutable struct Position <: AbstractXUT
 	x:: Float64
 	y:: Float64
+
+	# to round automatically to 2 digits
+	function Position(x::Real, y::Real)
+        new(round(Float64(x), digits=2), round(Float64(y), digits=2))
+    end
 end
 
 Base.:(==)(a::Position, b::Position) = a.x == b.x && a.y == b.y

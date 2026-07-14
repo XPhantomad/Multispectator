@@ -632,7 +632,7 @@
     // -----------------------------------------------------------------------
     socket.on("updateSensorData", function (msg) {
         let data = JSON.parse(msg);
-
+        console.log(data);
         if (data.discoveredRobots) {
             generateOrUpdateGenericTable("discoveredRobots", "Discovered Robots", data.discoveredRobots);
         }

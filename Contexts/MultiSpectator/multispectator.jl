@@ -52,7 +52,7 @@ function sendMessageWebApp()
     monitoringTeams = getDynamicTeams(MonitoringTeam)
     monitoring_json = [
     Dict(
-        "sut" => team.color,
+        "sut" => team.color, # TODO: ouutput position or color of SUT adittionally
         "observer" => [obj.name for obj in getObjectsOfRole(team, Observer)]
     )
     for team in monitoringTeams]
@@ -92,8 +92,8 @@ end
 # Plan & Execute Step in Exploration case
 function exploration(robot::Robot)
     # Exploration Area
-    areaPos1 = Position(-2,-3)
-	areaPos2 = Position(5,4)
+    areaPos1 = Position(-8,-7)
+	areaPos2 = Position(10,8)
     
     nextPos = Position(rand(areaPos1.x:areaPos2.x), rand(areaPos1.y:areaPos2.y))
     # check, if robot cis to close to its next Exploration Position
