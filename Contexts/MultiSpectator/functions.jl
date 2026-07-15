@@ -20,7 +20,7 @@ function getRobotByName(name)
 end
 
 function getPercRobotByColor(color)
-	percRobots = getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), Uninteresting)
+	percRobots = [getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), Uninteresting); getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), Interesting)]
     percRobot = findfirst(obj -> obj.color == color, percRobots)
     return percRobot !== nothing ? percRobots[percRobot] : nothing
 end

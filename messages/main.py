@@ -30,9 +30,9 @@ threading.Thread(target=lambda: rclpy.spin(robotSupervisor)).start()
 udpClientSocket= socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
 udpClientSocket.connect(addrPort)
 
-def getAngleDif(a,b):
-    return math.pi - abs(abs(a - b) - math.pi); 
-
+def getDistance(x1,x2, y1,y2):
+        return math.sqrt(pow(x2 - x1,2)+pow(y2-y1,2))
+     
 def getGlobalCoordinates(blobAngle, blobDistance):
     angle = blobAngle + robotSupervisor.getTheta()
     yPos = math.sin(angle) * (blobDistance / 100)
@@ -55,16 +55,27 @@ while(True):
     if blobs != []:
         filteredBlobs= {}  # dict: color -> blob mit kleinster Distanz
         for blob in blobs:
-            # detect robots with more than 1 light on as INTERESTING robots
+            # see, if light was already there and if 
+            xAbs, yAbs = getGlobalCoordinates(blob.angle, blob.distance)
             if blob.color in filteredBlobs: 
-                filteredBlobs[blob.color] = (blob, True)
+                xPrev = filteredBlobs[blob.color][1]
+                yPrev = filteredBlobs[blob.color][2]
+                # check additionally that distance between the blobs is small enough to safely assign it all to one robot 
+                #print(getDistance(xAbs, xPrev, yAbs, yPrev))
+                if getDistance(xAbs, xPrev, yAbs, yPrev) <= 0.3:  # 10 is roughly the radius of the robot in arogos units
+                    #print("intersting perceived")
+                    filteredBlobs[blob.color] = (blob, xAbs, yAbs, True)
+                # if light blobs are to far from each other, a MRSUT is detected and only the closest robot has to be taken into consideration
+                elif blob.distance <= filteredBlobs[blob.color][0].distance:
+                    #print("set new MRS member")
+                    filteredBlobs[blob.color] = (blob, xAbs, yAbs, False)
+
             elif blob.distance <= LIGHT_RANGE:
-                filteredBlobs[blob.color] = (blob, False)
+                filteredBlobs[blob.color] = (blob, xAbs, yAbs, False)
          
         # interpret the sorted blobs to messages
         for color, blob in filteredBlobs.items():
-            xAbs, yAbs = getGlobalCoordinates(blob[0].angle, blob[0].distance)
-            messageList.append({"color":color, "xPos": xAbs, "yPos": yAbs, "interesting": blob[1]})
+            messageList.append({"color":color, "xPos": blob[1], "yPos": blob[2], "interesting": blob[3]})
 
         if messageList and messageList != messagesList_old:                          
             msg = {"observation" : messageList}

@@ -92,15 +92,15 @@ end
 # Plan & Execute Step in Exploration case
 function exploration(robot::Robot)
     # Exploration Area
-    areaPos1 = Position(-8,-7)
-	areaPos2 = Position(10,8)
+    areaPos1 = Position(-1,-2)
+	areaPos2 = Position(3,3)
     
     nextPos = Position(rand(areaPos1.x:areaPos2.x), rand(areaPos1.y:areaPos2.y))
     # check, if robot cis to close to its next Exploration Position
     while getDistance(robot.position, nextPos) < 1
         nextPos = Position(rand(areaPos1.x:areaPos2.x), rand(areaPos1.y:areaPos2.y))
     end
-    sendMessageRobot(robot.port, nextPos.x, nextPos.y, "waiting")
+    sendMessageRobot(robot.port, nextPos.x, nextPos.y, "driving")
 end
 
 # ======================= 2 Parallel MAPE-K Loops ================
@@ -246,7 +246,7 @@ function addORupdatePerceivedRobot(observation) #receives single observations
             if hasRole(r, Uninteresting, MultiSpectatorTeam) && get(observation, "interesting", 0) == true
                 @changeRoles MultiSpectatorTeam 1 begin
                     r << Uninteresting
-                    r >> Interesting()
+                    r >> Interesting()  
                 end
                 addObserverToPercRobot(r) # assign new MonitoringTeam, if it not already exists
                 # INFO: messages to the robots will be send in the MAPE Loop call below

@@ -45,7 +45,7 @@ l     : toggle LED
 q     : quit
 """
 
-colors = ["red", "yellow", "orange", "green", "white", "blue", "magenta", "brown"]
+colors = ["white", "yellow", "orange", "green", "red", "blue", "magenta", "brown"]
 
 class SutTeleop(Node):
     def __init__(self, sut_number: int):
@@ -54,8 +54,8 @@ class SutTeleop(Node):
         self.sut_number = sut_number
 
         # Adjust these patterns to match your actual topic names
-        cmd_vel_topic = f'/SUT{sut_number}/cmd_vel'
-        cmd_led_topic = f'/SUT{sut_number}/cmd_led'
+        cmd_vel_topic = f'/R_SUT{sut_number}/cmd_vel'
+        cmd_led_topic = f'/R_SUT{sut_number}/cmd_led'
 
         self.vel_pub = self.create_publisher(Twist, cmd_vel_topic, 10)
         self.led_pub = self.create_publisher(Led, cmd_led_topic, 10)
