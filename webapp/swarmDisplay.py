@@ -16,7 +16,7 @@ thread_lock = Lock()
 # global HOST, PORT, bufferSize 
 HOST = "127.0.0.1"  
 PORT = 4004
-bufferSize = 4096  # hard issue TOFIX!!!!!!!!!!!!
+bufferSize = 8192  # hard issue TOFIX!!!!!!!!!!!!
 
 # full path is neccessary for the Systemtest
 app = Flask("MultiSpectator", template_folder=os.path.dirname(__file__) + "/templates/")

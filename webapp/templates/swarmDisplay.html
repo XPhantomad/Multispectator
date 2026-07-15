@@ -62,7 +62,7 @@
 
         #main-container {
           display: flex;
-          flex-direction: column;
+          flex-direction: row;
           width: 100%;
           height: 100vh;
           overflow: hidden;
@@ -653,7 +653,7 @@
 
         <input id="target-x" type="number" placeholder="x" />
         <input id="target-y" type="number" placeholder="y" />
-        <input id="numberOfObservers" type="number" placeholder="# Observers"/>
+        <input id="numberOfObservers" type="number" placeholder="# Observers" max="6" min="1"/>
 
         <button id="start" onclick="sendTarget()">Apply</button>
     </div>

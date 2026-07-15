@@ -267,6 +267,9 @@ Verify Installation
     - ```source ./ExecutionTimeMeasurements/bin/activate```
     - ```python3 ./ExecutionTimeMeasurements/timePlotToolFSET_4Cases.py```
 
+- disable Exploration for the tests:
+    - in multispectator.jl line 103 set state to "waiting"
+
 ### Create SEL-SRL-MSG Execution Time Plot
 - uncomment lines 37 and 77-79 in messages/main.py
 - uncomment lines 95-98 and 135-139 in runtimemodel/main.py

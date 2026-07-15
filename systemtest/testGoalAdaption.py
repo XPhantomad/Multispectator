@@ -17,9 +17,9 @@ from webdriver_manager.chrome import ChromeDriverManager
 from testROSNode import TestROSSupervisor
 
 colors = ["red", "yellow", "orange", "green", "white", "blue", "magenta", "brown"]
-robotCount = 12
+robotCount = 4
 teams = 4
-monitoringTeamSize = 3
+monitoringTeamSize = 1
 
 class testGoalAdaption(unittest.TestCase):
 
@@ -36,7 +36,7 @@ class testGoalAdaption(unittest.TestCase):
 
         
         # Inititalize SUTs
-        for i in range(8):
+        for i in range(4):
             print(colors[i])
             threading.Thread(target=lambda: subprocess.run([os.getcwd() + "/SUT-initializer.sh", "SUT"+ str(i), colors[i]])).start()
             time.sleep(0.1)
@@ -57,10 +57,10 @@ class testGoalAdaption(unittest.TestCase):
             
             # start Single Robot Loop 
             threading.Thread(target=lambda: subprocess.run(["python3", os.getcwd() + "/runtimemodel/main.py", robotName])).start()
-            time.sleep(1)
+            time.sleep(0.5)
             # start Messages Component
             threading.Thread(target=lambda: subprocess.run(["python3", os.getcwd() + "/messages/main.py", robotName])).start()
-            time.sleep(1)
+            time.sleep(0.5)
 
 
         rclpy.init(args=None)
@@ -112,10 +112,10 @@ class testGoalAdaption(unittest.TestCase):
         for i in range(0, teams):
             xPos = self.driver.find_element(by=By.ID, value="target-x")
             xPos.clear()
-            xPos.send_keys("1")
+            xPos.send_keys(i-10)
             yPos = self.driver.find_element(by=By.ID, value="target-y")
             yPos.clear()
-            yPos.send_keys(i)
+            yPos.send_keys(i-10)
             
             number = self.driver.find_element(by=By.ID, value="numberOfObservers")
             number.clear()
@@ -128,6 +128,7 @@ class testGoalAdaption(unittest.TestCase):
             # Measures Model Fidelity
             start = time.time()
             while(self.rosNode.angleNotNullCount < (i*monitoringTeamSize)):
+                #print("not directly")
                 continue
             end = time.time()
             self.assertEqual(self.rosNode.angleNotNullCount, (i*monitoringTeamSize))

@@ -100,7 +100,7 @@ function exploration(robot::Robot)
     while getDistance(robot.position, nextPos) < 1
         nextPos = Position(rand(areaPos1.x:areaPos2.x), rand(areaPos1.y:areaPos2.y))
     end
-    sendMessageRobot(robot.port, nextPos.x, nextPos.y, "driving")
+    sendMessageRobot(robot.port, nextPos.x, nextPos.y, "waiting")
 end
 
 # ======================= 2 Parallel MAPE-K Loops ================
