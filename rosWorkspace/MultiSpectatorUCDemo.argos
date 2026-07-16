@@ -1,0 +1,231 @@
+<?xml version="1.0" ?>
+<argos-configuration>
+
+  <!-- ************************* -->
+  <!-- * General configuration * -->
+  <!-- ************************* -->
+  <framework>
+    <!--
+        System configuration:
+        - threads: the number of slave threads to parallelize the
+          computation. For less than 100 robots thread management is not
+          beneficial, so here we set it to 0. When set to 0, it means that
+          the computation is not parallelized: the main thread does
+          everything.
+    -->
+    <system threads="0" />
+    <!--
+        Experiment configuration:
+        - length: total experiment time in seconds (0 means the experiment
+          has no time limit)
+        - ticks_per_second: number of ticks per second (int value)
+        - random_seed: seed of the main random number generator. If unset
+          or set to zero, this value is taken from the clock and a warning
+          message is displayed.
+    -->
+    <experiment length="0"
+                ticks_per_second="10"
+                random_seed="124" />
+  </framework>
+
+  <!-- *************** -->
+  <!-- * Controllers * -->
+  <!-- *************** -->
+  <controllers>
+
+    <!-- 
+         Here you list the controllers to be used in the experiment.
+         The XML tag is set by the REGISTER_CONTROLLER(class, "tag") macro.
+         You find it in the .cpp file of your controller.
+         For this example, the macro is called in
+         controllers/footbot_diffusion.cpp:100.
+    -->
+
+    <!--
+        The attributes are:
+        - id: a unique a identifier for this controller, to be used in the
+          subsequent <arena> section to say which robots use which
+          controller
+        - library: the path to the compiled library containing you
+          controller.
+    -->
+    <argos_ros_bot_controller id="lrb"
+                                  library="build/argos3_ros2_bridge/plugins/bridge/libargos_ros_bridge.so">
+      <actuators>
+        <differential_steering implementation="default" />
+        <leds                  implementation="default" medium="leds" />
+        <footbot_gripper       implementation="default" />
+      </actuators>
+      <sensors>
+        <positioning implementation="default" />
+        <colored_blob_omnidirectional_camera implementation="rot_z_only" medium="leds" show_rays="true" />
+        <footbot_proximity implementation="default" show_rays="false" />
+      </sensors>
+      
+      <params stopWithoutSubscriberCount="20000" />
+    </argos_ros_bot_controller>
+    
+    <!--eyebot_circle_controller id="ecc" library="/home/adrian/Dokumente/argos3-examples/build/controllers/eyebot_circle/libeyebot_circle.so">
+      <actuators>
+        <quadrotor_position implementation="default" />
+        <range_and_bearing implementation="default" />
+      </actuators>
+      <sensors>
+        <positioning implementation="default" />
+        <range_and_bearing implementation="medium" medium="rab" show_rays="true" />
+        <colored_blob_omnidirectional_camera implementation="rot_z_only" medium="leds" show_rays="true" />
+      </sensors>
+      <params />
+    </eyebot_circle_controller-->
+
+  </controllers>
+  
+  <!-- ****************** -->
+  <!-- * Loop functions * -->
+  <!-- ****************** -->
+
+
+  <!-- *********************** -->
+  <!-- * Arena configuration * -->
+  <!-- *********************** -->
+  <!--
+      Here you place all the objects in the arena.
+      All linear measures are expressed in meters.
+      Angles are expressed in degrees.
+      The 'size' attribute contains the size of the arena around the
+      origin.
+      To get help about which entities are available, type at the command
+      prompt:
+      
+      $ argos3 -q entities
+
+      and to get help about a specific entity (for instance, the box)
+
+      $ argos3 -q box
+  -->
+  <arena size="30, 30, 1" center="0,0,0.5">
+
+      <floor id="floor"
+           source="loop_functions"
+           pixels_per_meter="50" />
+
+
+    <!-- Place a foot-bot in the origin and bind it to the controller -->
+    <light id="Pos"
+       position="3,-1,0.2"
+       orientation="0,0,0"
+       color="blue"
+       intensity="0.0"
+       medium="led2" />
+           
+    <foot-bot id="R_SUT1">
+      <body position="0,-0.5,0" orientation="0,0,0" />
+      <controller config="lrb"/>
+    </foot-bot>
+    
+    <foot-bot id="R_SUT2">
+      <body position="3,0.5,0" orientation="0,0,0" />
+      <controller config="lrb"/>
+    </foot-bot>
+    
+    <foot-bot id="R_SUT3">
+      <body position="-0.5,1,0" orientation="0,0,0" />
+      <controller config="lrb"/>
+    </foot-bot>
+    
+    <foot-bot id="R_SUT4">
+      <body position="2.5,0,0" orientation="0,0,0" />
+      <controller config="lrb"/>
+    </foot-bot>
+    
+    <foot-bot id="R_SUT5a">
+      <body position="3,2,0" orientation="0,0,0" />
+      <controller config="lrb"/>
+    </foot-bot>
+    
+    <foot-bot id="R_SUT5b">
+      <body position="2.7,2.5,0" orientation="0,0,0" />
+      <controller config="lrb"/>
+    </foot-bot>
+    
+    <foot-bot id="R_SUT5c">
+      <body position="3.3,2.5,0" orientation="0,0,0" />
+      <controller config="lrb"/>
+    </foot-bot>
+
+    <distribute>
+      <position method="uniform" min="-2,-2,0" max="3,3,0" />
+      <orientation method="uniform" min="0,0,0" max="360,0,0" />
+      <entity quantity="8" max_trials="100">
+        <foot-bot id="R">
+          <controller config="lrb" />
+        </foot-bot>
+      </entity>
+    </distribute> 
+    
+    
+    
+  </arena>
+
+  <!-- ******************* -->
+  <!-- * Physics engines * -->
+  <!-- ******************* -->
+  <!--
+      In ARGoS, multiple physics engines can run at the same time.
+      In this section you say which engines to use for the experiment.
+      To know which engines are available, type at the command prompt:
+      
+      $ argos3 -q physics_engines
+  -->
+  <physics_engines>
+    <!--
+        Use a 2D dynamics engine.
+    -->
+    <dynamics2d id="dyn2d" />
+    <pointmass3d id="pm3d" iterations="10" />
+  </physics_engines>
+
+  <!-- ********* -->
+  <!-- * Media * -->
+  <!-- ********* -->
+  <!--
+      Here you specify the media in use. Media allow robots to communicate.
+      In this experiment, robots do not communicate, so no media are
+      specified.
+      To know which media are available, type at the command prompt:
+
+      $ argos3 -q media
+  -->
+  <media>
+    <led id="leds" />
+    <led id="led2" />
+    <range_and_bearing id="rab" />
+  </media>
+  <!-- ****************** -->
+  <!-- * Visualization * -->
+  <!-- ****************** -->
+  <!--
+      Here you specify which visualization to use.
+      You can also not specify a visualization at all, in which case ARGoS
+      will run without showing anything.
+      Having no visualization is useful when you run ARGoS in a batch of
+      experiments to collect statistics.
+      To know which visualizations are available, type at the command
+      prompt:
+
+      $ argos3 -q visualizations
+  -->
+  <visualization>
+    <qt-opengl>
+      <camera>
+        <placements>
+    <placement index="0" position="-4.20998,0.0285503,7.37135" look_at="-3.60697,0.0805564,6.57532" up="0.793093,0.0683995,0.605248" lens_focal_length="65" />
+
+        </placements>
+      </camera>
+      <user_functions library="build/argos3_ros2_bridge/plugins/loop_functions/foraging_loop_functions/libforaging_qt_user_functions.so"
+                  label="foraging_qt_user_functions"/>
+    </qt-opengl>
+  </visualization>
+
+</argos-configuration>
