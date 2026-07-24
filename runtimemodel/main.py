@@ -1,7 +1,7 @@
 import json
 import threading
 import time
-from modelUtils.ugv_supervisor import *
+from modelUtils.yb_supervisor import *
 import rclpy
 import socket
 from modelImpl.robotModelImpl import *
@@ -88,7 +88,7 @@ model.addRobot(robot1)
 
 # Initialize ROS2
 rclpy.init(args=None)
-robotSupervisor = UGVSupervisor(robot1.getname())
+robotSupervisor = YBSupervisor(robot1.getname())
 threading.Thread(target=lambda: rclpy.spin(robotSupervisor), daemon=True).start()
 
 # Sockets
