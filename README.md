@@ -2,7 +2,7 @@
 
 This repository contains the code of our implmentation of a Multi-robot Monitoring System (MultiSpectator) in ARGoS3 using CROMMS (Context-Role-Oriented Micro-Macro Swarm Programming)
 
-The overall system is comprised of multiple subsystems, which have to be installed and started independently. 
+The overall system is comprised of multiple subsystems, which can be installed and started independently. 
 
 We use ROS2 Jazzy, which is only easy to install if you follow the version restrictions for the underlying Linux. 
 In terms of performance, we encourage to install <b>Ubuntu 24.04 (not 24.10 or the latest version)</b> bare-bones, i.e., not in a virtual machine.
