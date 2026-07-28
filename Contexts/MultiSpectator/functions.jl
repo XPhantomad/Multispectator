@@ -142,7 +142,7 @@ function assignNewMonitoringTeam(XUT)
 			XUT >> SUT()
 		end
 		# PLAN + EXECUTE
-		sendMessageRobot(robot.port, position.x, position.y, "monitoring")
+		sendMessageRobot(robot.port, position.x, position.y, "driving")
 		return MTteam
 	end
 	return 1
@@ -162,7 +162,7 @@ function addObserver(team::MonitoringTeam)
 			robot >> Observer(0.4)
 		end
 		# PLAN + EXECUTE
-		sendMessageRobot(robot.port, position.x, position.y, "monitoring")
+		sendMessageRobot(robot.port, position.x, position.y, "driving")
 		return robot
 	else
 		println("unfortunately no robot free for observation")

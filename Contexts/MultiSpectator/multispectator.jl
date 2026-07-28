@@ -7,7 +7,7 @@ using DelimitedFiles
 # socket for connection to SRL-Loops of all Robots
 server = listen(ip"192.168.137.201", 3004) 
 # socket connection to Messages Component of all Robots
-serverO = listen(ip"192.168.137.201", 3005)
+#serverO = listen(ip"192.168.137.201", 3005)
 
 println("waiting for webapp")
 
@@ -100,7 +100,7 @@ function exploration(robot::Robot)
     while getDistance(robot.position, nextPos) < 1
         nextPos = Position(rand(areaPos1.x:areaPos2.x), rand(areaPos1.y:areaPos2.y))
     end
-    sendMessageRobot(robot.port, nextPos.x, nextPos.y, "driving")
+    sendMessageRobot(robot.port, nextPos.x, nextPos.y, "waiting")
 end
 
 # ======================= 2 Parallel MAPE-K Loops ================
@@ -371,24 +371,24 @@ Threads.@spawn while true
 end
 
 # accept incoming observation client requests
-Threads.@spawn while true
-    global clients
-    client = accept(serverO)
-    println("client connected: ", client)
+# Threads.@spawn while true
+#     global clients
+#     client = accept(serverO)
+#     println("client connected: ", client)
 
-    @async begin
-        try
-            handle_client_observation(client) # performs a new async function call at each iteration
-        catch e
-            println("client error: ", e)
-        finally
-            x, client_port = getpeername(client)
-            clients = delete!(clients, client_port)  
-            close(client)
-            println("client closed")
-        end
-    end
-end
+#     @async begin
+#         try
+#             handle_client_observation(client) # performs a new async function call at each iteration
+#         catch e
+#             println("client error: ", e)
+#         finally
+#             x, client_port = getpeername(client)
+#             clients = delete!(clients, client_port)  
+#             close(client)
+#             println("client closed")
+#         end
+#     end
+# end
 
 
 # Receive WebApp Goal Messages and trigger MAPE-Loop subsequently
