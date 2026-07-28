@@ -101,9 +101,7 @@ export LDLIDAR_MODEL=ld19
 ![alt text](namespace-fix.png)
 - for keyboard control set namespace to " " otherwise it can be set also to "fb_2" e.g.
 
-
-
-## 7. Run MultiSpectator Application
+## 7. Run Single Robot Loop of the MultiSpectator Application
 - clone Multispectator repository, branch "waveshare" into the ws directory (``` git clone -b waveshare git@github.com:XPhantomad/Multispectator.git ```)
 - create python venv in /runtiemmodel folder and install requirements
 - ``` ros2 launch ugv_bringup bringup_lidar.launch.py use_rviz:=true ``` 
@@ -112,6 +110,34 @@ export LDLIDAR_MODEL=ld19
 - start messages Component with respective Robot number
 - start runtimemodel (SRL) Component with respective robot number 
 
+## 8. Setup April Tag Recognition
+- insert all possible tag IDs in the array in ``` /home/ws/ugv_ws/src/ugv_else/apriltag_ros/apriltag_ros/cfg/tag_36h11_filter.yaml```
+```
+# ComposableNode should not be nested with node name and namespace
+#
+image_transport: 'raw'    # image format
+family: '36h11'           # tag family name
+size: 0.08                # default tag size
+threads: 4
+max_hamming: 0          # maximum allowed hamming distance (corrected bits)
+z_up: true              # rotate about x-axis to have Z pointing upwards
+
+# see "apriltag.h" for more documentation on these optional parameters
+decimate: 0.0           # decimate resolution for quad detection
+blur: 1.0               # sigma of Gaussian blur for quad detection
+refine-edges: 1         # snap to strong gradients
+debug: 0                # write additional debugging images to current working directory
+
+approximate_sync: true
+approximate_sync_tolerance: 0.2
+
+tag_ids:    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50]
+tag_frames: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+tag_sizes:  [0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08,>
+```
+
+### Check if video works:
+- v4l2-ctl --device=/dev/video0 --list-formats-ext 2>/dev/null | head -5
 
 ## Appendix 
 ### important files
