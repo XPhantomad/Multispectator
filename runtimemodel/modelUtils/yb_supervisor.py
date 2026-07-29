@@ -51,7 +51,7 @@ class YBSupervisor(Node):
         self.create_subscription(Odometry,  '/odom_rf2o', self._odom_cb, 1)
         self.create_subscription(LaserScan, '/scan',       self._scan_cb, 1)
 
-        self.get_logger().info(f'UGVSupervisor "{robot_name}" ready.')
+        self.get_logger().info(f'YBSupervisor "{robot_name}" ready.')
 
     # ── Callbacks ─────────────────────────────────────────────────────────────
 

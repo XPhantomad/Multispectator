@@ -17,13 +17,13 @@ global addr, udpClientSocket, bufferSize
 addr = None
 start = False
 bufferSize = 1024
-HOST = "192.168.137.201"  
+HOST = "192.168.137.1"  
 PORT = 3004
 HOST_TRACKER = "192.168.0.100"  
 PORT_TRACKER = 5006 
 addrPort = (HOST, PORT)
 addrPort_tracker = (HOST_TRACKER, PORT_TRACKER)
-DIST_TOLERANCE = 0.2
+DIST_TOLERANCE = 0.3
 
 # Shutdown event – shared across all threads
 shutdown_event = threading.Event()
@@ -79,7 +79,7 @@ print("Staaaart")
 exploration = StateImpl(1, "exploration", 1.0)
 driving     = StateImpl(2, "driving",     1.0)
 waiting     = StateImpl(3, "waiting",     0.0)
-monitoring  = StateImpl(3, "monitoring",  1.0, 0.8)  
+monitoring  = StateImpl(4, "monitoring",  1.0, 0.8)  
 
 model = ModelImpl(None, [waiting, driving, waiting, monitoring], [])
 robot1 = RobotImpl(0.0, 0.0, 0.0, 0.0, 0.0, name, 1)
@@ -95,13 +95,13 @@ threading.Thread(target=lambda: rclpy.spin(robotSupervisor), daemon=True).start(
 udpClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
 udpClientSocket.connect(addrPort)
 
-udpClientSocket_tracker = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) 
-udpClientSocket_tracker.connect(addrPort_tracker)
+# udpClientSocket_tracker = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) 
+# udpClientSocket_tracker.connect(addrPort_tracker)
 
 # Start threads as daemon=True so they die automatically when main thread exits
 threading.Thread(target=receiveMessages,          daemon=True).start()
 threading.Thread(target=publishMessages,          daemon=True).start()
-threading.Thread(target=publishMessages_toTracker, daemon=True).start()
+#threading.Thread(target=publishMessages_toTracker, daemon=True).start()
 
 
 
@@ -151,7 +151,7 @@ while not shutdown_event.is_set():
 
     # Execute
     if not robot1.getgoalReached():
-        robotSupervisor.publishVelocity(robot1.speed, robot1.rotationSpeed)
+        robotSupervisor.publishVelocity(robot1.speed, robot1.rotationSpeed, robot1.strafe)
 
     time.sleep(0.1)
 

@@ -82,12 +82,13 @@ class Robot(EObject, metaclass=MetaEClass):
     goalReached = EAttribute(eType=EBoolean, unique=True, derived=False, changeable=True)
     theta = EAttribute(eType=EDouble, unique=True, derived=False, changeable=True)
     speed = EAttribute(eType=EDouble, unique=True, derived=False, changeable=True)
+    strafe = EAttribute(eType=EDouble, unique=True, derived=False, changeable=True)
     rotationSpeed = EAttribute(eType=EDouble, unique=True, derived=False, changeable=True)
     state = EReference(ordered=True, unique=True, containment=False, derived=False)
     message = EReference(ordered=True, unique=True, containment=False, derived=False)
     sut = EReference(ordered=True, unique=True, containment=False, derived=False)
 
-    def __init__(self, xPos=None, yPos=None, zPos=None, id=None, name=None, xTarget=None, yTarget=None, goalReached=None, theta=None, state=None, speed=None, rotationSpeed=None, message=None, sut=None):
+    def __init__(self, xPos=None, yPos=None, zPos=None, id=None, name=None, xTarget=None, yTarget=None, goalReached=None, theta=None, state=None, speed=None, strafe=None, rotationSpeed=None, message=None, sut=None):
         # if kwargs:
         #    raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -122,6 +123,9 @@ class Robot(EObject, metaclass=MetaEClass):
 
         if speed is not None:
             self.speed = speed
+        
+        if strafe is not None:
+            self.strafe = strafe
 
         if rotationSpeed is not None:
             self.rotationSpeed = rotationSpeed
@@ -164,6 +168,9 @@ class Robot(EObject, metaclass=MetaEClass):
 
     def getspeed(self):
         return self.speed
+    
+    def getstrafe(self):
+        return self.strafe
 
     def getrotationSpeed(self):
         return self.rotationSpeed
