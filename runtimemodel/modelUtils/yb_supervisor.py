@@ -43,8 +43,6 @@ class YBSupervisor(Node):
         self.yPos        = 0.0
         self.zPos        = 0.0
         self.theta       = 0.0
-        self.load        = False          # no load sensor -> always False
-        self.proximity   = False
         self.v_repulsion = np.array([0.00001, 0.0000001])  # default
 
         self._cmd_pub = self.create_publisher(Twist, '/cmd_vel', 1)
@@ -103,8 +101,6 @@ class YBSupervisor(Node):
     def getyPos(self):        return self.yPos
     def getzPos(self):        return self.zPos
     def getTheta(self):       return self.theta
-    def getLoad(self):        return self.load
-    def getProximity(self):   return self.proximity
     def getv_repulsion(self): return self.v_repulsion
 
     # ── Publisher API ──────────────────────────────────────────────────
@@ -122,17 +118,17 @@ class YBSupervisor(Node):
         self._cmd_pub.publish(msg)
 
 
-def main(args=None):
-    rclpy.init(args=args)
-    node = UGVSupervisor('robot1')
-    try:
-        rclpy.spin(node)
-    except KeyboardInterrupt:
-        pass
-    finally:
-        node.destroy_node()
-        rclpy.shutdown()
+# def main(args=None):
+#     rclpy.init(args=args)
+#     node = UGVSupervisor('robot1')
+#     try:
+#         rclpy.spin(node)
+#     except KeyboardInterrupt:
+#         pass
+#     finally:
+#         node.destroy_node()
+#         rclpy.shutdown()
 
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
