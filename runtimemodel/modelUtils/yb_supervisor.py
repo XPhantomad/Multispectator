@@ -93,7 +93,7 @@ class YBSupervisor(Node):
         if valid_points == 0:
             self.v_repulsion = np.array([0.00001, 0.0000001])
         else:
-            self.v_repulsion = np.array([x_r, y_r])
+            self.v_repulsion = np.array([x_r/50, y_r/50]) # divide by 50 to better fit to the attraction values
 
     # ── Getter API ─────────────────────────────────────────────────────
 
