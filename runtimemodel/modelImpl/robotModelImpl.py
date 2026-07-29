@@ -20,45 +20,52 @@ class RobotImpl(Robot):
         self.message = message
 
 
-    # calculates and sets the forward, strafe and rotation speed of the robot
     def calculateSpeeds(self, repulsion, xTarget, yTarget, desiredHeading):
-        POSITION_TOLERANCE = 0.05  # m - distance at which the robot is considered "arrived"
-        ANGLE_TOLERANCE = 0.2      # rad
-        MAX_SPEED = 0.8            # Transport chain
+        ANGLE_TOLERANCE = 0.2
+        MAX_SPEED = 0.5         # forward
+        MAX_STRAFE = 0.5        # sideways - oft niedriger als forward beim Mecanum
         MAX_SPEED_ROT = 2.0
         MIN_SPEED_ROT = 0.8
-        MIN_SPEED = 0.4            # Transport chain
+        MIN_SPEED = 0.2         # Mindest-Gesamtgeschwindigkeit, sobald Bewegung nötig ist
         GAIN = 0.2
         ANGLE_GAIN = 2
 
         distanceToTarget = self.geDistanceToTarxet()
+        if distanceToTarget <= 1e-3:
+            self.speed = 0.0
+            self.strafe = 0.0
+            self.rotationSpeed = 0.0
+            return
 
-        # ── Phase 1: drive to target (omnidirectional, no rotation needed) ──
-
-        # Potential Field Implementation from: https://github.com/Tim-HW/ROS2-Path-Planning-Turtlebot3-Potential-Field/blob/main/src/potentialF.cpp
         dx = xTarget - self.xPos
         dy = yTarget - self.yPos
         attraction = np.array([dx / distanceToTarget, dy / distanceToTarget])
+        print("attraction" + str(attraction))
+        print("repulsion" + str(repulsion))
 
         x_final = attraction[0] + repulsion[0]
         y_final = attraction[1] + repulsion[1]
 
-        # rotate world-frame direction into the robot's body frame,
-        # since speed/strafe are expressed relative to the robot itself
         body_x =  math.cos(self.theta) * x_final + math.sin(self.theta) * y_final
         body_y = -math.sin(self.theta) * x_final + math.cos(self.theta) * y_final
 
-        magnitude = math.hypot(body_x, body_y)
-        if magnitude > 1e-6:
-            body_x /= magnitude
-            body_y /= magnitude
+        # direkte Skalierung statt Normalisierung — Feldstärke bleibt pro Achse erhalten
+        self.speed  = body_x * GAIN * self.state.speedFactor
+        self.strafe = body_y * GAIN * self.state.speedFactor
 
-        targetMagnitude = GAIN * distanceToTarget * self.state.speedFactor
-        targetMagnitude = min(targetMagnitude, MAX_SPEED)
-        targetMagnitude = max(targetMagnitude, MIN_SPEED)
+        # getrennte Obergrenzen je Achse (Mecanum ist seitlich oft langsamer als vorwärts)
+        self.speed  = max(-MAX_SPEED, min(MAX_SPEED, self.speed))
+        self.strafe = max(-MAX_STRAFE, min(MAX_STRAFE, self.strafe))
 
-        self.speed = body_x * targetMagnitude
-        self.strafe = body_y * targetMagnitude
+        # Mindestgeschwindigkeit auf die GESAMTBEWEGUNG anwenden, nicht pro Achse einzeln —
+        # sonst bekommt z.B. strafe eine künstliche Mindestbewegung, obwohl gerade
+        # keine seitliche Ausweichung nötig ist
+        totalMagnitude = math.hypot(self.speed, self.strafe)
+        if 0 < totalMagnitude < MIN_SPEED:
+            scale = MIN_SPEED / totalMagnitude
+            self.speed  *= scale
+            self.strafe *= scale
+
         self.rotationSpeed = 0.0
 
     # ("ge" and "tarxet" to prevent that the Model-to-JSON Part calls this function)

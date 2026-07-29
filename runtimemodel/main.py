@@ -125,6 +125,7 @@ while not shutdown_event.is_set():
     robot1.setPos(robotSupervisor.getxPos(), robotSupervisor.getyPos(),
                   robotSupervisor.getzPos(), robotSupervisor.getTheta())
     repulsion = robotSupervisor.getv_repulsion()
+    #print(repulsion)
 
     # Analyse
     if robot1.geDistanceToTarxet() > DIST_TOLERANCE:
@@ -153,7 +154,7 @@ while not shutdown_event.is_set():
     if not robot1.getgoalReached():
         robotSupervisor.publishVelocity(robot1.speed, robot1.rotationSpeed, robot1.strafe)
 
-    time.sleep(0.1)
+    time.sleep(0.01)
 
 # ── Cleanup – always reached when shutdown_event is set ───────────────────────
 robotSupervisor.publishVelocity(0.0, 0.0)  # stop motors

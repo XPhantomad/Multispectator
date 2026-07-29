@@ -17,7 +17,7 @@ from sensor_msgs.msg import LaserScan
 COLLISION_FOV_DEG  = 60      # opening angle of the forward sector (±30°)
 PROXIMITY_THRESH   = 0.55    # m - proximity for load exchange
 PROXIMITY_FOV_RAD  = 1.4     # rad - opening angle for proximity check
-REPULSION_DIST     = 0.3     # m - anything closer generates repulsion
+REPULSION_DIST     = 0.5    # m - anything closer generates repulsion
 
 # Lidar mount offset: adjusts the scan angles to the actual lidar
 # mounting on the M3 Pro. If the odometry rotation looks twisted/
