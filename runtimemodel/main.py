@@ -144,7 +144,7 @@ while not shutdown_event.is_set():
 
     # Plan
     if not robot1.getgoalReached() and (robot1.state == driving or robot1.state == monitoring):
-        robot1.calculateSpeeds(repulsion, xTarget, yTarget)
+        robot1.calculateSpeeds(repulsion, xTarget, yTarget, None)
     elif robot1.speed != 0.0 or robot1.rotationSpeed != 0.0:
         robot1.speed = robot1.rotationSpeed = 0.0
         robot1.goalReached = False

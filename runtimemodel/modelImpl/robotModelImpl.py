@@ -19,50 +19,47 @@ class RobotImpl(Robot):
     def setmessage(self, message=None):
         self.message = message
 
-    # calculates and sets the forward and roation speed of the robot
-    def calculateSpeeds(self, repulsion, xTarget, yTarget):
-        ANGLE_TOLERANCE = 0.2 # TODO spielen
-        MAX_SPEED = 0.8 #Transport chain
-        #MAX_SPEED = 0.3 # Flocking
+
+    # calculates and sets the forward, strafe and rotation speed of the robot
+    def calculateSpeeds(self, repulsion, xTarget, yTarget, desiredHeading):
+        POSITION_TOLERANCE = 0.05  # m - distance at which the robot is considered "arrived"
+        ANGLE_TOLERANCE = 0.2      # rad
+        MAX_SPEED = 0.8            # Transport chain
         MAX_SPEED_ROT = 2.0
         MIN_SPEED_ROT = 0.8
-        MIN_SPEED = 0.4  # Transport chain
-        #MIN_SPEED = 0.1 # Flocking
+        MIN_SPEED = 0.4            # Transport chain
         GAIN = 0.2
-        ANGLE_GAIN = 2 #0.05           
-        
+        ANGLE_GAIN = 2
+
         distanceToTarget = self.geDistanceToTarxet()
-        if(distanceToTarget <= 0):
-            return
+
+        # ── Phase 1: drive to target (omnidirectional, no rotation needed) ──
 
         # Potential Field Implementation from: https://github.com/Tim-HW/ROS2-Path-Planning-Turtlebot3-Potential-Field/blob/main/src/potentialF.cpp
-        #attraction
-        dx= xTarget- self.xPos
-        dy= yTarget- self.yPos
-        attraction = np.array([dx/distanceToTarget, dy/distanceToTarget])
-        #print("attraction" + str(attraction))
-        #print("repulsion" + str(repulsion))
+        dx = xTarget - self.xPos
+        dy = yTarget - self.yPos
+        attraction = np.array([dx / distanceToTarget, dy / distanceToTarget])
 
         x_final = attraction[0] + repulsion[0]
         y_final = attraction[1] + repulsion[1]
 
-        targetHeading = math.atan2(y_final, x_final)
-        headingError = self.geHeadingError(targetHeading)
+        # rotate world-frame direction into the robot's body frame,
+        # since speed/strafe are expressed relative to the robot itself
+        body_x =  math.cos(self.theta) * x_final + math.sin(self.theta) * y_final
+        body_y = -math.sin(self.theta) * x_final + math.cos(self.theta) * y_final
 
-        if(abs(headingError) > ANGLE_TOLERANCE):
-            self.speed = 0.0
-            self.rotationSpeed = ANGLE_GAIN * headingError * self.state.speedFactor
-            if abs(self.rotationSpeed) > MAX_SPEED_ROT:
-                self.rotationSpeed = (MAX_SPEED_ROT * -1.0) if self.rotationSpeed < 0 else MAX_SPEED_ROT
-            if abs(self.rotationSpeed) < MIN_SPEED_ROT:
-                self.rotationSpeed = MIN_SPEED_ROT * -1.0 if self.rotationSpeed < 0 else MIN_SPEED_ROT
+        magnitude = math.hypot(body_x, body_y)
+        if magnitude > 1e-6:
+            body_x /= magnitude
+            body_y /= magnitude
 
-        else:
-            self.rotationSpeed = 0.0 
-            self.speed = GAIN * distanceToTarget * self.state.speedFactor
-            self.speed = self.speed if self.speed<MAX_SPEED else MAX_SPEED 
-            self.speed = self.speed * self.state.speedFactor # speed factor has a value between 0 and 1
-            self.speed = self.speed if self.speed>MIN_SPEED else MIN_SPEED 
+        targetMagnitude = GAIN * distanceToTarget * self.state.speedFactor
+        targetMagnitude = min(targetMagnitude, MAX_SPEED)
+        targetMagnitude = max(targetMagnitude, MIN_SPEED)
+
+        self.speed = body_x * targetMagnitude
+        self.strafe = body_y * targetMagnitude
+        self.rotationSpeed = 0.0
 
     # ("ge" and "tarxet" to prevent that the Model-to-JSON Part calls this function)
     def geDistanceToTarxet(self):
