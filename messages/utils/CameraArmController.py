@@ -35,29 +35,31 @@ from arm_msgs.msg import ArmJoints
 
 
 # ── Safety limits (verified safe range for joint1) ─────────────────────────
-JOINT1_MIN    = 20.0   # deg - hard lower limit, do not exceed
-JOINT1_MAX    = 160.0  # deg - hard upper limit, do not exceed
-JOINT1_CENTER = 90.0   # deg - assumed "camera points straight forward"
+JOINT1_MIN    = 20   # deg - hard lower limit, do not exceed
+JOINT1_MAX    = 160  # deg - hard upper limit, do not exceed
+JOINT1_CENTER = 90   # deg - assumed "camera points straight forward"
 
 # Home position for the other joints while in camera-scanning/tracking mode.
 # PLACEHOLDER VALUES - verify these are safe for your arm before running.
-HOME_JOINT2 = 135.0
-HOME_JOINT3 = 45.0
-HOME_JOINT4 = 0.0
-HOME_JOINT5 = 90.0
-HOME_JOINT6 = 45.0 # gripper should not be fully open (90°) --> leads to crunching noises
+HOME_JOINT2 = 135
+HOME_JOINT3 = 45
+HOME_JOINT4 = 0
+HOME_JOINT5 = 90
+HOME_JOINT6 = 45 # gripper should not be fully open (90°) --> leads to crunching noises
 
 # ── Idle scanning behaviour ─────────────────────────────────────────────────
-SCAN_SPEED_DEG_S = 15.0   # sweep speed while idle (deg/s)
-CONTROL_HZ       = 10.0   # control loop / publish rate
+SCAN_SPEED_DEG_S = 20.0   # sweep speed while idle (deg/s)
+CONTROL_HZ       = 1.0   # control loop / publish rate
 
 # ── Tracking behaviour ───────────────────────────────────────────────────────
 TRACK_MAX_SPEED_DEG_S      = 60.0  # max angular speed while actively tracking
-TAG_LOST_TIMEOUT_S         = 1.0   # revert to idle scan after this long without a tag
-CAMERA_ANGLE_TO_SERVO_SIGN = 1.0   # flip to -1.0 if tracking moves the wrong way - CALIBRATE ON ROBOT
+TAG_LOST_TIMEOUT_S         = 2.0   # revert to idle scan after this long without a tag
+CAMERA_ANGLE_TO_SERVO_SIGN = -1.0   # flip to -1.0 if tracking moves the wrong way - CALIBRATE ON ROBOT
 
 MOVE_TIME_MS = int(1000.0 / CONTROL_HZ)  # servo move duration matches the control loop period
 
+# ── Tracking gain ──
+TRACK_KP = 1.5  # proportional gain (deg of servo per deg of camera error)
 
 class CameraArmController(Node):
 
@@ -109,6 +111,7 @@ class CameraArmController(Node):
             return  # no tag right now - let the control loop time out on its own
 
         if self._fx is None or self._cx is None:
+            print("frame skipped, because of no camera info")
             return  # camera_info not received yet - skip this frame
 
         # Tracks the first detection in the list. If you want to prefer
@@ -118,33 +121,29 @@ class CameraArmController(Node):
 
         # Same convention as RobotMessage: positive = left.
         # No depth/3D pose in this message - angle is derived purely from
-        # the pixel offset from the image center and the focal length.
-        angle_cam = math.atan2(-(px - self._cx), self._fx)
-
-        self._last_tag_angle_rad = angle_cam
+        # the pixel offset from the image center and the focal length
+        self._last_tag_angle_rad = math.atan2(-(px - self._cx), self._fx)
         self._last_tag_time = self.get_clock().now()
 
     # ── Control loop ─────────────────────────────────────────────────────
 
     def _control_loop(self):
-        tag_visible = self._is_tag_currently_visible()
 
+        tag_visible = self._is_tag_currently_visible()
         max_step_deg = (TRACK_MAX_SPEED_DEG_S if tag_visible else SCAN_SPEED_DEG_S) / CONTROL_HZ
 
         if tag_visible:
-            desired_angle = self._angle_from_tag(self._last_tag_angle_rad)
+            # Proportional correction relative to CURRENT position, not center.
+            error_deg = math.degrees(self._last_tag_angle_rad) * CAMERA_ANGLE_TO_SERVO_SIGN
+            desired_angle = self._current_angle + TRACK_KP * error_deg
         else:
             desired_angle = self._next_scan_angle()
 
         desired_angle = self._clamp(desired_angle)
 
-        # Rate-limit the motion so the servo moves smoothly instead of
-        # jumping straight to the target - protects the mechanics and
-        # avoids overshoot near the joint limits.
         delta = desired_angle - self._current_angle
         step = max(-max_step_deg, min(max_step_deg, delta))
         self._current_angle = self._clamp(self._current_angle + step)
-
         self._publish_arm(self._current_angle)
 
     def _is_tag_currently_visible(self) -> bool:
@@ -177,7 +176,7 @@ class CameraArmController(Node):
 
     def _publish_arm(self, joint1_angle: float):
         msg = ArmJoints()
-        msg.joint1 = float(joint1_angle)
+        msg.joint1 = int(joint1_angle)
         msg.joint2 = HOME_JOINT2
         msg.joint3 = HOME_JOINT3
         msg.joint4 = HOME_JOINT4
