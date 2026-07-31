@@ -38,7 +38,7 @@ class testGoalAdaption(unittest.TestCase):
         # Inititalize SUTs
         for i in range(4):
             print(colors[i])
-            threading.Thread(target=lambda: subprocess.run([os.getcwd() + "/SUT-initializer.sh", "SUT"+ str(i), colors[i]])).start()
+            threading.Thread(target=lambda: subprocess.run([os.getcwd() + "/SUT-Initializer.sh", "SUT"+ str(i), colors[i]])).start()
             time.sleep(0.1)
 
 
@@ -47,7 +47,7 @@ class testGoalAdaption(unittest.TestCase):
 
         # start Multispectator App 
         time.sleep(4)
-        threading.Thread(target=lambda: subprocess.run(["julia", os.getcwd() + "/Contexts/MultiSpectator/multispectator.jl"])).start()
+        threading.Thread(target=lambda: subprocess.run(["julia", os.getcwd() + "/multiSpectator/globalAC/multispectator.jl"])).start()
         time.sleep(7)
 
         # start Robots
@@ -56,10 +56,10 @@ class testGoalAdaption(unittest.TestCase):
             print("start " + robotName)
             
             # start Single Robot Loop 
-            threading.Thread(target=lambda: subprocess.run(["python3", os.getcwd() + "/runtimemodel/main.py", robotName])).start()
+            threading.Thread(target=lambda: subprocess.run(["python3", os.getcwd() + "/singleRobotController/main.py", robotName])).start()
             time.sleep(0.5)
             # start Messages Component
-            threading.Thread(target=lambda: subprocess.run(["python3", os.getcwd() + "/messages/main.py", robotName])).start()
+            threading.Thread(target=lambda: subprocess.run(["python3", os.getcwd() + "/messagesComponent/main.py", robotName])).start()
             time.sleep(0.5)
 
 

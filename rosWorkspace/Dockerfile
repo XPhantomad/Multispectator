@@ -1,7 +1,7 @@
 FROM osrf/ros:jazzy-desktop-full
 EXPOSE 3004
 
-ARG repoName="Context-Role-Oriented-Foraging-Chain-Swarm"
+ARG repoName="Multispectator"
 
 # Change the default shell to Bash
 SHELL [ "/bin/bash" , "-c" ]

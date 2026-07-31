@@ -13,18 +13,18 @@ print(os.getcwd())
 for i in range(4):
     print(colors[i])
     if i%2 == 0:
-        threading.Thread(target=lambda: subprocess.run([os.getcwd() + "/SUT-initializer.sh", "SUT"+ str(i), colors[i]])).start()
+        threading.Thread(target=lambda: subprocess.run([os.getcwd() + "/SUT-Initializer.sh", "SUT"+ str(i), colors[i]])).start()
     else:
-        threading.Thread(target=lambda: subprocess.run([os.getcwd() + "/SUT-initializerInteresting.sh", "SUT"+ str(i), colors[i]])).start()
+        threading.Thread(target=lambda: subprocess.run([os.getcwd() + "/SUT-Initializer-Interesting.sh", "SUT"+ str(i), colors[i]])).start()
     time.sleep(0.1)
 
 
 # start webapp 
-threading.Thread(target=lambda: subprocess.run(["python3", os.getcwd() + "/Webapp/swarmDisplay.py"])).start()
+threading.Thread(target=lambda: subprocess.run(["python3", os.getcwd() + "/webapp/swarmDisplay.py"])).start()
 
 # start Multispectator App 
 time.sleep(4)
-threading.Thread(target=lambda: subprocess.run(["julia", os.getcwd() + "/MultiSpectator/component/multispectator.jl"])).start()
+threading.Thread(target=lambda: subprocess.run(["julia", os.getcwd() + "/multiSpectator/globalAC/multispectator.jl"])).start()
 time.sleep(7)
 
 # start Robots
@@ -33,9 +33,9 @@ for i in range(50):
     print("start " + robotName)
     
     # start Single Robot Loop 
-    threading.Thread(target=lambda: subprocess.run(["python3", os.getcwd() + "/SingleRobotController/main.py", robotName])).start()
+    threading.Thread(target=lambda: subprocess.run(["python3", os.getcwd() + "/singleRobotController/main.py", robotName])).start()
     time.sleep(1)
     # start Messages Component
-    threading.Thread(target=lambda: subprocess.run(["python3", os.getcwd() + "/MessagesComponent/main.py", robotName])).start()
+    threading.Thread(target=lambda: subprocess.run(["python3", os.getcwd() + "/messagesComponent/main.py", robotName])).start()
     time.sleep(1)
         
