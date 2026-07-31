@@ -1,6 +1,5 @@
 ## SUT-Control
-
-- small programm to control a single SUT during the MultiSpectator Simulation
+Small programm to control a single SUT during the MultiSpectator Simulation.
 - WASD-Control of the Robot
 - "space" to stop
 - l: toggle ALL LEDs on/off (Robot with ALL LEDs on is regarded as INTERESTING)
