@@ -8,3 +8,4 @@ matplotlib
 parameterized
 pyecore
 webdriver-manager
+pandas
