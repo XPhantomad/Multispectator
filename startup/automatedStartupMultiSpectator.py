@@ -4,7 +4,7 @@ import sys
 import threading
 import time
 
-
+ROBOT_COUNT = 50
 colors = ["red", "yellow", "orange", "green", "white", "blue", "magenta", "brown"]
 
 print(os.getcwd())
@@ -28,7 +28,7 @@ threading.Thread(target=lambda: subprocess.run(["julia", os.getcwd() + "/multiSp
 time.sleep(7)
 
 # start Robots
-for i in range(50):
+for i in range(ROBOT_COUNT):
     robotName = "fb_"+str(i)
     print("start " + robotName)
     

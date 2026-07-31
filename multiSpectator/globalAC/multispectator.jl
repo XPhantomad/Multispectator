@@ -17,8 +17,12 @@ socketWebApp = connect(ip"127.0.0.1", 4004)
 
 println("waiting for clients ...")
 
+# ============= Global Paramters ==========================
 clients = Dict() # dictionary: port => client
 globalID = 1
+explorationAreaMin = Position(-1,-2)
+explorationAreaMax = Position(3,3)
+
 
 # ============== Initialization ====================
 dummy1 = Robot("dummy1", Position(20.0,2.0), 0.0, false, false, 40)
@@ -91,9 +95,9 @@ end
 
 # Plan & Execute Step in Exploration case
 function exploration(robot::Robot)
-    # Exploration Area
-    areaPos1 = Position(-1,-2)
-	areaPos2 = Position(3,3)
+
+    areaPos1 = explorationAreaMin
+	areaPos2 = explorationAreaMax
     
     nextPos = Position(rand(areaPos1.x:areaPos2.x), rand(areaPos1.y:areaPos2.y))
     # check, if robot cis to close to its next Exploration Position

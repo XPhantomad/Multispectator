@@ -176,13 +176,27 @@ Original Instructions: https://coral.ise.lehigh.edu/jild13/2016/07/11/hello/
 
 ![Webapp](webapp/webAppExample01.png)
 
-## Further Details
+## Advanced Setup and Description
+
+### Change the number of Robot in the Environment:
+
+- update the number of robots and the distribution area in the .argos file: see [Environment Docs](/rosWorkspace/README.md)
+- in [multiSpectator.jl](/multiSpectator/globalAC/multispectator.jl/)" update the exploration area (lines 23-24):
+
+```julia
+# ============= Global Paramters ==========================
+...
+explorationAreaMin = Position(-1,-2)
+explorationAreaMax = Position(3,3)
+```
+
+- in [/startup/automatedStartupMultiSpectator.py](/startup/automatedStartupMultiSpectator.py) change the ROBOT_CPUNT to the new number
 
 ### For using more than 16 Robots on one machine:
 
 - increase "MaxAutoParticipantIndex" explicitly
 - create an own Cyclone-DDS config file:
-    - copy the file ./cyclonedds.xml to your /home directory:
+    - copy the file [cyclonedds.xml](/cyclonedds.xml) to your /home directory:
         ```xml
         <?xml version="1.0" encoding="UTF-8" ?>
         <CycloneDDS xmlns="https://cdds.io/config">
@@ -198,66 +212,17 @@ Original Instructions: https://coral.ise.lehigh.edu/jild13/2016/07/11/hello/
         ```
     - open a terminal and run: ```export CYCLONEDDS_URI=~/cyclonedds.xml```
 
-## Run Systemtest and Plotting results
+### Run Systemtest and Plotting results
 
 - see seperate [documentation](/systemtest/README.md)
 
-## Extend the Single Robot Controller
+### Extend the Single Robot Controller
 
 - start by editing the [Metamodel](/models/model.ecore)
-### Create SEL-SRL-MSG Execution Time Plot
-- uncomment lines 37 and 77-79 in messages/main.py
-- uncomment lines 95-98 and 135-139 in runtimemodel/main.py
-- run simulation ([here](#run-simulation)) and execute automatedStartup.py as mentioned before [here](#run-robots-via-startup-script)
-- execution times of the SEL will always be stored in time.txt
-- execution times of SRL will be stored in timeSRL.txt
-- execution times of Messages Component will be stored in timeMSG.txt
-- after running the application for a while, stop
-- plot times with ```python3 ExecutionTimeMeasurement/timePlotToolSEL_SRL_MSG.py``` executed from the main folder
+- use "/pyecoregen" to generate Python classes from the model ([docu](/pyecoregen/README.md))
+- copy the generated model.py and the __init.py__ file in this directory [/singleRobotController/model/](/singleRobotController/model/)
+- adapt the [robotModelImpl.py](/singleRobotController/modelImpl/robotModelImpl.py) accordingly with the new attributes/classes,/...
 
-### Create Plot for Scalability
-- run application ([run simulation](#run-simulation) & [startup](#run-robots-via-startup-script)) for different numbers of robots ([change robot number](#change-robot-number-in-simulation))
-- after each run, save the times.txt with another name (e.g. timeXRobots.txt)
-- after having 4 measurements, plot them with ```python3 ExecutionTimeMeasurement/timePlotToolScalability.py``` (change names of the used timeXRobots.txt files)
-
-
-## Change Robot Number in Simulation
-- in your copied ROS Workspace ()"~/ros_ws") change the following parameters
-- in "ros_ws_/bridge_example.argos":
-    - change ```position``` of the Prey light
-    - change the distributioin of robots by adjusting the ```<position>``` min and max Positions and the ```<entity>``` quantity
-    ```html
-    <light id="Prey"
-            position="9,1,0.2"
-            orientation="0,0,0"
-            color="red"
-            intensity="1.0"
-            medium="leds" />
-    ...   
-    <distribute>
-        <position method="uniform" min="-2.5,-2.0,0" max="11.0,4.0,0" />
-        <orientation method="uniform" min="0,0,0" max="360,0,0" />
-        <entity quantity="15" max_trials="100">
-            <foot-bot id="fb_">
-            <controller config="lrb" />
-            </foot-bot>
-        </entity>
-        </distribute> 
-    ``` 
-- in "ros_ws/src/argos3-ros2-bridge/plugins/loop_functions/foraging_loop_functions/foraging_loop_functions.cpp": change the positioning of the load (black circles):
-    - set the ```m_preyPosition(9,1),``` in line 9 to the same position as the Prey light
-    - in "ros_ws" run: ```colcon build --packages-select argos3_ros2_bridge```
-    - run ```source install/setup.bash```
-    - run ```argos3 -c bridge_example.argos``` to see if it worked
-- in "Contexts/swarmElementLoop/MAPE.jl" adjust the Exploration area (lines 451-452) to a new area (optimal around prey; otherwise, the robots need unduly long to find the prey and start forming a chain)
-    ```julia
-    # 0 Exploration
-    areaPos1 = Position(5,0) 
-    areaPos2 = Position(11,4) 
-        if getRoles(robotSelf) === nothing
-            ...
-    ```
-- in "startup/automatedStartup.py" change the number of loop iterations to the selected number of robots
 
 ## Docker local (old; TBD):
 
@@ -282,10 +247,7 @@ Original Instructions: https://coral.ise.lehigh.edu/jild13/2016/07/11/hello/
 - Change Tag of the Image: ``` sudo docker tag [ID] xphantomad/crom-v-shape-flocking:latest ```
 - Push Image: ``` sudo docker image push xphantomad/crom-v-shape-flocking:latest ```
 
-
 ## Open Points
 
 - the CROM edtior from Nick Ruider has not been working in the last weeks; model images has been finished with Inkscape --> Thus the model files are not the same as in the images.
 - Robots does not set their LED to black, if they crash due to an error
-
-
