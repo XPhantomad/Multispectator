@@ -59,7 +59,7 @@ CAMERA_ANGLE_TO_SERVO_SIGN = -1.0   # flip to -1.0 if tracking moves the wrong w
 MOVE_TIME_MS = int(1000.0 / CONTROL_HZ)  # servo move duration matches the control loop period
 
 # ── Tracking gain ──
-TRACK_KP = 1.5  # proportional gain (deg of servo per deg of camera error)
+TRACK_KP = 2.5  # proportional gain (deg of servo per deg of camera error)
 
 class CameraArmController(Node):
 
@@ -77,6 +77,7 @@ class CameraArmController(Node):
         self._cx = None
 
         self._arm_pub = self.create_publisher(ArmJoints, '/arm6_joints', 1)
+        self._joint1_angle_pub = self.create_publisher(Float32, '/camera_arm/joint1_angle', 1)
 
         self.create_subscription(
             CameraInfo,
@@ -152,9 +153,6 @@ class CameraArmController(Node):
         elapsed_s = (self.get_clock().now() - self._last_tag_time).nanoseconds / 1e9
         return elapsed_s < TAG_LOST_TIMEOUT_S
 
-    def _angle_from_tag(self, angle_cam_rad: float) -> float:
-        offset_deg = math.degrees(angle_cam_rad) * CAMERA_ANGLE_TO_SERVO_SIGN
-        return JOINT1_CENTER + offset_deg
 
     def _next_scan_angle(self) -> float:
         """Triangle-wave sweep between JOINT1_MIN and JOINT1_MAX."""
@@ -184,6 +182,11 @@ class CameraArmController(Node):
         msg.joint6 = HOME_JOINT6
         msg.time = MOVE_TIME_MS
         self._arm_pub.publish(msg)
+
+        angle_msg = Float32()
+        angle_msg.data = float(joint1_angle)
+        self._joint1_angle_pub.publish(angle_msg)
+
 
 
 def main(args=None):

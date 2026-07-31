@@ -44,8 +44,8 @@ robotSupervisor = RobotMessage(name)
 threading.Thread(target=lambda: rclpy.spin(robotSupervisor)).start()
 
 # Socket for Connection to Webapp
-udpClientSocket= socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
-udpClientSocket.connect(addrPort)
+#udpClientSocket= socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+#udpClientSocket.connect(addrPort)
 #udpClientSocket.send(str.encode("start"))
 
 def getAngleDif(a,b):
@@ -73,8 +73,8 @@ while(True):
     messageList = []
     if blobs != []:
        for blob in blobs:
-          xAbs = round(robotSupervisor.getxPos() + blob["x"], 2)
-          yAbs = round(robotSupervisor.getyPos() + blob["z"], 2)
+          xAbs = round(robotSupervisor.getxPos() + blob["global_x"], 2)
+          yAbs = round(robotSupervisor.getyPos() + blob["global_y"], 2)
           # translate tag_ids to colors by hand
           messageList.append({"color":TAG_COLOR_MAP.get(int(blob["tag_id"]), DEFAULT_COLOR), "xPos": xAbs, "yPos": yAbs, "interesting": False})
 
@@ -82,7 +82,7 @@ while(True):
           msg = {"observation" : messageList}
           print(msg)
           print(json.dumps(msg)+ "\n")
-          udpClientSocket.send(str.encode(json.dumps(msg)+ "\n")) 
+          #udpClientSocket.send(str.encode(json.dumps(msg)+ "\n")) 
     blobs_old = blobs
     messagesList_old = messageList
     
