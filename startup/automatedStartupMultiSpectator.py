@@ -20,11 +20,11 @@ for i in range(4):
 
 
 # start webapp 
-threading.Thread(target=lambda: subprocess.run(["python3", os.getcwd() + "/webapp/swarmDisplay.py"])).start()
+threading.Thread(target=lambda: subprocess.run(["python3", os.getcwd() + "/Webapp/swarmDisplay.py"])).start()
 
 # start Multispectator App 
 time.sleep(4)
-threading.Thread(target=lambda: subprocess.run(["julia", os.getcwd() + "/Contexts/MultiSpectator/multispectator.jl"])).start()
+threading.Thread(target=lambda: subprocess.run(["julia", os.getcwd() + "/MultiSpectator/component/multispectator.jl"])).start()
 time.sleep(7)
 
 # start Robots
@@ -33,9 +33,9 @@ for i in range(50):
     print("start " + robotName)
     
     # start Single Robot Loop 
-    threading.Thread(target=lambda: subprocess.run(["python3", os.getcwd() + "/runtimemodel/main.py", robotName])).start()
+    threading.Thread(target=lambda: subprocess.run(["python3", os.getcwd() + "/SingleRobotController/main.py", robotName])).start()
     time.sleep(1)
     # start Messages Component
-    threading.Thread(target=lambda: subprocess.run(["python3", os.getcwd() + "/messages/main.py", robotName])).start()
+    threading.Thread(target=lambda: subprocess.run(["python3", os.getcwd() + "/MessagesComponent/main.py", robotName])).start()
     time.sleep(1)
         

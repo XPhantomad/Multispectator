@@ -1,6 +1,6 @@
-# MultiSpectator
+# MultiSpectator - Simulating the Monitoring of Robotic Systems under Tele-Test
 
-This repository contains the code of our implmentation of a Multi-robot Monitoring System (MultiSpectator) in ARGoS3 using CROMMS (Context-Role-Oriented Micro-Macro Swarm Programming)
+This repository contains the code of our implmentation of a Multi-robot Monitoring System (MultiSpectator) simulated in ARGoS3 using CROMMS (Context-Role-Oriented Micro-Macro Swarm Programming)
 
 The overall system is comprised of multiple subsystems, which can be installed and started independently. 
 
@@ -12,16 +12,19 @@ A detailed description of how to install ROS2 on your system can be found [here]
 
 Besides ROS2, we use ARGoS3 as simulator. Instructions on how to install the simulator can be found below.
 
+### Top-Level Architecture 
+![alt text](models/TLA-Overview_rev.svg)
+
 Our prototype is comprised of five main parts in the following subdirectories:
 
-- Contexts: contains the implementation of the <b>Swarm Element Loop</b> using [Contexts.jl](https://github.com/cgutsche/Contexts.jl)
-- rosWorkspace: contains the implementation of the [ROS2-ARGoS3 bridge](https://github.com/einstein07/collective-decision-making-argos-ros2) including the UI extensions for our example (e.g., showing the names of the robots in ARGoS3)
-- runtime model: contains the single robot loop implemented in Python using PyEcore for the runtime model
-- messages: contains the messages component responsible to process the monitored sensor values from the robots and to pass them to the swarm element loop
-- webapp: contains the dashboard to observe the overall system
+- **/MultiSpectator**: contains the implementation of the central macro-level component the MultiSpectator using [Contexts.jl](https://github.com/cgutsche/Contexts.jl)
+- **/RosWorkspace**: contains the implementation of the [ARGoS3-ROS2-bridge](https://github.com/CPS-Konstanz/argos3-ros2-bridge) including the UI extensions for our example (e.g., showing the names of the robots in ARGoS3)
+- **/SingleRobotLoop**: contains the decentralized single robot autonomic controller implemented in Python using PyEcore for the runtime model
+- **/MessagesComponent**: contains the messages component responsible to process the environment observations from the robots and to pass them to the MultiSpectator
+- **/Webapp**: contains the dashboard to observe the overall system and trigger monitoring requests
 
 The runtime model, messages and webapp components all use Python and require an own Python Environment to install the required dependencies.
-The Contexts component requires Julia to be installed.
+The MultiSpectator component requires Julia to be installed.
 
 
 ## Demo

@@ -17,3 +17,14 @@ Systemtest with 80 robots, 10 Monitoring teams with 8 constituents in each.
 - ```timePlotToolScalability.py``` provides a simple matplotlip implementation to:
     - visualize the measurements in a boxplot and
     - output the median and average Model Fidelity times in the shell
+
+### Installation
+- create python venv: ``` python3 -m venv .```
+- activate venv: ``` source bin/activate```
+- install requirements: ``` pip install -r requirements.txt```
+### Run 
+- run Systemtest: ``` python3 testGoalAdaption.py ``` 
+- run timePlotTool:
+    - navigate to the directory containing the measurement .txt files
+    - adjsut the file-names and number of needed series
+    - ``` python3 ./<path-to-dir>/systemtest/timePlotToolScalability.py``` 
