@@ -32,6 +32,7 @@ from rclpy.node import Node
 from sensor_msgs.msg import CameraInfo
 from apriltag_localization.msg import AprilTagDetectionArray
 from arm_msgs.msg import ArmJoints
+from std_msgs.msg import Float32
 
 
 # ── Safety limits (verified safe range for joint1) ─────────────────────────
@@ -59,7 +60,8 @@ CAMERA_ANGLE_TO_SERVO_SIGN = -1.0   # flip to -1.0 if tracking moves the wrong w
 MOVE_TIME_MS = int(1000.0 / CONTROL_HZ)  # servo move duration matches the control loop period
 
 # ── Tracking gain ──
-TRACK_KP = 2.5  # proportional gain (deg of servo per deg of camera error)
+TRACK_KP = 2  # proportional gain (deg of servo per deg of camera error)
+TRACK_DEADBAND_DEG = 1.5   # to ignore minimal changes
 
 class CameraArmController(Node):
 
@@ -136,7 +138,12 @@ class CameraArmController(Node):
         if tag_visible:
             # Proportional correction relative to CURRENT position, not center.
             error_deg = math.degrees(self._last_tag_angle_rad) * CAMERA_ANGLE_TO_SERVO_SIGN
-            desired_angle = self._current_angle + TRACK_KP * error_deg
+            # Dead band: Ignore minor errors so that the arm doesn't wobble around the center
+            if abs(error_deg) < TRACK_DEADBAND_DEG:
+                desired_angle = self._current_angle   # halten
+            else:
+                desired_angle = self._current_angle + TRACK_KP * error_deg
+
         else:
             desired_angle = self._next_scan_angle()
 

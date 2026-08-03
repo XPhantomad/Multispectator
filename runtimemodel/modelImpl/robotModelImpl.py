@@ -40,8 +40,8 @@ class RobotImpl(Robot):
         dx = xTarget - self.xPos
         dy = yTarget - self.yPos
         attraction = np.array([dx / distanceToTarget, dy / distanceToTarget])
-        print("attraction" + str(attraction))
-        print("repulsion" + str(repulsion))
+        #print("attraction" + str(attraction))
+        #print("repulsion" + str(repulsion))
 
         x_final = attraction[0] + repulsion[0]
         y_final = attraction[1] + repulsion[1]
