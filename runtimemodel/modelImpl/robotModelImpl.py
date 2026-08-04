@@ -26,7 +26,7 @@ class RobotImpl(Robot):
         MAX_STRAFE = 0.5        # sideways - oft niedriger als forward beim Mecanum
         MAX_SPEED_ROT = 2.0
         MIN_SPEED_ROT = 0.8
-        MIN_SPEED = 0.2         # Mindest-Gesamtgeschwindigkeit, sobald Bewegung nötig ist
+        MIN_SPEED = 0.3         # Mindest-Gesamtgeschwindigkeit, sobald Bewegung nötig ist
         GAIN = 0.2
         ANGLE_GAIN = 2
 
@@ -40,8 +40,8 @@ class RobotImpl(Robot):
         dx = xTarget - self.xPos
         dy = yTarget - self.yPos
         attraction = np.array([dx / distanceToTarget, dy / distanceToTarget])
-        print("attraction" + str(attraction))
-        print("repulsion" + str(repulsion))
+        #print("attraction" + str(attraction))
+        #print("repulsion" + str(repulsion))
 
         x_final = attraction[0] + repulsion[0]
         y_final = attraction[1] + repulsion[1]
