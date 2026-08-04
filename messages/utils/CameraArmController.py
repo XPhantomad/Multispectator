@@ -32,6 +32,7 @@ from rclpy.node import Node
 from sensor_msgs.msg import CameraInfo
 from apriltag_localization.msg import AprilTagDetectionArray
 from arm_msgs.msg import ArmJoints
+from std_msgs.msg import Float32
 
 
 # ── Safety limits (verified safe range for joint1) ─────────────────────────
@@ -186,7 +187,6 @@ class CameraArmController(Node):
         angle_msg = Float32()
         angle_msg.data = float(joint1_angle)
         self._joint1_angle_pub.publish(angle_msg)
-
 
 
 def main(args=None):
