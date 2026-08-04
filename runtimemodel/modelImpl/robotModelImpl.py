@@ -66,7 +66,23 @@ class RobotImpl(Robot):
             self.speed  *= scale
             self.strafe *= scale
 
-        self.rotationSpeed = 0.0
+        # ── Continuous heading control (decoupled from translation) ──
+        # Rotation is commanded independently of speed/strafe; the Mecanum
+        # base mixes them at the wheel level, so orienting toward the target
+        # does not disturb the orbit motion.
+        if desiredHeading is not None:
+            headingError = self.geHeadingError(desiredHeading)   # normalized [-pi, pi]
+
+            if abs(headingError) < ANGLE_TOLERANCE:
+                self.rotationSpeed = 0.0                          # deadband: on target
+            else:
+                rot = ANGLE_GAIN * headingError
+                # clamp magnitude and enforce a minimum so it actually turns
+                sign = 1.0 if rot >= 0 else -1.0
+                rot = sign * max(MIN_SPEED_ROT, min(MAX_SPEED_ROT, abs(rot)))
+                self.rotationSpeed = rot
+        else:
+            self.rotationSpeed = 0.0
 
     # ("ge" and "tarxet" to prevent that the Model-to-JSON Part calls this function)
     def geDistanceToTarxet(self):
@@ -80,9 +96,9 @@ class RobotImpl(Robot):
 
         # Waypoint Array
         waypoints = []
-        for i in range(8):
-            x = targetX + math.cos((math.pi/4)*i)*radius
-            y = targetY + math.sin((math.pi/4)*i)*radius
+        for i in range(6):
+            x = targetX + math.cos((math.pi/3)*i)*radius
+            y = targetY + math.sin((math.pi/3)*i)*radius
             waypoints.append([x,y])
 
         # get the two closest waypoints
