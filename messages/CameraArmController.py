@@ -61,7 +61,7 @@ MOVE_TIME_MS = int(1000.0 / CONTROL_HZ)  # servo move duration matches the contr
 
 # ── Tracking gain ──
 TRACK_KP = 2  # proportional gain (deg of servo per deg of camera error)
-TRACK_DEADBAND_DEG = 1.5   # to ignore minimal changes
+TRACK_DEADBAND_DEG = 2.3   # to ignore minimal changes
 
 class CameraArmController(Node):
 

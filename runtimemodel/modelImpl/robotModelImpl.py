@@ -22,8 +22,8 @@ class RobotImpl(Robot):
 
     def calculateSpeeds(self, repulsion, xTarget, yTarget, desiredHeading):
         ANGLE_TOLERANCE = 0.2
-        MAX_SPEED = 0.5         # forward
-        MAX_STRAFE = 0.5        # sideways - oft niedriger als forward beim Mecanum
+        MAX_SPEED = 0.8         # forward
+        MAX_STRAFE = 0.8        # sideways - oft niedriger als forward beim Mecanum
         MAX_SPEED_ROT = 2.0
         MIN_SPEED_ROT = 0.8
         MIN_SPEED = 0.3         # Mindest-Gesamtgeschwindigkeit, sobald Bewegung nötig ist
@@ -86,39 +86,39 @@ class RobotImpl(Robot):
 
     # ("ge" and "tarxet" to prevent that the Model-to-JSON Part calls this function)
     def geDistanceToTarxet(self):
-        return math.sqrt(pow(self.xTarget - self.xPos,2)+pow(self.yTarget-self.yPos,2))
+        return math.dist([self.xTarget, self.yTarget], [self.xPos, self.yPos])
          
     def geHeadingError(self, target):
         return (target - self.theta + math.pi) % (2 * math.pi) - math.pi
 
     def calculateNextWaypoint(self, radius, targetX, targetY):
-        DIST_THRESHOLD = 0.1
+        NUM_CORNERS = 6                  # Hexagon
+        ADVANCE_THRESHOLD = 0.1         # m: wie nah an einer Ecke, bevor zur nächsten gewechselt wird
+        ORBIT_DIR = 1                    # +1 = CCW, -1 = CW
 
-        # Waypoint Array
-        waypoints = []
-        for i in range(6):
-            x = targetX + math.cos((math.pi/3)*i)*radius
-            y = targetY + math.sin((math.pi/3)*i)*radius
-            waypoints.append([x,y])
+        step = 2 * math.pi / NUM_CORNERS  # 60°
 
-        # get the two closest waypoints
-        sorted_indices = sorted(range(len(waypoints)), key=lambda i: math.dist(waypoints[i], [self.xPos, self.yPos]))
-        closestWPIndex = sorted_indices[0]
-        secondClosestWPIndex = sorted_indices[1]
+        # aktueller Winkel des Roboters um das Zentrum
+        currentAngle = math.atan2(self.yPos - targetY, self.xPos - targetX)
 
-        # SPECIAL Condition: replace closest waypoint by the third closest, if robot is very close to actual target waypoint
-        if (math.dist(waypoints[closestWPIndex], [self.xPos, self.yPos])) < DIST_THRESHOLD:
-            #print("distance to small --> select other closest waypoint")
-            closestWPIndex = sorted_indices[2]
+        # nächste Ecke in Umlaufrichtung als Vielfaches von 'step'
+        # (auf das Raster runden, dann einen Schritt weiter)
+        k = round(currentAngle / step)
+        nextAngle = (k + ORBIT_DIR) * step
 
-        targetHeading1 = math.atan2(waypoints[closestWPIndex][1]-self.yPos, waypoints[closestWPIndex][0]-self.xPos)
-        targetHeading2 = math.atan2(waypoints[secondClosestWPIndex][1]-self.yPos, waypoints[secondClosestWPIndex][0]-self.xPos)
+        nextX = targetX + math.cos(nextAngle) * radius
+        nextY = targetY + math.sin(nextAngle) * radius
 
-        # return waypoint with smallest heading error
-        if abs(self.geHeadingError(targetHeading1)) < abs(self.geHeadingError(targetHeading2)):
-            return waypoints[closestWPIndex]
-        else: 
-            return waypoints[secondClosestWPIndex]
+        # Ist der Roboter schon nah genug an der aktuellen Ziel-Ecke?
+        # Dann überspringe eine weitere Ecke, damit er nicht "klebt".
+        currentCornerX = targetX + math.cos(k * step) * radius
+        currentCornerY = targetY + math.sin(k * step) * radius
+        if math.dist([currentCornerX, currentCornerY], [self.xPos, self.yPos]) < ADVANCE_THRESHOLD:
+            nextAngle = (k + 2 * ORBIT_DIR) * step
+            nextX = targetX + math.cos(nextAngle) * radius
+            nextY = targetY + math.sin(nextAngle) * radius
+
+        return [nextX, nextY]
 
 
 class ModelImpl(Model):

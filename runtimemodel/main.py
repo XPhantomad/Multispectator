@@ -23,7 +23,7 @@ HOST_TRACKER = "192.168.0.100"
 PORT_TRACKER = 5006 
 addrPort = (HOST, PORT)
 addrPort_tracker = (HOST_TRACKER, PORT_TRACKER)
-DIST_TOLERANCE = 0.3
+DIST_TOLERANCE = 0.15
 
 # Shutdown event – shared across all threads
 shutdown_event = threading.Event()
@@ -79,7 +79,7 @@ print("Staaaart")
 exploration = StateImpl(1, "exploration", 1.0)
 driving     = StateImpl(2, "driving",     1.0)
 waiting     = StateImpl(3, "waiting",     0.0)
-monitoring  = StateImpl(4, "monitoring",  1.0, 0.8)  
+monitoring  = StateImpl(4, "monitoring",  1.0, 0.7)  
 
 model = ModelImpl(None, [waiting, driving, waiting, monitoring], [])
 robot1 = RobotImpl(0.0, 0.0, 0.0, 0.0, 0.0, name, 1)

@@ -5,7 +5,7 @@ from rclpy.node import Node
 from geometry_msgs.msg import Pose, Twist, Vector3
 from tf2_msgs.msg import TFMessage
 from std_msgs.msg import Float32
-from tf2_msgs.msg import TFMessage
+from nav_msgs.msg import Odometry
 
 
 DE2RA = math.pi / 180.0
@@ -15,10 +15,8 @@ class RobotMessage(Node):
     def __init__(self, robotName): # add odom and cmd_vel name if needed for multiple Robots
         super().__init__(robotName+"MessageSubscriber")
 
-        self.create_subscription(TFMessage, '/tf', self._tf_cb, 10)
 
-        self.create_subscription(Position, "/"+robotName+"/position", self.odom_sensor_callback, 1)
-
+        self.create_subscription(Odometry,'/odom_rf2o', self._odom_cb, 1)
         self.cameraYaw = 0.0
 
         self.create_subscription(TFMessage, '/tf', self._tf_cb, 10)
@@ -32,14 +30,12 @@ class RobotMessage(Node):
         
     def _cam_angle_cb(self, msg):
         # joint1 in degrees -> deviation from "straight ahead" (90 deg) in radians.
-        # Flip CAM_YAW_SIGN if the computed positions end up mirrored
-        # relative to the actual tag position.
-        CAM_YAW_SIGN = 1.0
+        CAM_YAW_SIGN = -1.0  # calibrated: was inverted relative to the world heading convention
         self.cameraYaw = (msg.data - JOINT1_CENTER) * DE2RA * CAM_YAW_SIGN
         
     def _tf_cb(self, msg):
-        # camera_yaw_rad = deviation of joint1 from "straight ahead" (90 deg), in rad
-        heading = self.theta + camera_yaw_rad
+        # self.cameraYaw = deviation of joint1 from "straight ahead" (90 deg), in rad
+        heading = self.theta + self.cameraYaw
         cos_t = math.cos(heading)
         sin_t = math.sin(heading)
 
@@ -64,34 +60,15 @@ class RobotMessage(Node):
         self.blobList = detected
     
 
-    def odom_sensor_callback(self, message):
-        self.xPos = message.position.x
-        self.yPos = message.position.y
-        qx = message.orientation.x
-        qy = message.orientation.y
-        qz = message.orientation.z
-        qw = message.orientation.w
-        self.theta = math.atan2(2.0*(qx*qy + qw*qz), qw*qw + qx*qx - qy*qy - qz*qz)
-
-    # EXTRA Flocking
-    def lightList_sensor_callback(self, message):
-        lightList = message.lights
-        max_value = 0
-        for entry in lightList:
-            if entry.value > max_value:
-                self.globalLightAngle = entry.angle
-                max_value = entry.value
-        if max_value != 0 or max_value <= 0.63:
-             # lightValue increases with decreasing distance (linreg with 3 value pairs returns these numbers)
-            self.globalLightDist = (-7.242*max_value + 4.603)*100
-        else:
-            self.globalLightDist = 0.0
-
-    # EXTRA Flocking
-    def getGlobalLightAngle(self):
-        return self.globalLightAngle
-    def getGlobalLightDist(self):
-        return self.globalLightDist
+    def _odom_cb(self, msg: Odometry):
+        """Update robot pose from odometry."""
+        self.xPos = msg.pose.pose.position.x
+        self.yPos = msg.pose.pose.position.y
+        q = msg.pose.pose.orientation
+        self.theta = math.atan2(
+            2.0 * (q.x * q.y + q.w * q.z),
+            q.w * q.w + q.x * q.x - q.y * q.y - q.z * q.z
+        )
 
     def getBlobs(self):
         return self.blobList
