@@ -195,7 +195,6 @@ class CameraArmController(Node):
         self._joint1_angle_pub.publish(angle_msg)
 
 
-
 def main(args=None):
     rclpy.init(args=args)
     node = CameraArmController()

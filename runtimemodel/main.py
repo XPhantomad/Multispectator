@@ -135,6 +135,7 @@ while not shutdown_event.is_set():
 
     xTarget = robot1.getxTarget()
     yTarget = robot1.getyTarget()
+    desiredHeading = None
 
     if robot1.state == monitoring:
         nextWaypoint = robot1.calculateNextWaypoint(
@@ -142,10 +143,15 @@ while not shutdown_event.is_set():
         )
         xTarget = nextWaypoint[0]
         yTarget = nextWaypoint[1]
+        # front always points at the monitoring center
+        desiredHeading = math.atan2(
+            robot1.getyTarget() - robot1.getyPos(),
+            robot1.getxTarget() - robot1.getxPos()
+        )
 
     # Plan
     if not robot1.getgoalReached() and (robot1.state == driving or robot1.state == monitoring):
-        robot1.calculateSpeeds(repulsion, xTarget, yTarget, None)
+        robot1.calculateSpeeds(repulsion, xTarget, yTarget, desiredHeading)
     elif robot1.speed != 0.0 or robot1.rotationSpeed != 0.0:
         robot1.speed = robot1.rotationSpeed = 0.0
         robot1.goalReached = False
@@ -154,7 +160,7 @@ while not shutdown_event.is_set():
     if not robot1.getgoalReached():
         robotSupervisor.publishVelocity(robot1.speed, robot1.rotationSpeed, robot1.strafe)
 
-    time.sleep(0.01)
+    time.sleep(0.05)
 
 # ── Cleanup – always reached when shutdown_event is set ───────────────────────
 robotSupervisor.publishVelocity(0.0, 0.0)  # stop motors
