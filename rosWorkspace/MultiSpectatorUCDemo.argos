@@ -139,17 +139,17 @@
     </foot-bot>
     
     <foot-bot id="R_SUT5a">
-      <body position="3,2,0" orientation="0,0,0" />
+      <body position="3,2.2,0" orientation="0,0,0" />
       <controller config="lrb"/>
     </foot-bot>
     
     <foot-bot id="R_SUT5b">
-      <body position="2.7,2.5,0" orientation="0,0,0" />
+      <body position="2.7,2.7,0" orientation="0,0,0" />
       <controller config="lrb"/>
     </foot-bot>
     
     <foot-bot id="R_SUT5c">
-      <body position="3.3,2.5,0" orientation="0,0,0" />
+      <body position="3.3,2.7,0" orientation="0,0,0" />
       <controller config="lrb"/>
     </foot-bot>
 

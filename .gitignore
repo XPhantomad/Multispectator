@@ -16,3 +16,5 @@ geckodriver.log
 
 *__pycache__
 
+.mcp.json
+.vscode/mcp.json
