@@ -164,10 +164,11 @@ while not shutdown_event.is_set():
         robot1.goalReached = False
 
     # Execute
+    robotSupervisor.publishVelocity(0, robot1.rotationSpeed, 0)
     if not robot1.getgoalReached():
         robotSupervisor.publishVelocity(robot1.speed, robot1.rotationSpeed, robot1.strafe)
 
-    time.sleep(0.01)
+    time.sleep(0.05)
 
 # ── Cleanup – always reached when shutdown_event is set ───────────────────────
 robotSupervisor.publishVelocity(0.0, 0.0)  # stop motors

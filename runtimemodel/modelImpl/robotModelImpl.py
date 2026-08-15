@@ -28,7 +28,7 @@ class RobotImpl(Robot):
         MIN_SPEED_ROT = 0.0
         MIN_SPEED = 0.0         # Mindest-Gesamtgeschwindigkeit, sobald Bewegung nötig ist
         GAIN = 1
-        ANGLE_GAIN = 0.8
+        ANGLE_GAIN = 1.2
 
         distanceToTarget = self.geDistanceToTarxet()
         if distanceToTarget <= 1e-3:
@@ -88,8 +88,10 @@ class RobotImpl(Robot):
     def geDistanceToTarxet(self):
         return math.dist([self.xTarget, self.yTarget], [self.xPos, self.yPos])
          
-    def geHeadingError(self, target):
-        return (target - self.theta + math.pi) % (2 * math.pi) - math.pi
+    def geHeadingError(self, target, base=None):
+        if base is None:
+            base = self.theta
+        return (target - base + math.pi) % (2 * math.pi) - math.pi
 
     # def calculateNextWaypoint(self, radius, targetX, targetY):
     #     NUM_CORNERS = 6                  # Hexagon
@@ -139,23 +141,23 @@ class RobotImpl(Robot):
     #     ny = target_y + self.radius * math.sin(next_angle)
     #     return [nx, ny]
 
-    def getMovementDirection(self):
+    def geMovementDirection(self):
         """
         Computes the actual world-frame direction the robot is translating in,
         combining forward and strafe speed in the robot's body frame and
         rotating it by the current heading (which is always pointed at the center).
         """
         # body-frame velocity: x = forward, y = strafe (positive = left, ROS convention)
-        vx_body = self.forwardSpeed
-        vy_body = self.strafeSpeed
+        vx_body = self.speed
+        vy_body = self.strafe
 
         # if robot isn't moving, fall back to heading itself
         if abs(vx_body) < 1e-6 and abs(vy_body) < 1e-6:
-            return self.heading
+            return self.theta
 
         # rotate body-frame velocity into world frame using current heading
-        vx_world = vx_body * math.cos(self.heading) - vy_body * math.sin(self.heading)
-        vy_world = vx_body * math.sin(self.heading) + vy_body * math.cos(self.heading)
+        vx_world = vx_body * math.cos(self.theta) - vy_body * math.sin(self.theta)
+        vy_world = vx_body * math.sin(self.theta) + vy_body * math.cos(self.theta)
 
         return math.atan2(vy_world, vx_world)
 
@@ -183,7 +185,7 @@ class RobotImpl(Robot):
         targetHeading2 = math.atan2(waypoints[secondClosestWPIndex][1]-self.yPos, waypoints[secondClosestWPIndex][0]-self.xPos)
 
         # --- NEW: actual movement direction from forward + strafe speed ---
-        movementDirection = self.getMovementDirection()
+        movementDirection = self.geMovementDirection()
         
         # return waypoint with smallest heading error compared with the actual movement direction 
         if abs(self.geHeadingError(targetHeading1, base=movementDirection)) < abs(self.geHeadingError(targetHeading2, base=movementDirection)):
