@@ -1,0 +1,15 @@
+velocity_smoother:
+  ros__parameters:
+    smoothing_frequency: 20.0
+    scale_velocities: false
+    feedback: "OPEN_LOOP"
+    max_velocity:  [0.5,  0.5,  2.0]    # [vx, vy, wz]  <-- vy aktiv (holonom!)
+    min_velocity:  [-0.5, -0.5, -2.0]
+    max_accel:     [0.5,  0.5,  1.0]    # <-- Haupt-Hebel gegen Ruckeln
+    max_decel:     [-0.5, -0.5, -1.0]
+    deadband_velocity: [0.0, 0.0, 0.0]
+    velocity_timeout: 1.0
+    odom_topic: "odometry/filtered"     # dein EKF-Output
+    odom_duration: 0.1
+    use_realtime_priority: false
+    enable_stamped_cmd_vel: false       # Humble nutzt unstamped Twist
