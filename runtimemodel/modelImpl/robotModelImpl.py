@@ -21,14 +21,14 @@ class RobotImpl(Robot):
 
 
     def calculateSpeeds(self, repulsion, xTarget, yTarget, desiredHeading):
-        ANGLE_TOLERANCE = 0.2
+        ANGLE_TOLERANCE = 0.1
         MAX_SPEED = 0.8         # forward
         MAX_STRAFE = 0.8        # sideways - oft niedriger als forward beim Mecanum
         MAX_SPEED_ROT = 2.0
-        MIN_SPEED_ROT = 0.8
-        MIN_SPEED = 0.3         # Mindest-Gesamtgeschwindigkeit, sobald Bewegung nötig ist
-        GAIN = 0.2
-        ANGLE_GAIN = 2
+        MIN_SPEED_ROT = 0.0
+        MIN_SPEED = 0.0         # Mindest-Gesamtgeschwindigkeit, sobald Bewegung nötig ist
+        GAIN = 1
+        ANGLE_GAIN = 0.8
 
         distanceToTarget = self.geDistanceToTarxet()
         if distanceToTarget <= 1e-3:
@@ -91,35 +91,126 @@ class RobotImpl(Robot):
     def geHeadingError(self, target):
         return (target - self.theta + math.pi) % (2 * math.pi) - math.pi
 
+    # def calculateNextWaypoint(self, radius, targetX, targetY):
+    #     NUM_CORNERS = 6                  # Hexagon
+    #     ADVANCE_THRESHOLD = 0.1         # m: wie nah an einer Ecke, bevor zur nächsten gewechselt wird
+    #     ORBIT_DIR = 1                    # +1 = CCW, -1 = CW
+
+    #     step = 2 * math.pi / NUM_CORNERS  # 60°
+
+    #     # aktueller Winkel des Roboters um das Zentrum
+    #     currentAngle = math.atan2(self.yPos - targetY, self.xPos - targetX)
+
+    #     # nächste Ecke in Umlaufrichtung als Vielfaches von 'step'
+    #     # (auf das Raster runden, dann einen Schritt weiter)
+    #     k = round(currentAngle / step)
+    #     nextAngle = (k + ORBIT_DIR) * step
+
+    #     nextX = targetX + math.cos(nextAngle) * radius
+    #     nextY = targetY + math.sin(nextAngle) * radius
+
+    #     # Ist der Roboter schon nah genug an der aktuellen Ziel-Ecke?
+    #     # Dann überspringe eine weitere Ecke, damit er nicht "klebt".
+    #     currentCornerX = targetX + math.cos(k * step) * radius
+    #     currentCornerY = targetY + math.sin(k * step) * radius
+    #     if math.dist([currentCornerX, currentCornerY], [self.xPos, self.yPos]) < ADVANCE_THRESHOLD:
+    #         nextAngle = (k + 2 * ORBIT_DIR) * step
+    #         nextX = targetX + math.cos(nextAngle) * radius
+    #         nextY = targetY + math.sin(nextAngle) * radius
+
+    #     return [nextX, nextY]
+
+    # def get_waypoint(self, radius, target_x, target_y):
+    #     phi = math.atan2(robot_y - target_y, robot_x - target_x)
+    #     idx = round(phi / self.step)
+
+    #     # Distanz zur aktuell "eingerasteten" Ecke
+    #     cur_angle = idx * self.step
+    #     cx = target_x + radius * math.cos(cur_angle)
+    #     cy = target_y + radius * math.sin(cur_angle)
+    #     dist = math.hypot(cx - robot_x, cy - robot_y)
+
+    #     # Erst weiterschalten, wenn aktuelle Ecke erreicht UND (optional) langsam
+    #     if dist < 0.15:
+    #         idx += self.direction
+
+    #     next_angle = idx * self.step
+    #     nx = target_x + self.radius * math.cos(next_angle)
+    #     ny = target_y + self.radius * math.sin(next_angle)
+    #     return [nx, ny]
+
+    def getMovementDirection(self):
+        """
+        Computes the actual world-frame direction the robot is translating in,
+        combining forward and strafe speed in the robot's body frame and
+        rotating it by the current heading (which is always pointed at the center).
+        """
+        # body-frame velocity: x = forward, y = strafe (positive = left, ROS convention)
+        vx_body = self.forwardSpeed
+        vy_body = self.strafeSpeed
+
+        # if robot isn't moving, fall back to heading itself
+        if abs(vx_body) < 1e-6 and abs(vy_body) < 1e-6:
+            return self.heading
+
+        # rotate body-frame velocity into world frame using current heading
+        vx_world = vx_body * math.cos(self.heading) - vy_body * math.sin(self.heading)
+        vy_world = vx_body * math.sin(self.heading) + vy_body * math.cos(self.heading)
+
+        return math.atan2(vy_world, vx_world)
+
     def calculateNextWaypoint(self, radius, targetX, targetY):
-        NUM_CORNERS = 6                  # Hexagon
-        ADVANCE_THRESHOLD = 0.1         # m: wie nah an einer Ecke, bevor zur nächsten gewechselt wird
-        ORBIT_DIR = 1                    # +1 = CCW, -1 = CW
+        DIST_THRESHOLD = 0.1
 
-        step = 2 * math.pi / NUM_CORNERS  # 60°
+        # Waypoint Array
+        waypoints = []
+        for i in range(6):
+            x = targetX + math.cos((math.pi/4)*i)*radius
+            y = targetY + math.sin((math.pi/4)*i)*radius
+            waypoints.append([x,y])
 
-        # aktueller Winkel des Roboters um das Zentrum
-        currentAngle = math.atan2(self.yPos - targetY, self.xPos - targetX)
+        # get the two closest waypoints
+        sorted_indices = sorted(range(len(waypoints)), key=lambda i: math.dist(waypoints[i], [self.xPos, self.yPos]))
+        closestWPIndex = sorted_indices[0]
+        secondClosestWPIndex = sorted_indices[1]
 
-        # nächste Ecke in Umlaufrichtung als Vielfaches von 'step'
-        # (auf das Raster runden, dann einen Schritt weiter)
-        k = round(currentAngle / step)
-        nextAngle = (k + ORBIT_DIR) * step
+        # SPECIAL Condition: replace closest waypoint by the third closest, if robot is very close to actual target waypoint
+        if (math.dist(waypoints[closestWPIndex], [self.xPos, self.yPos])) < DIST_THRESHOLD:
+            #print("distance to small --> select other closest waypoint")
+            closestWPIndex = sorted_indices[2]
 
-        nextX = targetX + math.cos(nextAngle) * radius
-        nextY = targetY + math.sin(nextAngle) * radius
+        targetHeading1 = math.atan2(waypoints[closestWPIndex][1]-self.yPos, waypoints[closestWPIndex][0]-self.xPos)
+        targetHeading2 = math.atan2(waypoints[secondClosestWPIndex][1]-self.yPos, waypoints[secondClosestWPIndex][0]-self.xPos)
 
-        # Ist der Roboter schon nah genug an der aktuellen Ziel-Ecke?
-        # Dann überspringe eine weitere Ecke, damit er nicht "klebt".
-        currentCornerX = targetX + math.cos(k * step) * radius
-        currentCornerY = targetY + math.sin(k * step) * radius
-        if math.dist([currentCornerX, currentCornerY], [self.xPos, self.yPos]) < ADVANCE_THRESHOLD:
-            nextAngle = (k + 2 * ORBIT_DIR) * step
-            nextX = targetX + math.cos(nextAngle) * radius
-            nextY = targetY + math.sin(nextAngle) * radius
+        # --- NEW: actual movement direction from forward + strafe speed ---
+        movementDirection = self.getMovementDirection()
+        
+        # return waypoint with smallest heading error compared with the actual movement direction 
+        if abs(self.geHeadingError(targetHeading1, base=movementDirection)) < abs(self.geHeadingError(targetHeading2, base=movementDirection)):
+            return waypoints[closestWPIndex]
+        else:
+            return waypoints[secondClosestWPIndex]
 
-        return [nextX, nextY]
+    # def get_waypoint(self, target_x, target_y):
+    #     dx = self.xPos - target_x
+    #     dy = self.yPos - target_y
+    #     dist = math.hypot(dx, dy)
 
+    #     # Zentrums-Guard: im Mittelpunkt ist der Winkel bedeutungslos
+    #     # -> feste Startecke, kein Kreiseln
+    #     if dist < 0.05:
+    #         return [target_x + self.radius, target_y]   # Ecke 0
+
+    #     # aktuelle Winkelposition um das Target -> einrasten
+    #     phi = math.atan2(dy, dx)
+    #     idx = round(phi / self.step)
+
+    #     # immer EINE Ecke VORAUS im festen Umlaufsinn
+    #     next_idx = idx + self.direction
+    #     angle = next_idx * self.step
+
+    #     return [target_x + self.radius * math.cos(angle),
+    #             target_y + self.radius * math.sin(angle)]
 
 class ModelImpl(Model):
 

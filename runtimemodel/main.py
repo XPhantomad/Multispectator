@@ -23,7 +23,7 @@ HOST_TRACKER = "192.168.0.100"
 PORT_TRACKER = 5006 
 addrPort = (HOST, PORT)
 addrPort_tracker = (HOST_TRACKER, PORT_TRACKER)
-DIST_TOLERANCE = 0.15
+DIST_TOLERANCE = 0.1
 
 # Shutdown event – shared across all threads
 shutdown_event = threading.Event()
@@ -79,7 +79,7 @@ print("Staaaart")
 exploration = StateImpl(1, "exploration", 1.0)
 driving     = StateImpl(2, "driving",     1.0)
 waiting     = StateImpl(3, "waiting",     0.0)
-monitoring  = StateImpl(4, "monitoring",  1.0, 0.7)  
+monitoring  = StateImpl(4, "monitoring",  1.0, 0.5)  
 
 model = ModelImpl(None, [waiting, driving, waiting, monitoring], [])
 robot1 = RobotImpl(0.0, 0.0, 0.0, 0.0, 0.0, name, 1)
@@ -117,7 +117,8 @@ def shutdown(signum=None, frame=None):
 signal.signal(signal.SIGINT,  shutdown)
 signal.signal(signal.SIGTERM, shutdown)
 
-
+prevXTar = 0
+prevYTar = 0
 
 # ── MAPE loop ─────────────────────────────────────────────────────────────────
 while not shutdown_event.is_set():
@@ -133,14 +134,13 @@ while not shutdown_event.is_set():
     elif robot1.state != monitoring:
         robot1.goalReached = True
 
+
     xTarget = robot1.getxTarget()
     yTarget = robot1.getyTarget()
     desiredHeading = None
 
     if robot1.state == monitoring:
-        nextWaypoint = robot1.calculateNextWaypoint(
-            robot1.state.getradius(), robot1.getxTarget(), robot1.getyTarget()
-        )
+        nextWaypoint = robot1.calculateNextWaypoint(robot1.state.getradius(), xTarget, yTarget)
         xTarget = nextWaypoint[0]
         yTarget = nextWaypoint[1]
         # front always points at the monitoring center
@@ -148,6 +148,13 @@ while not shutdown_event.is_set():
             robot1.getyTarget() - robot1.getyPos(),
             robot1.getxTarget() - robot1.getxPos()
         )
+        print(desiredHeading)
+
+    if prevXTar != xTarget or prevYTar != yTarget:    
+        print("nextX: ", xTarget)
+        print("nextY: ", yTarget)
+        prevXTar = xTarget
+        prevYTar = yTarget
 
     # Plan
     if not robot1.getgoalReached() and (robot1.state == driving or robot1.state == monitoring):
@@ -160,7 +167,7 @@ while not shutdown_event.is_set():
     if not robot1.getgoalReached():
         robotSupervisor.publishVelocity(robot1.speed, robot1.rotationSpeed, robot1.strafe)
 
-    time.sleep(0.05)
+    time.sleep(0.01)
 
 # ── Cleanup – always reached when shutdown_event is set ───────────────────────
 robotSupervisor.publishVelocity(0.0, 0.0)  # stop motors
