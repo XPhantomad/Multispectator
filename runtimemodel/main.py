@@ -126,7 +126,7 @@ while not shutdown_event.is_set():
     robot1.setPos(robotSupervisor.getxPos(), robotSupervisor.getyPos(),
                   robotSupervisor.getzPos(), robotSupervisor.getTheta())
     repulsion = robotSupervisor.getv_repulsion()
-    #print(repulsion)
+    # print(repulsion)
 
     # Analyse
     if robot1.geDistanceToTarxet() > DIST_TOLERANCE:
@@ -144,29 +144,29 @@ while not shutdown_event.is_set():
         xTarget = nextWaypoint[0]
         yTarget = nextWaypoint[1]
         # front always points at the monitoring center
-        desiredHeading = math.atan2(
-            robot1.getyTarget() - robot1.getyPos(),
-            robot1.getxTarget() - robot1.getxPos()
-        )
-        print(desiredHeading)
+        # desiredHeading = math.atan2(
+        #     robot1.getyTarget() - robot1.getyPos(),
+        #     robot1.getxTarget() - robot1.getxPos()
+        # )
+        #print(desiredHeading)
 
-    if prevXTar != xTarget or prevYTar != yTarget:    
-        print("nextX: ", xTarget)
-        print("nextY: ", yTarget)
-        prevXTar = xTarget
-        prevYTar = yTarget
+    # if prevXTar != xTarget or prevYTar != yTarget:    
+    #     print("nextX: ", xTarget)
+    #     print("nextY: ", yTarget)
+    #     prevXTar = xTarget
+    #     prevYTar = yTarget
 
     # Plan
     if not robot1.getgoalReached() and (robot1.state == driving or robot1.state == monitoring):
-        robot1.calculateSpeeds(repulsion, xTarget, yTarget, desiredHeading)
+        robot1.calculateSpeeds(repulsion, xTarget, yTarget)
     elif robot1.speed != 0.0 or robot1.rotationSpeed != 0.0:
         robot1.speed = robot1.rotationSpeed = 0.0
         robot1.goalReached = False
 
     # Execute
-    robotSupervisor.publishVelocity(0, robot1.rotationSpeed, 0)
     if not robot1.getgoalReached():
-        robotSupervisor.publishVelocity(robot1.speed, robot1.rotationSpeed, robot1.strafe)
+        print(robot1.speed)
+        robotSupervisor.publishVelocity(robot1.speed, robot1.rotationSpeed, 0.0)
 
     time.sleep(0.05)
 

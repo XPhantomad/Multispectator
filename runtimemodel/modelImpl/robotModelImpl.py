@@ -19,70 +19,50 @@ class RobotImpl(Robot):
     def setmessage(self, message=None):
         self.message = message
 
-
-    def calculateSpeeds(self, repulsion, xTarget, yTarget, desiredHeading):
-        ANGLE_TOLERANCE = 0.1
-        MAX_SPEED = 0.8         # forward
-        MAX_STRAFE = 0.8        # sideways - oft niedriger als forward beim Mecanum
-        MAX_SPEED_ROT = 2.0
-        MIN_SPEED_ROT = 0.0
-        MIN_SPEED = 0.0         # Mindest-Gesamtgeschwindigkeit, sobald Bewegung nötig ist
-        GAIN = 1
-        ANGLE_GAIN = 1.2
-
+    # calculates and sets the forward and roation speed of the robot
+    def calculateSpeeds(self, repulsion, xTarget, yTarget):
+        ANGLE_TOLERANCE = 0.1 # TODO spielen
+        MAX_SPEED = 0.7 #Transport chain
+        #MAX_SPEED = 0.3 # Flocking
+        MAX_SPEED_ROT = 0.4
+        MIN_SPEED_ROT = 0.05
+        MIN_SPEED = 0.1  # Transport chain
+        #MIN_SPEED = 0.1 # Flocking
+        GAIN = 0.5
+        ANGLE_GAIN = 1 #0.05           
+        
         distanceToTarget = self.geDistanceToTarxet()
-        if distanceToTarget <= 1e-3:
-            self.speed = 0.0
-            self.strafe = 0.0
-            self.rotationSpeed = 0.0
+        if(distanceToTarget <= 0):
             return
 
-        dx = xTarget - self.xPos
-        dy = yTarget - self.yPos
-        attraction = np.array([dx / distanceToTarget, dy / distanceToTarget])
+        # Potential Field Implementation from: https://github.com/Tim-HW/ROS2-Path-Planning-Turtlebot3-Potential-Field/blob/main/src/potentialF.cpp
+        #attraction
+        dx= xTarget- self.xPos
+        dy= yTarget- self.yPos
+        attraction = np.array([dx/distanceToTarget, dy/distanceToTarget])
         #print("attraction" + str(attraction))
         #print("repulsion" + str(repulsion))
 
         x_final = attraction[0] + repulsion[0]
         y_final = attraction[1] + repulsion[1]
 
-        body_x =  math.cos(self.theta) * x_final + math.sin(self.theta) * y_final
-        body_y = -math.sin(self.theta) * x_final + math.cos(self.theta) * y_final
+        targetHeading = math.atan2(y_final, x_final)
+        headingError = self.geHeadingError(targetHeading)
 
-        # direkte Skalierung statt Normalisierung — Feldstärke bleibt pro Achse erhalten
-        self.speed  = body_x * GAIN * self.state.speedFactor
-        self.strafe = body_y * GAIN * self.state.speedFactor
+        if(abs(headingError) > ANGLE_TOLERANCE):
+            self.speed = 0.0
+            self.rotationSpeed = ANGLE_GAIN * headingError * self.state.speedFactor
+            if abs(self.rotationSpeed) > MAX_SPEED_ROT:
+                self.rotationSpeed = (MAX_SPEED_ROT * -1.0) if self.rotationSpeed < 0 else MAX_SPEED_ROT
+            if abs(self.rotationSpeed) < MIN_SPEED_ROT:
+                self.rotationSpeed = MIN_SPEED_ROT * -1.0 if self.rotationSpeed < 0 else MIN_SPEED_ROT
 
-        # getrennte Obergrenzen je Achse (Mecanum ist seitlich oft langsamer als vorwärts)
-        self.speed  = max(-MAX_SPEED, min(MAX_SPEED, self.speed))
-        self.strafe = max(-MAX_STRAFE, min(MAX_STRAFE, self.strafe))
-
-        # Mindestgeschwindigkeit auf die GESAMTBEWEGUNG anwenden, nicht pro Achse einzeln —
-        # sonst bekommt z.B. strafe eine künstliche Mindestbewegung, obwohl gerade
-        # keine seitliche Ausweichung nötig ist
-        totalMagnitude = math.hypot(self.speed, self.strafe)
-        if 0 < totalMagnitude < MIN_SPEED:
-            scale = MIN_SPEED / totalMagnitude
-            self.speed  *= scale
-            self.strafe *= scale
-
-        # ── Continuous heading control (decoupled from translation) ──
-        # Rotation is commanded independently of speed/strafe; the Mecanum
-        # base mixes them at the wheel level, so orienting toward the target
-        # does not disturb the orbit motion.
-        if desiredHeading is not None:
-            headingError = self.geHeadingError(desiredHeading)   # normalized [-pi, pi]
-
-            if abs(headingError) < ANGLE_TOLERANCE:
-                self.rotationSpeed = 0.0                          # deadband: on target
-            else:
-                rot = ANGLE_GAIN * headingError
-                # clamp magnitude and enforce a minimum so it actually turns
-                sign = 1.0 if rot >= 0 else -1.0
-                rot = sign * max(MIN_SPEED_ROT, min(MAX_SPEED_ROT, abs(rot)))
-                self.rotationSpeed = rot
         else:
-            self.rotationSpeed = 0.0
+            self.rotationSpeed = 0.0 
+            self.speed = GAIN * distanceToTarget * self.state.speedFactor
+            self.speed = self.speed if self.speed<MAX_SPEED else MAX_SPEED 
+            self.speed = self.speed * self.state.speedFactor # speed factor has a value between 0 and 1
+            self.speed = self.speed if self.speed>MIN_SPEED else MIN_SPEED
 
     # ("ge" and "tarxet" to prevent that the Model-to-JSON Part calls this function)
     def geDistanceToTarxet(self):
@@ -166,7 +146,7 @@ class RobotImpl(Robot):
 
         # Waypoint Array
         waypoints = []
-        for i in range(6):
+        for i in range(8):
             x = targetX + math.cos((math.pi/4)*i)*radius
             y = targetY + math.sin((math.pi/4)*i)*radius
             waypoints.append([x,y])
@@ -184,13 +164,10 @@ class RobotImpl(Robot):
         targetHeading1 = math.atan2(waypoints[closestWPIndex][1]-self.yPos, waypoints[closestWPIndex][0]-self.xPos)
         targetHeading2 = math.atan2(waypoints[secondClosestWPIndex][1]-self.yPos, waypoints[secondClosestWPIndex][0]-self.xPos)
 
-        # --- NEW: actual movement direction from forward + strafe speed ---
-        movementDirection = self.geMovementDirection()
-        
-        # return waypoint with smallest heading error compared with the actual movement direction 
-        if abs(self.geHeadingError(targetHeading1, base=movementDirection)) < abs(self.geHeadingError(targetHeading2, base=movementDirection)):
+        # return waypoint with smallest heading error
+        if abs(self.geHeadingError(targetHeading1)) < abs(self.geHeadingError(targetHeading2)):
             return waypoints[closestWPIndex]
-        else:
+        else: 
             return waypoints[secondClosestWPIndex]
 
     # def get_waypoint(self, target_x, target_y):
