@@ -17,7 +17,7 @@ global addr, udpClientSocket, bufferSize
 addr = None
 start = False
 bufferSize = 1024
-HOST = "192.168.137.1"  
+HOST = "192.168.137.201"  
 PORT = 3004
 HOST_TRACKER = "192.168.0.100"  
 PORT_TRACKER = 5006 
@@ -165,7 +165,7 @@ while not shutdown_event.is_set():
 
     # Execute
     if not robot1.getgoalReached():
-        print(robot1.speed)
+        #print(robot1.speed)
         robotSupervisor.publishVelocity(robot1.speed, robot1.rotationSpeed, 0.0)
 
     time.sleep(0.05)

@@ -16,7 +16,7 @@ start = False
 addr = None
 bufferSize = 1024
 HOST = "192.168.137.201"  # Standard loopback interface address (localhost)
-PORT = 3005 # Port to listen on (non-privileged ports are > 1023)
+PORT = 3004 # Port to listen on (non-privileged ports are > 1023)
 addrPort = (HOST,PORT)
 
 LIGHT_RANGE = 74 # range of the LED of the center of the robot (distance in which a robot is clearly identifiable (interesting/uninteresting))
@@ -44,9 +44,8 @@ robotSupervisor = RobotMessage(name)
 threading.Thread(target=lambda: rclpy.spin(robotSupervisor)).start()
 
 # Socket for Connection to Webapp
-#udpClientSocket= socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
-#udpClientSocket.connect(addrPort)
-#udpClientSocket.send(str.encode("start"))
+udpClientSocket= socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+udpClientSocket.connect(addrPort)
 
 def getAngleDif(a,b):
     return math.pi - abs(abs(a - b) - math.pi); 
@@ -82,7 +81,7 @@ while(True):
           msg = {"observation" : messageList}
           print(msg)
           print(json.dumps(msg)+ "\n")
-          #udpClientSocket.send(str.encode(json.dumps(msg)+ "\n")) 
+          udpClientSocket.send(str.encode(json.dumps(msg)+ "\n")) 
     blobs_old = blobs
     messagesList_old = messageList
     
