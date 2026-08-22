@@ -7,7 +7,7 @@ using DelimitedFiles
 # socket for connection to SRL-Loops of all Robots
 server = listen(ip"192.168.137.201", 3004) 
 # socket connection to Messages Component of all Robots
-#serverO = listen(ip"192.168.137.201", 3005)
+serverO = listen(ip"192.168.137.201", 3005)
 
 println("waiting for webapp")
 
@@ -240,6 +240,8 @@ end
 function addORupdatePerceivedRobot(observation) #receives single observations
     global globalID
     color = get(observation, "color", "black")
+    print("color "* color)
+    print(observation)
     discoveredRobots = [getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), Uninteresting); getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), Interesting)] # TODO get all Robots with the abstract roletype DiscoveredRobot
     
     # iterate over all existing robots to update the respective position
@@ -339,8 +341,9 @@ function handle_client_observation(sock)
 
     # constantly update robots attributes
     while isopen(sock)
+        println("socket is open")
         msg = JSON.parse(readline(sock)) # busy wait for next message?
-        println(msg)
+        println("Message: ", msg)
         # IMPORTANT: can not be moved to MAPE-K because it runs for each socket connection individually
         observationList = get(msg, "observation", 0)
 
@@ -370,25 +373,25 @@ Threads.@spawn while true
     end
 end
 
-# accept incoming observation client requests
-# Threads.@spawn while true
-#     global clients
-#     client = accept(serverO)
-#     println("client connected: ", client)
+#accept incoming observation client requests
+Threads.@spawn while true
+    global clients
+    client = accept(serverO)
+    println("client connected: ", client)
 
-#     @async begin
-#         try
-#             handle_client_observation(client) # performs a new async function call at each iteration
-#         catch e
-#             println("client error: ", e)
-#         finally
-#             x, client_port = getpeername(client)
-#             clients = delete!(clients, client_port)  
-#             close(client)
-#             println("client closed")
-#         end
-#     end
-# end
+    @async begin
+        try
+            handle_client_observation(client) # performs a new async function call at each iteration
+        catch e
+            println("client error: ", e)
+        finally
+            x, client_port = getpeername(client)
+            clients = delete!(clients, client_port)  
+            close(client)
+            println("client closed")
+        end
+    end
+end
 
 
 # Receive WebApp Goal Messages and trigger MAPE-Loop subsequently
