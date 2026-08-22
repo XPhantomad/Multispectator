@@ -16,7 +16,7 @@ start = False
 addr = None
 bufferSize = 1024
 HOST = "192.168.137.201"  # Standard loopback interface address (localhost)
-PORT = 3004 # Port to listen on (non-privileged ports are > 1023)
+PORT = 3005 # Port to listen on (non-privileged ports are > 1023)
 addrPort = (HOST,PORT)
 
 LIGHT_RANGE = 74 # range of the LED of the center of the robot (distance in which a robot is clearly identifiable (interesting/uninteresting))
@@ -67,7 +67,6 @@ while(True):
     blobs = robotSupervisor.getBlobs()
     if blobs_old != [] and blobs == []: #send a last nothing message, before stop sending
         print("last message")
-        #udpClientSocket.send(str.encode(json.dumps([[msg_nothing, 0, 0]])+ "\n"))
     
     messageList = []
     if blobs != []:
@@ -81,7 +80,8 @@ while(True):
           msg = {"observation" : messageList}
           print(msg)
           print(json.dumps(msg)+ "\n")
-          udpClientSocket.send(str.encode(json.dumps(msg)+ "\n")) 
+          udpClientSocket.send(str.encode(json.dumps(msg)+ "\n"))  # {'observation': [{'color': 'magenta', 'xPos': 0.53, 'yPos': 0.05, 'interesting': False}]}
+          
     blobs_old = blobs
     messagesList_old = messageList
     

@@ -21,15 +21,15 @@ class RobotImpl(Robot):
 
     # calculates and sets the forward and roation speed of the robot
     def calculateSpeeds(self, repulsion, xTarget, yTarget):
-        ANGLE_TOLERANCE = 0.1 # TODO spielen
-        MAX_SPEED = 0.7 #Transport chain
+        ANGLE_TOLERANCE = 0.3 # TODO spielen
+        MAX_SPEED = 0.6 #Transport chain
         #MAX_SPEED = 0.3 # Flocking
         MAX_SPEED_ROT = 0.4
         MIN_SPEED_ROT = 0.05
         MIN_SPEED = 0.1  # Transport chain
         #MIN_SPEED = 0.1 # Flocking
-        GAIN = 0.5
-        ANGLE_GAIN = 1 #0.05           
+        GAIN = 0.3
+        ANGLE_GAIN = 0.5 #0.05           
         
         distanceToTarget = self.geDistanceToTarxet()
         if(distanceToTarget <= 0):
@@ -142,11 +142,11 @@ class RobotImpl(Robot):
         return math.atan2(vy_world, vx_world)
 
     def calculateNextWaypoint(self, radius, targetX, targetY):
-        DIST_THRESHOLD = 0.1
+        DIST_THRESHOLD = 0.2
 
         # Waypoint Array
         waypoints = []
-        for i in range(8):
+        for i in range(6):
             x = targetX + math.cos((math.pi/4)*i)*radius
             y = targetY + math.sin((math.pi/4)*i)*radius
             waypoints.append([x,y])
@@ -210,7 +210,7 @@ class ModelImpl(Model):
         if(robot != None): 
             robot.xTarget = float(xTarget)
             robot.yTarget = float(yTarget)
-            #   print("Target setted " + str (xTarget) + " " + str(yTarget))
+            print("Target setted " + str (xTarget) + " " + str(yTarget))
 
             for state in self.states:
                 if(state.getname() == stateName):

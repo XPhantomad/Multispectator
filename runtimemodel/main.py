@@ -23,7 +23,7 @@ HOST_TRACKER = "192.168.0.100"
 PORT_TRACKER = 5006 
 addrPort = (HOST, PORT)
 addrPort_tracker = (HOST_TRACKER, PORT_TRACKER)
-DIST_TOLERANCE = 0.1
+DIST_TOLERANCE = 0.2
 
 # Shutdown event – shared across all threads
 shutdown_event = threading.Event()
@@ -79,7 +79,7 @@ print("Staaaart")
 exploration = StateImpl(1, "exploration", 1.0)
 driving     = StateImpl(2, "driving",     1.0)
 waiting     = StateImpl(3, "waiting",     0.0)
-monitoring  = StateImpl(4, "monitoring",  1.0, 0.5)  
+monitoring  = StateImpl(4, "monitoring",  1.0, 0.6)  
 
 model = ModelImpl(None, [waiting, driving, waiting, monitoring], [])
 robot1 = RobotImpl(0.0, 0.0, 0.0, 0.0, 0.0, name, 1)
@@ -150,11 +150,11 @@ while not shutdown_event.is_set():
         # )
         #print(desiredHeading)
 
-    # if prevXTar != xTarget or prevYTar != yTarget:    
-    #     print("nextX: ", xTarget)
-    #     print("nextY: ", yTarget)
-    #     prevXTar = xTarget
-    #     prevYTar = yTarget
+    if prevXTar != xTarget or prevYTar != yTarget:    
+        print("nextX: ", xTarget)
+        print("nextY: ", yTarget)
+        prevXTar = xTarget
+        prevYTar = yTarget
 
     # Plan
     if not robot1.getgoalReached() and (robot1.state == driving or robot1.state == monitoring):
