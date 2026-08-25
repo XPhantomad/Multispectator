@@ -25,8 +25,8 @@ class RobotImpl(Robot):
         MAX_SPEED = 0.6 #Transport chain
         #MAX_SPEED = 0.3 # Flocking
         MAX_SPEED_ROT = 0.4
-        MIN_SPEED_ROT = 0.05
-        MIN_SPEED = 0.1  # Transport chain
+        MIN_SPEED_ROT = 0.1
+        MIN_SPEED = 0.2  # Transport chain
         #MIN_SPEED = 0.1 # Flocking
         GAIN = 0.3
         ANGLE_GAIN = 0.5 #0.05           

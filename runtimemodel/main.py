@@ -79,7 +79,7 @@ print("Staaaart")
 exploration = StateImpl(1, "exploration", 1.0)
 driving     = StateImpl(2, "driving",     1.0)
 waiting     = StateImpl(3, "waiting",     0.0)
-monitoring  = StateImpl(4, "monitoring",  1.0, 0.6)  
+monitoring  = StateImpl(4, "monitoring",  1.0, 0.8)  
 
 model = ModelImpl(None, [waiting, driving, waiting, monitoring], [])
 robot1 = RobotImpl(0.0, 0.0, 0.0, 0.0, 0.0, name, 1)
@@ -132,6 +132,7 @@ while not shutdown_event.is_set():
     if robot1.geDistanceToTarxet() > DIST_TOLERANCE:
         robot1.goalReached = False
     elif robot1.state != monitoring:
+        print("WHYYYYY")
         robot1.goalReached = True
 
 
@@ -162,10 +163,12 @@ while not shutdown_event.is_set():
     elif robot1.speed != 0.0 or robot1.rotationSpeed != 0.0:
         robot1.speed = robot1.rotationSpeed = 0.0
         robot1.goalReached = False
+        print("goal reached")
 
     # Execute
     if not robot1.getgoalReached():
         #print(robot1.speed)
+        #print(robot1.rotationSpeed)
         robotSupervisor.publishVelocity(robot1.speed, robot1.rotationSpeed, 0.0)
 
     time.sleep(0.05)
