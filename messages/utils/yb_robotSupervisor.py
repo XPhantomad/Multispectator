@@ -16,7 +16,7 @@ class RobotMessage(Node):
         super().__init__(robotName+"MessageSubscriber")
 
 
-        self.create_subscription(Odometry,'/odom_rf2o', self._odom_cb, 1)
+        self.create_subscription(Odometry,'/odom_raw', self._odom_cb, 1)
         self.cameraYaw = 0.0
 
         self.create_subscription(TFMessage, '/tf', self._tf_cb, 10)

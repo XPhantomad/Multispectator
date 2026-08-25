@@ -49,7 +49,7 @@ class YBSupervisor(Node):
 
         # ── Subscriptions ─────────────────────────────────────────────────
         self.create_subscription(Odometry,  '/odometry/filtered', self._theta_cb, 1)
-        self.create_subscription(Odometry,  '/odom_rf2o', self._odom_cb, 1)
+        self.create_subscription(Odometry,  '/odom_raw', self._odom_cb, 1)
         self.create_subscription(LaserScan, '/scan',       self._scan_cb, 1)
 
         self.get_logger().info(f'YBSupervisor "{robot_name}" ready.')

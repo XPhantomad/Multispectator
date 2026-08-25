@@ -30,7 +30,7 @@ def generate_launch_description():
             'base_frame_id': 'base_link',
             'odom_frame_id': 'odom',
             'init_pose_from_topic': '',
-            'freq': 20.0,
+            'freq': 7.2,
         }],
     )
 
