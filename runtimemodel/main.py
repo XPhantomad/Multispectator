@@ -79,7 +79,7 @@ print("Staaaart")
 exploration = StateImpl(1, "exploration", 1.0)
 driving     = StateImpl(2, "driving",     1.0)
 waiting     = StateImpl(3, "waiting",     0.0)
-monitoring  = StateImpl(4, "monitoring",  1.0, 0.8)  
+monitoring  = StateImpl(4, "monitoring",  1.0, 0.5)  
 
 model = ModelImpl(None, [waiting, driving, waiting, monitoring], [])
 robot1 = RobotImpl(0.0, 0.0, 0.0, 0.0, 0.0, name, 1)
@@ -123,10 +123,9 @@ prevYTar = 0
 # ── MAPE loop ─────────────────────────────────────────────────────────────────
 while not shutdown_event.is_set():
     # Monitor
-    robot1.setPos(robotSupervisor.getxPos(), robotSupervisor.getyPos(),
-                  robotSupervisor.getzPos(), robotSupervisor.getTheta())
+    robot1.setPos(robotSupervisor.getxPos(), robotSupervisor.getyPos(), robotSupervisor.getzPos(), robotSupervisor.getTheta())
     repulsion = robotSupervisor.getv_repulsion()
-    # print(repulsion)
+    
 
     # Analyse
     if robot1.geDistanceToTarxet() > DIST_TOLERANCE:
@@ -154,6 +153,7 @@ while not shutdown_event.is_set():
     if prevXTar != xTarget or prevYTar != yTarget:    
         print("nextX: ", xTarget)
         print("nextY: ", yTarget)
+        print(robot1.theta)
         prevXTar = xTarget
         prevYTar = yTarget
 
@@ -179,5 +179,5 @@ time.sleep(0.2)
 robotSupervisor.destroy_node()
 rclpy.shutdown()
 udpClientSocket.close()
-udpClientSocket_tracker.close()
+#udpClientSocket_tracker.close()
 print("Shutdown complete.")

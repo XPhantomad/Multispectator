@@ -147,8 +147,8 @@ class RobotImpl(Robot):
         # Waypoint Array
         waypoints = []
         for i in range(6):
-            x = targetX + math.cos((math.pi/4)*i)*radius
-            y = targetY + math.sin((math.pi/4)*i)*radius
+            x = targetX + math.cos((math.pi/3)*i)*radius
+            y = targetY + math.sin((math.pi/3)*i)*radius
             waypoints.append([x,y])
 
         # get the two closest waypoints
