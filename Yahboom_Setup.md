@@ -23,7 +23,7 @@ Official documentation: https://www.yahboom.net/study/ROSMASTER-M3PRO
 - Plug in the Controller receiver in the USB-Hub board (underneath the RPI)
 - start the robot, power on the controller
 - wait until everything has been started up on the screen
-- Press "start" on the Controller, press "R2" to unlock the controller
+- Press "start" on the Controller, press "R2" to unlock the controller (press R1 to close the gripper, otherwise it is getting hot) 
 - start driving the robot:
 
 ![](https://md.inf.tu-dresden.de/notes/uploads/e7004db8-33df-46f0-bf02-797bf97b27e0.png)
@@ -37,7 +37,8 @@ Official documentation: https://www.yahboom.net/study/ROSMASTER-M3PRO
 - https://www.raspberrypi.com/documentation/computers/configuration.html
 - ```nmcli dev wifi list```
 - ```sudo nmcli --ask dev wifi connect <example_ssid> ```
-
+- connect the robot to your own hotspot for simple integration
+  
 ## 2. Initial tasks:
 - ```sudo apt update``` (requries usually additional steps)
 - ```sudo apt upgrade```
@@ -46,17 +47,15 @@ Official documentation: https://www.yahboom.net/study/ROSMASTER-M3PRO
 - delete unused docker images:
   - e.g. ```sudo docker image rm 192.168.2.51:5000/rosmaster-m3pro:1.0.X```
 
+## Container Structure on the Yahboom
+1. 
+## 3.1 Enter Docker container: 
+- (```sh start_agent.sh```) (usually already done by the AutoStart of the yahboom)
+- ```bringup_m3pro``` (always composes a new docker container, with ```docker start rosmaster...``` you can go around that but sometimes rviz2 does not work anymore)
+- ```exec_m3pro``` (sshs into the docker container)
+- to hook persistent storage in the container: add new volumes in the docker compose file (~/M3Pro_ws/docker-compose.yml) 
 
-## 4. Enter Docker container:
-- sh start_agent.sh
-- bringup_m3pro (always composes a new docker container, with docker start you can go around that but sometimes rviz2 does not work anymore)
-- exec_m3pro
-- use this both commands always, otherwise Rviz and other visualization tools will not work, becuase the display is not connected right 
-- it always resets the container --> add persistent files in the docker compose file (~/M3Pro_ws/docker-compose.yml) 
-
-
-
-## 3. Connect to Docker Container via VS-Code basically (not only via exec on the rpi)
+## 3.2 Connect to Docker Container via VS-Code basically (not only via exec on the rpi)
 - https://www.yahboom.net/study/ROSMASTER-M3PRO
 - VS-Code
 - '>'remote: Add remote connection (later, if host already exists: Connect to host)
@@ -70,14 +69,19 @@ Official documentation: https://www.yahboom.net/study/ROSMASTER-M3PRO
 - right click on the running docker container: "Attach VS-Code"
 - enter the password for the container (yahboom)
 
+## 3.3 Check whether ROS-topics exist:
+- ```ros2 topic list``` should show around 10 topics including /cmd_vel, ...
+- if not, restart the 
+
 ## 4. Connect to the Robots Display via VNC 
 
 - https://uvnc.com/downloads/ultravnc/167-ultravnc-1-8-2-4.html
-- Set new screen size
-- open: pi/.config/wayfire.ini (activate "show hidden" for that) set:
+- Set new screen size: 
+    - open: pi/.config/wayfire.ini (activate "show hidden" for that) set:
     -  [output:HDMI-A-1]
        mode = 1920x1080@60
 - reconnect via VNC
+- at each startup the VNC requires exactly two tries to connect because of the changed resolution
 
 ## 4. Change ROS-Domain ID
 - modify ~/start_agent.sh by adding ``` -e ROS_DOMAIN_ID=42 ``` after ```--privileged```
