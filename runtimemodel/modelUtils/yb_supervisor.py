@@ -45,10 +45,10 @@ class YBSupervisor(Node):
         self.theta       = 0.0
         self.v_repulsion = np.array([0.00001, 0.0000001])  # default
 
-        self._cmd_pub = self.create_publisher(Twist, '/cmd_vel_raw', 10)
+        self._cmd_pub = self.create_publisher(Twist, '/cmd_vel', 10)
 
         # ── Subscriptions ─────────────────────────────────────────────────
-        self.create_subscription(Odometry,  '/odometry/filtered', self._theta_cb, 1)
+        self.create_subscription(Odometry,  '/odom_raw', self._theta_cb, 1)
         self.create_subscription(Odometry,  '/odom_raw', self._odom_cb, 1)
         self.create_subscription(LaserScan, '/scan',       self._scan_cb, 1)
 
