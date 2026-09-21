@@ -2,7 +2,7 @@
 
 [![Binder](https://binder.intel4coro.de/badge_logo.svg)](https://binder.intel4coro.de/v2/gh/XPhantomad/VRB-CROMMS-Multispectator/main?urlpath=lab/tree/notebooks/instructions.ipynb)
 
-This repository contains the code of our implmentation of a Multi-robot Monitoring System (MultiSpectator) simulated in ARGoS3 using CROMMS (Context-Role-Oriented Micro-Macro Swarm Programming)
+This repository contains the code of our implementation of a Multi-robot Monitoring System (MultiSpectator) simulated in ARGoS3 using CROMMS (Context-Role-Oriented Micro-Macro Swarm Programming)
 
 ## Demo - Use-Case Explanation
 
@@ -249,5 +249,5 @@ explorationAreaMax = Position(3,3)
 
 ## Open Points
 
-- the CROM edtior from Nick Ruider has not been working in the last weeks; model images has been finished with Inkscape --> Thus the model files are not the same as in the images.
+- the CROM editor from Nick Ruider has not been working in the last weeks; model images has been finished with Inkscape --> Thus the model files are not the same as in the images.
 - Robots does not set their LED to black, if they crash due to an error
