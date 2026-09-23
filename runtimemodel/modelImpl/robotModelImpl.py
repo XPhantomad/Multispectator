@@ -19,17 +19,74 @@ class RobotImpl(Robot):
     def setmessage(self, message=None):
         self.message = message
 
+    # calculate the forward and sideward speeds of the robot
+    def calculateSpeeds(self, repulsion, xTarget, yTarget, desiredHeading):
+        ANGLE_TOLERANCE = 0.2
+        MAX_SPEED_ROT = 1.0
+        MIN_SPEED_ROT = 0.5
+        MAX_SPEED = 0.5         # forward
+        MAX_STRAFE = 0.5        # sidewards
+        MIN_SPEED = 0.2         # minimal total speed whenever movement is required
+        GAIN = 0.2
+        ANGLE_GAIN = 2
+
+        distanceToTarget = self.geDistanceToTarxet()
+        if distanceToTarget <= 1e-3:
+            # self.speed = 0.0
+            # self.strafe = 0.0
+            # self.rotationSpeed = 0.0
+            return
+
+        dx = xTarget - self.xPos
+        dy = yTarget - self.yPos
+        attraction = np.array([dx / distanceToTarget, dy / distanceToTarget])
+        #print("attraction" + str(attraction))
+        #print("repulsion" + str(repulsion))
+
+        x_final = attraction[0] + repulsion[0]
+        y_final = attraction[1] + repulsion[1]
+
+        body_x =  math.cos(self.theta) * x_final + math.sin(self.theta) * y_final
+        body_y = -math.sin(self.theta) * x_final + math.cos(self.theta) * y_final
+
+        # direkte Skalierung statt Normalisierung — Feldstärke bleibt pro Achse erhalten
+        self.speed  = body_x * GAIN * self.state.speedFactor
+        self.strafe = body_y * GAIN * self.state.speedFactor
+
+        # apply speed limits to both speeds
+        self.speed  = max(-MAX_SPEED, min(MAX_SPEED, self.speed))
+        self.strafe = max(-MAX_STRAFE, min(MAX_STRAFE, self.strafe))
+
+        # apply minimal speed to the overall movement
+        totalMagnitude = math.hypot(self.speed, self.strafe)
+        if 0 < totalMagnitude < MIN_SPEED:
+            scale = MIN_SPEED / totalMagnitude
+            self.speed  *= scale
+            self.strafe *= scale
+
+        # independent heading control for optimal focus
+        if desiredHeading is not None:
+            headingError = self.geHeadingError(desiredHeading)   # normalized [-pi, pi]
+            if abs(headingError) < ANGLE_TOLERANCE:
+                self.rotationSpeed = 0.0                          # deadband: on target
+            else:
+                rot = ANGLE_GAIN * headingError
+                sign = 1.0 if rot >= 0 else -1.0
+                rot = sign * max(MIN_SPEED_ROT, min(MAX_SPEED_ROT, abs(rot))) # apply rotation speed interval 
+                self.rotationSpeed = rot
+        else:
+            self.rotationSpeed = 0.0
+
+
     # calculates and sets the forward and roation speed of the robot
-    def calculateSpeeds(self, repulsion, xTarget, yTarget):
-        ANGLE_TOLERANCE = 0.1 # TODO spielen
-        MAX_SPEED = 0.7 #Transport chain
-        #MAX_SPEED = 0.3 # Flocking
+    def calculateSpeeds_Rot(self, repulsion, xTarget, yTarget):
+        ANGLE_TOLERANCE = 0.3 # TODO spielen
+        MAX_SPEED = 0.6 #Transport chain
         MAX_SPEED_ROT = 0.4
-        MIN_SPEED_ROT = 0.05
-        MIN_SPEED = 0.1  # Transport chain
-        #MIN_SPEED = 0.1 # Flocking
-        GAIN = 0.5
-        ANGLE_GAIN = 1 #0.05           
+        MIN_SPEED_ROT = 0.1
+        MIN_SPEED = 0.2  # Transport chain
+        GAIN = 0.3
+        ANGLE_GAIN = 0.5 #0.05           
         
         distanceToTarget = self.geDistanceToTarxet()
         if(distanceToTarget <= 0):
@@ -121,12 +178,9 @@ class RobotImpl(Robot):
     #     ny = target_y + self.radius * math.sin(next_angle)
     #     return [nx, ny]
 
+    # required for the strafe behavior --> noraml theta cannot be used anymore
     def geMovementDirection(self):
-        """
-        Computes the actual world-frame direction the robot is translating in,
-        combining forward and strafe speed in the robot's body frame and
-        rotating it by the current heading (which is always pointed at the center).
-        """
+
         # body-frame velocity: x = forward, y = strafe (positive = left, ROS convention)
         vx_body = self.speed
         vy_body = self.strafe
@@ -139,16 +193,16 @@ class RobotImpl(Robot):
         vx_world = vx_body * math.cos(self.theta) - vy_body * math.sin(self.theta)
         vy_world = vx_body * math.sin(self.theta) + vy_body * math.cos(self.theta)
 
-        return math.atan2(vy_world, vx_world)
+        return math.atan2(vy_world, vx_world) # --> representes the theta value of the movement independent of the robot
 
-    def calculateNextWaypoint(self, radius, targetX, targetY):
-        DIST_THRESHOLD = 0.1
+    def calculateNextWaypoint_old(self, radius, targetX, targetY):
+        DIST_THRESHOLD = 0.2
 
         # Waypoint Array
         waypoints = []
-        for i in range(8):
-            x = targetX + math.cos((math.pi/4)*i)*radius
-            y = targetY + math.sin((math.pi/4)*i)*radius
+        for i in range(6):
+            x = targetX + math.cos((math.pi/3)*i)*radius
+            y = targetY + math.sin((math.pi/3)*i)*radius
             waypoints.append([x,y])
 
         # get the two closest waypoints
@@ -169,6 +223,36 @@ class RobotImpl(Robot):
             return waypoints[closestWPIndex]
         else: 
             return waypoints[secondClosestWPIndex]
+
+    def calculateNextWaypoint_strafeSupport(self, radius, targetX, targetY):
+        DIST_THRESHOLD = 0.2
+
+        # Waypoint Array
+        waypoints = []
+        for i in range(6):
+            x = targetX + math.cos((math.pi/3)*i)*radius
+            y = targetY + math.sin((math.pi/3)*i)*radius
+            waypoints.append([x,y])
+
+        # get the two closest waypoints
+        sorted_indices = sorted(range(len(waypoints)), key=lambda i: math.dist(waypoints[i], [self.xPos, self.yPos]))
+        closestWPIndex = sorted_indices[0]
+        secondClosestWPIndex = sorted_indices[1]
+
+        # SPECIAL Condition: replace closest waypoint by the third closest, if robot is very close to actual target waypoint
+        if (math.dist(waypoints[closestWPIndex], [self.xPos, self.yPos])) < DIST_THRESHOLD:
+            #print("distance to small --> select other closest waypoint")
+            closestWPIndex = sorted_indices[2]
+
+        targetHeading1 = math.atan2(waypoints[closestWPIndex][1]-self.yPos, waypoints[closestWPIndex][0]-self.xPos)
+        targetHeading2 = math.atan2(waypoints[secondClosestWPIndex][1]-self.yPos, waypoints[secondClosestWPIndex][0]-self.xPos)
+
+        # return waypoint with smallest heading error !!! Compare it against the current movement direction !!! NEW for Strafing
+        if abs(self.geHeadingError(targetHeading1, self.geMovementDirection())) < abs(self.geHeadingError(targetHeading2, self.geMovementDirection())):
+            return waypoints[closestWPIndex]
+        else: 
+            return waypoints[secondClosestWPIndex]
+
 
     # def get_waypoint(self, target_x, target_y):
     #     dx = self.xPos - target_x
@@ -210,7 +294,7 @@ class ModelImpl(Model):
         if(robot != None): 
             robot.xTarget = float(xTarget)
             robot.yTarget = float(yTarget)
-            #   print("Target setted " + str (xTarget) + " " + str(yTarget))
+            print("Target setted " + str (xTarget) + " " + str(yTarget))
 
             for state in self.states:
                 if(state.getname() == stateName):

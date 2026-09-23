@@ -48,6 +48,13 @@ HOME_JOINT4 = 0
 HOME_JOINT5 = 90
 HOME_JOINT6 = 45 # gripper should not be fully open (90°) --> leads to crunching noises
 
+# positoin to look on the ground
+# HOME_JOINT2 = 140  
+# HOME_JOINT3 = 0
+# HOME_JOINT4 = 0
+# HOME_JOINT5 = 90
+# HOME_JOINT6 = 45
+
 # ── Idle scanning behaviour ─────────────────────────────────────────────────
 SCAN_SPEED_DEG_S = 20.0   # sweep speed while idle (deg/s)
 CONTROL_HZ       = 1.0   # control loop / publish rate

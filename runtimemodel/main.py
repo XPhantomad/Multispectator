@@ -17,13 +17,13 @@ global addr, udpClientSocket, bufferSize
 addr = None
 start = False
 bufferSize = 1024
-HOST = "192.168.137.201"  
+HOST = "192.168.137.1"  
 PORT = 3004
 HOST_TRACKER = "192.168.0.100"  
 PORT_TRACKER = 5006 
 addrPort = (HOST, PORT)
 addrPort_tracker = (HOST_TRACKER, PORT_TRACKER)
-DIST_TOLERANCE = 0.1
+DIST_TOLERANCE = 0.2
 
 # Shutdown event – shared across all threads
 shutdown_event = threading.Event()
@@ -123,15 +123,15 @@ prevYTar = 0
 # ── MAPE loop ─────────────────────────────────────────────────────────────────
 while not shutdown_event.is_set():
     # Monitor
-    robot1.setPos(robotSupervisor.getxPos(), robotSupervisor.getyPos(),
-                  robotSupervisor.getzPos(), robotSupervisor.getTheta())
+    robot1.setPos(robotSupervisor.getxPos(), robotSupervisor.getyPos(), robotSupervisor.getzPos(), robotSupervisor.getTheta())
     repulsion = robotSupervisor.getv_repulsion()
-    # print(repulsion)
+    
 
     # Analyse
     if robot1.geDistanceToTarxet() > DIST_TOLERANCE:
         robot1.goalReached = False
     elif robot1.state != monitoring:
+        print("WHYYYYY")
         robot1.goalReached = True
 
 
@@ -140,34 +140,38 @@ while not shutdown_event.is_set():
     desiredHeading = None
 
     if robot1.state == monitoring:
-        nextWaypoint = robot1.calculateNextWaypoint(robot1.state.getradius(), xTarget, yTarget)
+        # considers the strafe movement direction of the robot
+        nextWaypoint = robot1.calculateNextWaypoint_strafeSupport(robot1.state.getradius(), xTarget, yTarget)
         xTarget = nextWaypoint[0]
         yTarget = nextWaypoint[1]
         # front always points at the monitoring center
-        # desiredHeading = math.atan2(
-        #     robot1.getyTarget() - robot1.getyPos(),
-        #     robot1.getxTarget() - robot1.getxPos()
-        # )
+        desiredHeading = math.atan2(
+            robot1.getyTarget() - robot1.getyPos(),
+            robot1.getxTarget() - robot1.getxPos()
+        )
         #print(desiredHeading)
 
-    # if prevXTar != xTarget or prevYTar != yTarget:    
-    #     print("nextX: ", xTarget)
-    #     print("nextY: ", yTarget)
-    #     prevXTar = xTarget
-    #     prevYTar = yTarget
+    if prevXTar != xTarget or prevYTar != yTarget:    
+        print("nextX: ", xTarget)
+        print("nextY: ", yTarget)
+        print(robot1.theta)
+        prevXTar = xTarget
+        prevYTar = yTarget
 
     # Plan
     if not robot1.getgoalReached() and (robot1.state == driving or robot1.state == monitoring):
-        robot1.calculateSpeeds(repulsion, xTarget, yTarget)
+        robot1.calculateSpeeds(repulsion, xTarget, yTarget, desiredHeading)
     elif robot1.speed != 0.0 or robot1.rotationSpeed != 0.0:
         robot1.speed = robot1.rotationSpeed = 0.0
         robot1.goalReached = False
+        print("goal reached")
 
     # Execute
     if not robot1.getgoalReached():
         #print(robot1.speed)
-        robotSupervisor.publishVelocity(robot1.speed, robot1.rotationSpeed, 0.0)
-
+        #print(robot1.rotationSpeed)
+        robotSupervisor.publishVelocity(robot1.speed, robot1.rotationSpeed, robot1.strafe)
+    
     time.sleep(0.05)
 
 # ── Cleanup – always reached when shutdown_event is set ───────────────────────
@@ -176,5 +180,5 @@ time.sleep(0.2)
 robotSupervisor.destroy_node()
 rclpy.shutdown()
 udpClientSocket.close()
-udpClientSocket_tracker.close()
+#udpClientSocket_tracker.close()
 print("Shutdown complete.")
