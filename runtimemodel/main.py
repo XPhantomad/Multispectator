@@ -17,7 +17,7 @@ global addr, udpClientSocket, bufferSize
 addr = None
 start = False
 bufferSize = 1024
-HOST = "192.168.137.1"  
+HOST = "192.168.137.201"  
 PORT = 3004
 HOST_TRACKER = "192.168.0.100"  
 PORT_TRACKER = 5006 
@@ -162,7 +162,7 @@ while not shutdown_event.is_set():
     if not robot1.getgoalReached() and (robot1.state == driving or robot1.state == monitoring):
         robot1.calculateSpeeds(repulsion, xTarget, yTarget, desiredHeading)
     elif robot1.speed != 0.0 or robot1.rotationSpeed != 0.0:
-        robot1.speed = robot1.rotationSpeed = 0.0
+        robot1.speed = robot1.strafe = robot1.rotationSpeed = 0.0
         robot1.goalReached = False
         print("goal reached")
 
