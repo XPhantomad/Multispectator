@@ -93,21 +93,21 @@ end
 function exploration(robot::Robot)
     # Exploration Area
     areaPos1 = Position(0,0)
-	areaPos2 = Position(1,2)
+	areaPos2 = Position(2,2)
     
     nextPos = Position(rand(areaPos1.x:areaPos2.x), rand(areaPos1.y:areaPos2.y))
     # check, if robot cis to close to its next Exploration Position
     while getDistance(robot.position, nextPos) < 1
         nextPos = Position(rand(areaPos1.x:areaPos2.x), rand(areaPos1.y:areaPos2.y))
     end
-    sendMessageRobot(robot.port, nextPos.x, nextPos.y, "waiting")
+    sendMessageRobot(robot.port, nextPos.x, nextPos.y, "driving")
 end
 
 # ======================= 2 Parallel MAPE-K Loops ================
 
 # MAPE-K loop which handles new WebApp input
 #   calculates next goal from input and current configuration
-function mapeLoop(sutColor, numberOfObservers::Int64, targetxPos::Int64, targetyPos::Int64)
+function mapeLoop(sutColor, numberOfObservers::Int64, targetxPos::Float64, targetyPos::Float64)
     global globalID
     println("run webapp input MAPE-Loop")
     println(sutColor)
@@ -401,7 +401,7 @@ Threads.@spawn while true
 		msg = JSON.parse(readline(socketWebApp))
         println(msg)
         try
-            mapeLoop(get(msg, "color", nothing), get(msg, "observers", 0), get(msg, "xTarget", 0), get(msg, "yTarget", 0))
+            mapeLoop(get(msg, "color", nothing), get(msg, "observers", 0), Float64(get(msg, "xTarget", 0.0)), Float64(get(msg, "yTarget", 0.0)))
         catch e
             @error "Thread failed" exception=(e, catch_backtrace())
         finally

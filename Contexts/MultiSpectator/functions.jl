@@ -142,7 +142,7 @@ function assignNewMonitoringTeam(XUT)
 			XUT >> SUT()
 		end
 		# PLAN + EXECUTE
-		sendMessageRobot(robot.port, position.x, position.y, "driving")
+		sendMessageRobot(robot.port, position.x, position.y, "monitoring")
 		return MTteam
 	end
 	return 1
