@@ -8,6 +8,11 @@ mutable struct Position <: AbstractXUT
 	y:: Float64
 end
 
+mutable struct IpPort 
+	address:: String
+	port:: Int64
+end
+
 Base.:(==)(a::Position, b::Position) = a.x == b.x && a.y == b.y
 
 mutable struct Robot
@@ -16,7 +21,7 @@ mutable struct Robot
 	theta::Float64
 	waiting::Bool
 	goalReached::Bool
-	port::Int64
+	ip::IpPort
 end
 
 

@@ -17,12 +17,12 @@ socketWebApp = connect(ip"127.0.0.1", 4004)
 
 println("waiting for clients ...")
 
-clients = Dict() # dictionary: port => client
+clients = Dict() # dictionary: IpPort => client
 globalID = 1
 
 # ============== Initialization ====================
-dummy1 = Robot("dummy1", Position(20,2), 0.0, false, false, 40)
-dummy2 = Robot("dummy2", Position(30,4), 0.0, false, false, 40)
+dummy1 = Robot("dummy1", Position(20,2), 0.0, false, false, IpPort("192.168.137.73", 23455))
+dummy2 = Robot("dummy2", Position(30,4), 0.0, false, false, IpPort("192.168.137.74", 23455))
 
 # initialize MultiSpectator team
 @assignRoles MultiSpectatorTeam begin
@@ -33,10 +33,10 @@ end
 
 # ================= Message funcitons ===================
 
-function sendMessageRobot(port, xPos, yPos, state)
+function sendMessageRobot(ip, xPos, yPos, state)
     # get correct socket from the clients dicitonary
-    if haskey(clients, port)
-        socket = clients[port]
+    if haskey(clients, ip)
+        socket = clients[ip]
         # build the goal message
         goal = JSON.json(Dict(
             "xTarget" => xPos,
@@ -72,7 +72,7 @@ function sendMessageWebApp()
         "name" => r.name,
         "x" => r.position.x,
         "y" => r.position.y,
-        "port" => r.port
+        "ip" => r.ip.address
     ) for r in explorer]
 
     msg = Dict(
@@ -100,7 +100,7 @@ function exploration(robot::Robot)
     while getDistance(robot.position, nextPos) < 1
         nextPos = Position(rand(areaPos1.x:areaPos2.x), rand(areaPos1.y:areaPos2.y))
     end
-    sendMessageRobot(robot.port, nextPos.x, nextPos.y, "driving")
+    sendMessageRobot(robot.ip, nextPos.x, nextPos.y, "driving")
 end
 
 # ======================= 2 Parallel MAPE-K Loops ================
@@ -227,7 +227,7 @@ function mapeLoop(percRobot::PerceivedRobot)
             if getObjectsOfRole(team, SUT)[1] == percRobot
                 observers = getObjectsOfRole(team, Observer)
                 for observer in observers
-                    sendMessageRobot(observer.port, percRobot.position.x, percRobot.position.y, "monitoring")
+                    sendMessageRobot(observer.ip, percRobot.position.x, percRobot.position.y, "monitoring")
                     println("run update SUT MAPE-Loop")
                 end 
             end
@@ -293,7 +293,8 @@ function handle_client_robot(sock)
     println("Handling client ", client_ip, ":", client_port)
 
     # save socket in a dict to use it later for sending
-    clients[client_port] = sock
+    ip_port = IpPort(client_ip, client_port)
+    clients[ip_port] = sock 
     #println(readline(sock))
 
     # initially add new robot
@@ -337,7 +338,8 @@ function handle_client_observation(sock)
     println("Handling client ", client_ip, ":", client_port)
 
     # save socket in a dict to use it later for sending
-    clients[client_port] = sock
+    ip_port = IpPort(client_ip, client_port)
+    clients[ip_port] = sock 
 
     # constantly update robots attributes
     while isopen(sock)
