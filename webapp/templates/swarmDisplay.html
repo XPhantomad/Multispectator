@@ -65,7 +65,7 @@
           flex-direction: column;
           width: 100%;
           height: 100vh;
-          overflow: hidden;
+          overflow-y: auto;
         }
 
 
@@ -100,6 +100,35 @@
             flex-direction: column;
             gap: 10px;
         }
+
+       
+        #camera-panel {
+            display: none;                       /* shown by JS when a stream is open */
+            padding: 10px 15px;
+            background: #fff;
+            border-top: 2px solid #ccc;
+        }
+        #camera-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 10px;
+        }
+        .camera-tile { background: #000; }
+        .camera-tile .tile-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 8px;
+            background: #222;
+            color: #fff;
+            font-size: 0.85em;
+        }
+        .camera-tile img {
+            display: block;
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            object-fit: contain;
+        }
+        button.cam-active { background: #009879; color: #fff; }
 
     </style>
     <script
@@ -432,7 +461,11 @@
                 th.textContent = "Action";
                 headerRow.appendChild(th);
             }
-
+            if (tableId === "explorers") {
+                let th = document.createElement("th");
+                th.textContent = "Camera";
+                headerRow.appendChild(th);
+            }
 
             thead.appendChild(headerRow);
 
@@ -504,6 +537,22 @@
                 td.appendChild(button);
                 row.appendChild(td);
             }
+            if (tableId === "explorers") {
+                const ip = item[ROBOT_ADDR_KEY];
+                const td = document.createElement("td");
+                const btn = document.createElement("button");
+                btn.dataset.camIp = ip;
+                btn.textContent = activeCameras.has(ip) ? "Hide" : "Show";
+                btn.classList.toggle("cam-active", activeCameras.has(ip));
+                if (!ip) {
+                    btn.disabled = true;
+                    btn.title = "No IP address in the data";
+                } else {
+                    btn.onclick = () => toggleCamera(ip, ip);
+                }
+                td.appendChild(btn);
+                row.appendChild(td);
+            }
 
             tbody.appendChild(row);
         });
@@ -559,7 +608,7 @@
             let color = mapMessageToColor(item.sut);
             if (color !== null) {
                 tdSut.style.background = color;
-                if (color === "black") td.style.color = "white";
+                if (color === "black") tdSut.style.color = "white";
             }
             row.appendChild(tdSut);
 
@@ -646,6 +695,13 @@
 <div id="main-container">
     <div id="table-container"></div>
 
+    <script id="cam-config" type="application/json">{{ cam_config|tojson }}</script> 
+
+    <div id="camera-panel">
+        <h3>Camera views</h3>
+        <div id="camera-grid"></div>
+    </div>
+
     <div id="control-panel">
         <h3>Set Target</h3>
 
@@ -656,6 +712,75 @@
         <button id="start" onclick="sendTarget()">Apply</button>
     </div>
 </div>
+
+
+<script>
+    // scripts for the camera stream handling
+    const camCfg = JSON.parse(document.getElementById("cam-config").textContent);
+    const ROBOT_ADDR_KEY = "ip";      // key in the explorer data that holds the robot IP
+    const MAX_CAMERAS = 4;
+    const activeCameras = new Map();  // ip -> tile element
+
+    function streamUrl(ip) {
+        // temporarily hardcoded IP-Adress replaced in the future
+        return `http://${ip}:${camCfg.port}/stream?topic=${camCfg.topic}&type=ros_compressed&t=${Date.now()}`;
+    }
+
+    function openCamera(ip, label) {
+        if (activeCameras.has(ip)) return;
+        if (activeCameras.size >= MAX_CAMERAS) {
+            alert(`At most ${MAX_CAMERAS} camera views at the same time`);
+            return;
+        }
+        const tile = document.createElement("div");
+        tile.className = "camera-tile";
+
+        const bar = document.createElement("div");
+        bar.className = "tile-bar";
+        const title = document.createElement("span");
+        title.textContent = label || ip;
+        const closeBtn = document.createElement("button");
+        closeBtn.textContent = "✕";
+        closeBtn.onclick = () => closeCamera(ip);
+        bar.append(title, closeBtn);
+
+        const img = document.createElement("img");
+        img.alt = "no stream";
+        img.onerror = () => { title.textContent = (label || ip) + " (no stream)"; };
+        img.src = streamUrl(ip);
+
+        tile.append(bar, img);
+        document.getElementById("camera-grid").appendChild(tile);
+        activeCameras.set(ip, tile);
+        refreshCameraUi();
+    }
+
+    function closeCamera(ip) {
+        const tile = activeCameras.get(ip);
+        if (!tile) return;
+        tile.querySelector("img").src = "";   // closes the MJPEG connection
+        tile.remove();
+        activeCameras.delete(ip);
+        refreshCameraUi();
+    }
+
+    function toggleCamera(ip, label) {
+        activeCameras.has(ip) ? closeCamera(ip) : openCamera(ip, label);
+    }
+
+    // show/hide the panel and sync every camera button with the current state
+    function refreshCameraUi() {
+        document.getElementById("camera-panel").style.display =
+            activeCameras.size ? "block" : "none";
+        document.querySelectorAll("button[data-cam-ip]").forEach(btn => {
+            const on = activeCameras.has(btn.dataset.camIp);
+            btn.classList.toggle("cam-active", on);
+            btn.textContent = on ? "Hide" : "Show";
+        });
+    }
+
+    window.addEventListener("beforeunload", () => [...activeCameras.keys()].forEach(closeCamera));
+</script>
 
 </body>
 </html>

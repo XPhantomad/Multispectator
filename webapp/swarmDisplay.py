@@ -12,6 +12,7 @@ import types
 thread = None
 thread_lock = Lock()
 
+CAM_CONFIG = {"port": 8080, "topic": "/camera/color/image_raw"}
 
 # global HOST, PORT, bufferSize 
 HOST = "127.0.0.1"  
@@ -60,7 +61,7 @@ Serve root index file
 @app.route('/')
 def index():
 
-    return render_template('swarmDisplay.html') 
+    return render_template('swarmDisplay.html', cam_config=CAM_CONFIG) # Additional cam config, ips come from the table 
 
 
 """
@@ -91,8 +92,8 @@ def getInput(args):
     global updClientSocket
     if(tcpServerConn != None):
         tcpServerConn.send(str.encode(json.dumps(args) + "\n"))
-        msg = tcpServerConn.recv(bufferSize) # BLOCKS
-        socketio.emit('updateSensorData', msg.decode())
+        #msg = tcpServerConn.recv(bufferSize) # BLOCKS
+        #socketio.emit('updateSensorData', msg.decode())
 
 @socketio.on("setTarget")
 def handle_set_target(args):
