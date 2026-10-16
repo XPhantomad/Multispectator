@@ -35,6 +35,19 @@ dummy2 = Robot("dummy2", Position(30.0,4.0), 0.0, false, false, 40)
     dummy2 >> Exploration()
 end
 
+# ============== Precompilation ====================
+# otherwise the first assignment of the monitoring teams will be very slow
+
+pos = Position(7,7)
+MTTeam = @assignRoles MonitoringTeam begin
+    name = 777
+    color = "purpure"
+    getRobotWithShortestDistanceToPosition(pos) >> Observer(0.4)
+    pos >> SUT()
+end
+
+disassignRoles(MTTeam)
+
 # ================= Message funcitons ===================
 
 function sendMessageRobot(port, xPos, yPos, state)
@@ -104,7 +117,7 @@ function exploration(robot::Robot)
     while getDistance(robot.position, nextPos) < 1
         nextPos = Position(rand(areaPos1.x:areaPos2.x), rand(areaPos1.y:areaPos2.y))
     end
-    sendMessageRobot(robot.port, nextPos.x, nextPos.y, "driving")
+    sendMessageRobot(robot.port, nextPos.x, nextPos.y, "waiting")
 end
 
 # ======================= 2 Parallel MAPE-K Loops ================
@@ -404,7 +417,6 @@ Threads.@spawn while true
             println("Web app connection down")
         end
 	end
-    sleep(0.1)
 end
 
 

@@ -171,7 +171,7 @@ function addObserver(team::MonitoringTeam)
 end
 
 
-# TODO: combine to get object by attribute and roööe
+# TODO: combine to get object by attribute and role
 function infoInMessage(message, text)
 	for info in message 
 		if info[1] == text

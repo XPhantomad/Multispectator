@@ -12,29 +12,36 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.keys import Keys
 from webdriver_manager.chrome import ChromeDriverManager
 
+## New Test Environment Constraints ###
+# - Robots are rotatet to the top right corner
+# - Goals are located on the diagonal axis from bottom right to top left
+# --> robots have to rotate after receiving a goal message
+# - tests are conducted with Single-Robot-Loops MAPE-K loop running infinitely fast
+# - no message delay for the traversation of the web-app messages to the SRL 
+# - tests are conducted at least 5 times to get appropriate results
+# - TODO conduct tests also with SUT-Monitoring goal input
+#       for that: 
+#              locate an Explorer close to one SUT and other robots as usual
+#               hardcode the input of the number of observers for the first color
+#               problem: many colors required if 10 teams or so should be realized 
+# OPEN QUESTION: why does the first goal always tooks so long?? 
+#  - has been decreased by including the precompilation step
+#  - additionally decreasde by using the getClosest robot method
 
 
 from testROSNode import TestROSSupervisor
 
 colors = ["red", "yellow", "orange", "green", "white", "blue", "magenta", "brown"]
-robotCount = 4
-teams = 4
-monitoringTeamSize = 1
+robotCount = 12
+teams = 12
+monitoringTeamSize = 1      
 
 class testGoalAdaption(unittest.TestCase):
 
     @classmethod
     def setUpClass(self):
         print(os.getcwd())
-
-        # setup is done in automated startup
-        # threading.Thread(target=lambda: subprocess.run(["ros2", "launch", "webots_ros2_turtlebot", "robot_launch.py"])).start()
-        # time.sleep(5)
-        # threading.Thread(target=lambda: subprocess.run(["python3", os.getcwd() + "/runtimemodel/main.py"])).start()
-        # threading.Thread(target=lambda: subprocess.run(["python3", os.getcwd() + "/webapp/mobileRTM.py"])).start()
-        # time.sleep(3) 
-
-        
+       
         # Inititalize SUTs
         for i in range(4):
             print(colors[i])
@@ -67,23 +74,12 @@ class testGoalAdaption(unittest.TestCase):
         self.rosNode = TestROSSupervisor(robotCount)
         threading.Thread(target=lambda: rclpy.spin(self.rosNode)).start()
 
-
-        # options = Options()
-        # options.binary_location = "/usr/bin/google-chrome"   # explizit das .deb-Chrome
-        # options.add_argument('--disable-dev-shm-usage')
-        # self.driver = webdriver.Chrome(options=options)
-        
-        # options = Options()
-        # options.add_argument('--disable-dev-shm-usage')
-        # self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-
         options = Options()
         options.binary_location = "/usr/bin/google-chrome"
         options.add_argument('--disable-dev-shm-usage')
 
         service = Service(
             ChromeDriverManager().install(),
-            log_output="chromedriver.log",
             service_args=["--verbose"],
         )
         self.driver = webdriver.Chrome(service=service, options=options)
@@ -133,10 +129,10 @@ class testGoalAdaption(unittest.TestCase):
         for i in range(0, teams):
             xPos = self.driver.find_element(by=By.ID, value="target-x")
             xPos.clear()
-            xPos.send_keys(i+5)
+            xPos.send_keys(i-10)
             yPos = self.driver.find_element(by=By.ID, value="target-y")
             yPos.clear()
-            yPos.send_keys(i+5)
+            yPos.send_keys(i-10)
             
             number = self.driver.find_element(by=By.ID, value="numberOfObservers")
             number.clear()
