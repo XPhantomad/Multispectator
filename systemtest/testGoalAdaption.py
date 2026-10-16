@@ -66,13 +66,34 @@ class testGoalAdaption(unittest.TestCase):
         rclpy.init(args=None)
         self.rosNode = TestROSSupervisor(robotCount)
         threading.Thread(target=lambda: rclpy.spin(self.rosNode)).start()
-        
-        options = Options()
-        options.add_argument('--disable-dev-shm-usage')
-        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
+
+        # options = Options()
+        # options.binary_location = "/usr/bin/google-chrome"   # explizit das .deb-Chrome
+        # options.add_argument('--disable-dev-shm-usage')
+        # self.driver = webdriver.Chrome(options=options)
+        
+        # options = Options()
+        # options.add_argument('--disable-dev-shm-usage')
+        # self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+
+        options = Options()
+        options.binary_location = "/usr/bin/google-chrome"
+        options.add_argument('--disable-dev-shm-usage')
+
+        service = Service(
+            ChromeDriverManager().install(),
+            log_output="chromedriver.log",
+            service_args=["--verbose"],
+        )
+        self.driver = webdriver.Chrome(service=service, options=options)
+        
         time.sleep(2)
         self.driver.get("http://127.0.0.1:5000/")
+        time.sleep(2)
+        self.driver.refresh()
+
+        time.sleep(2)
 
     def testWebapp(self):
         title = self.driver.title
@@ -112,10 +133,10 @@ class testGoalAdaption(unittest.TestCase):
         for i in range(0, teams):
             xPos = self.driver.find_element(by=By.ID, value="target-x")
             xPos.clear()
-            xPos.send_keys(i-10)
+            xPos.send_keys(i+5)
             yPos = self.driver.find_element(by=By.ID, value="target-y")
             yPos.clear()
-            yPos.send_keys(i-10)
+            yPos.send_keys(i+5)
             
             number = self.driver.find_element(by=By.ID, value="numberOfObservers")
             number.clear()
@@ -127,11 +148,11 @@ class testGoalAdaption(unittest.TestCase):
             
             # Measures Model Fidelity
             start = time.time()
-            while(self.rosNode.angleNotNullCount < (i*monitoringTeamSize)):
+            while(self.rosNode.angleNotNullCount < ((i+1)*monitoringTeamSize)):
                 #print("not directly")
                 continue
             end = time.time()
-            self.assertEqual(self.rosNode.angleNotNullCount, (i*monitoringTeamSize))
+            self.assertEqual(self.rosNode.angleNotNullCount, ((i+1)*monitoringTeamSize))
             with open("timeMF"+str(teams)+"x"+str(monitoringTeamSize)+".txt", "a", encoding="utf-8") as f:
                 f.write("time:"+ str(end-start)+"\n")
 
