@@ -18,7 +18,10 @@ from webdriver_manager.chrome import ChromeDriverManager
 # --> robots have to rotate after receiving a goal message
 # - tests are conducted with Single-Robot-Loops MAPE-K loop running infinitely fast
 # - no message delay for the traversation of the web-app messages to the SRL 
-# - tests are conducted at least 5 times to get appropriate results
+# - tests are conducted at least *5* times to get appropriate results
+# IMPORTANT NOTE: 
+#   for 10x5 Test 0.1sec frequency inserted in SRL (otherwise half of the robots dont start)
+#   since 4x5 cyclone DDS is used
 # - TODO conduct tests also with SUT-Monitoring goal input
 #       for that: 
 #              locate an Explorer close to one SUT and other robots as usual
@@ -32,9 +35,9 @@ from webdriver_manager.chrome import ChromeDriverManager
 from testROSNode import TestROSSupervisor
 
 colors = ["red", "yellow", "orange", "green", "white", "blue", "magenta", "brown"]
-robotCount = 12
-teams = 12
-monitoringTeamSize = 1      
+robotCount = 20
+teams = 4
+monitoringTeamSize = 5
 
 class testGoalAdaption(unittest.TestCase):
 
@@ -85,7 +88,7 @@ class testGoalAdaption(unittest.TestCase):
         self.driver = webdriver.Chrome(service=service, options=options)
         
         time.sleep(2)
-        self.driver.get("http://127.0.0.1:5000/")
+        self.driver.get("http://localhost:5000/")
         time.sleep(2)
         self.driver.refresh()
 

@@ -34,7 +34,10 @@ thirty2 = read_times("timeMF16x5.txt")
 print(max(three), max(ten), max(thirty), max(thirty2))
 print(median(three), median(thirty))
 print(mean(three), mean(thirty))
-bp = plt.boxplot([three, ten, nineteen, thirty, thirty2], vert=False, labels=["4x1", "4x3", "4x5", "10x5", "16x5"])
+bp = plt.boxplot(
+    [three, ten, nineteen, thirty, thirty2],
+    orientation="horizontal",
+    tick_labels=["4x1", "4x3", "4x5", "10x5", "16x5"],)
 print(f'{"medians"}: {[item.get_xdata() for item in bp["medians"]]}n')
 
 #plt.title("SEL Execution Times for X Robots (warm start)")

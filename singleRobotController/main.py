@@ -63,7 +63,7 @@ monitoring = StateImpl(3, "monitoring", 1.0, 0.7)
 
 model = ModelImpl(None, [waiting, driving, waiting, monitoring], [])
 robot1=RobotImpl(0.0, 0.0, 0.0,0.0, 0.0, name, 1)
-robot1.setstate(driving)
+robot1.setstate(waiting)
 model.addRobot(robot1)
 
 
@@ -122,7 +122,7 @@ while(True):
     if(not robot1.getgoalReached()):
         robotSupervisor.publishVelocity(robot1.speed,robot1.rotationSpeed)
     
-    time.sleep(0.2)
+    time.sleep(0.1)
 
 robotSupervisor.destroy_node()
 rclpy.shutdown()

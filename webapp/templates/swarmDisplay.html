@@ -59,23 +59,35 @@
             color: #333;
         }
 
-
         #main-container {
-          display: flex;
-          flex-direction: row;
-          width: 100%;
-          height: 100vh;
-          overflow: hidden;
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
         }
 
-
         #table-container {
+            flex: 1;                 /* nimmt den ganzen Platz neben dem Panel */
+            min-width: 0;            /* erlaubt Schrumpfen, verhindert Überlauf */
             display: flex;
-            flex-wrap: wrap;      
+            flex-direction: row;     /* nebeneinander */
+            flex-wrap: nowrap;       /* nie umbrechen */
             align-items: flex-start;
-            gap: 20px;           
+            gap: 20px;
             padding: 10px;
             background-color: #f0f0f0;
+            overflow-x: auto;        /* horizontales Scrollen, wenn es zu breit wird */
+            overflow-y: auto;
+        }
+
+        .styled-table {
+            border-collapse: collapse;
+            margin: 0;               /* war 25px, das gap übernimmt den Abstand */
+            flex: 0 0 auto;          /* Tabelle behält ihre natürliche Breite */
+            font-size: 0.9em;
+            font-family: sans-serif;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
         }
 
 
@@ -91,6 +103,7 @@
         }
 
         #control-panel {
+            flex: 0 0 250px;         /* feste Breite, wird nicht gequetscht */
             width: 250px;
             padding: 15px;
             background: #ffffff;
@@ -561,7 +574,7 @@
             let color = mapMessageToColor(item.sut);
             if (color !== null) {
                 tdSut.style.background = color;
-                if (color === "black") td.style.color = "white";
+                if (color === "black") tdSut.style.color = "white";
             }
             row.appendChild(tdSut);
 

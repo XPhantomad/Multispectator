@@ -21,7 +21,7 @@ class RobotImpl(Robot):
 
     # calculates and sets the forward and roation speed of the robot
     def calculateSpeeds(self, repulsion, xTarget, yTarget):
-        ANGLE_TOLERANCE = 0.2 # TODO spielen
+        ANGLE_TOLERANCE = 0.1 # TODO spielen 0.2 before (setted to 0.1 for testing)
         MAX_SPEED = 0.8 #Transport chain
         #MAX_SPEED = 0.3 # Flocking
         MAX_SPEED_ROT = 2.0
@@ -120,12 +120,12 @@ class ModelImpl(Model):
         if(robot != None): 
             robot.xTarget = float(xTarget)
             robot.yTarget = float(yTarget)
-            #   print("Target setted " + str (xTarget) + " " + str(yTarget))
+            print("Target setted " + str (xTarget) + " " + str(yTarget))
 
             for state in self.states:
                 if(state.getname() == stateName):
                     robot.state = state
-                    #print("State setted " + state.getname())
+                    print("State setted " + state.getname())
         return False
 
 class StateImpl(State):

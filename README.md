@@ -197,19 +197,26 @@ explorationAreaMax = Position(3,3)
 - increase "MaxAutoParticipantIndex" explicitly
 - create an own Cyclone-DDS config file:
     - copy the file [cyclonedds.xml](/cyclonedds.xml) to your /home directory:
+    
         ```xml
         <?xml version="1.0" encoding="UTF-8" ?>
         <CycloneDDS xmlns="https://cdds.io/config">
         <Domain id="any">
-            <Discovery>
-            <MaxAutoParticipantIndex>200</MaxAutoParticipantIndex>
-            </Discovery>
             <General>
-            <AllowMulticast>true</AllowMulticast>
+            <NetworkInterfaceAddress>lo</NetworkInterfaceAddress>
+            <AllowMulticast>false</AllowMulticast>
             </General>
+            <Discovery>
+            <ParticipantIndex>auto</ParticipantIndex>
+            <MaxAutoParticipantIndex>300</MaxAutoParticipantIndex>
+            <Peers>
+                <Peer address="localhost"/>
+            </Peers>
+            </Discovery>
         </Domain>
         </CycloneDDS>
         ```
+
     - open a terminal and run: ```export CYCLONEDDS_URI=~/cyclonedds.xml```
 
 ### Run Systemtest and Plotting results
