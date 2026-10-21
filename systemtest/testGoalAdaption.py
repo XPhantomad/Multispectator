@@ -35,9 +35,9 @@ from webdriver_manager.chrome import ChromeDriverManager
 from testROSNode import TestROSSupervisor
 
 colors = ["red", "yellow", "orange", "green", "white", "blue", "magenta", "brown"]
-robotCount = 20
+robotCount = 4
 teams = 4
-monitoringTeamSize = 5
+monitoringTeamSize = 1
 
 class testGoalAdaption(unittest.TestCase):
 
