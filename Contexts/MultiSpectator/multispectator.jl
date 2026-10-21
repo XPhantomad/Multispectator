@@ -21,7 +21,7 @@ clients = Dict() # dictionary: IpPort => client
 globalID = 1
 
 # ============== Initialization ====================
-dummy1 = Robot("dummy1", Position(20,2), 0.0, false, false, IpPort("192.168.137.72", 23455))
+dummy1 = Robot("dummy1", Position(20,2), 0.0, false, false, IpPort("192.168.137.75", 23455))
 dummy2 = Robot("dummy2", Position(30,4), 0.0, false, false, IpPort("192.168.137.74", 23455))
 
 # initialize MultiSpectator team

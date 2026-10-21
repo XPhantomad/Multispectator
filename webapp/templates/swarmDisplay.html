@@ -572,12 +572,20 @@
             let thead = document.createElement("thead");
             let headerRow = document.createElement("tr");
 
-            // derive columns from first object
-            Object.keys(dataArray[0]).forEach(key => {
+            // derive columns from first object and sort them, so that sut is always in the front 
+            // (can be solved easier with hardcoding, but this preserves simple key changes)
+            const keys = Object.keys(dataArray[0]).sort((a, b) => {
+                if (a === "sut") return -1;
+                if (b === "sut") return 1;
+                return 0;   // keep the original order for all other keys
+            });
+
+            // write the header from the keys
+            keys.forEach(key => {
                 let th = document.createElement("th");
                 th.textContent = key;
                 headerRow.appendChild(th);
-            });
+            })
 
              // add action column
             let th = document.createElement("th");
