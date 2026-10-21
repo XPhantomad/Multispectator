@@ -5,9 +5,9 @@ using JSON
 using DelimitedFiles
 
 # socket for connection to SRL-Loops of all Robots
-server = listen(ip"192.168.137.1", 3004) 
+server = listen(ip"192.168.137.201", 3004) 
 # socket connection to Messages Component of all Robots
-serverO = listen(ip"192.168.137.1", 3005)
+serverO = listen(ip"192.168.137.201", 3005)
 
 println("waiting for webapp")
 
@@ -21,7 +21,7 @@ clients = Dict() # dictionary: IpPort => client
 globalID = 1
 
 # ============== Initialization ====================
-dummy1 = Robot("dummy1", Position(20,2), 0.0, false, false, IpPort("192.168.137.73", 23455))
+dummy1 = Robot("dummy1", Position(20,2), 0.0, false, false, IpPort("192.168.137.72", 23455))
 dummy2 = Robot("dummy2", Position(30,4), 0.0, false, false, IpPort("192.168.137.74", 23455))
 
 # initialize MultiSpectator team
@@ -335,10 +335,11 @@ end
 function handle_client_observation(sock)
     global clients
     client_ip, client_port = getpeername(sock)
-    println("Handling client ", client_ip, ":", client_port)
+    println("Handling client ", string(client_ip), ":", client_port)
 
     # save socket in a dict to use it later for sending
-    ip_port = IpPort(client_ip, client_port)
+    ip_port = IpPort(string(client_ip), client_port)
+    println(ip_port)
     clients[ip_port] = sock 
 
     # constantly update robots attributes
