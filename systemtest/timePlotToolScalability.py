@@ -42,6 +42,6 @@ print(f'{"medians"}: {[item.get_xdata() for item in bp["medians"]]}n')
 
 #plt.title("SEL Execution Times for X Robots (warm start)")
 plt.xlabel("Milliseconds")
-plt.xticks(np.arange(0, 600, 100))
+plt.xticks(np.arange(0, 1000, 100))
 plt.tight_layout()
 plt.show()
