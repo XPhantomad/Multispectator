@@ -80,7 +80,8 @@ function sendMessageWebApp()
         "name" => r.name,
         "x" => r.position.x,
         "y" => r.position.y,
-        "color" => r.color
+        "color" => r.color,
+        "Multi-Robot Sytem" => r.multiRS
     ) for r in discRobots]
 
     # Exploration Robots
@@ -117,7 +118,7 @@ function exploration(robot::Robot)
     while getDistance(robot.position, nextPos) < 1
         nextPos = Position(rand(areaPos1.x:areaPos2.x), rand(areaPos1.y:areaPos2.y))
     end
-    sendMessageRobot(robot.port, nextPos.x, nextPos.y, "waiting")
+    sendMessageRobot(robot.port, nextPos.x, nextPos.y, "driving")
 end
 
 # ======================= 2 Parallel MAPE-K Loops ================
@@ -250,16 +251,24 @@ end
 
 
 # Monitoring Step for the Messages Component 
-function addORupdatePerceivedRobot(observation) #receives single observations
+function addORupdatePerceivedRobot(observation) #receives single observation and whole List, to set MR-SUTs as ultraHuge
     global globalID
     color = get(observation, "color", "black")
     discoveredRobots = [getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), Uninteresting); getObjectsOfRole(getDynamicTeam(MultiSpectatorTeam, 1), Interesting)] # TODO get all Robots with the abstract roletype DiscoveredRobot
     
+    # IF: Discovered Robot already exists
     # iterate over all existing robots to update the respective position
     for r in discoveredRobots
         if r.color == color
-            # update each perc robots position if it is observed by the robot
-            r.position = Position(get(observation, "xPos", 0), get(observation, "yPos", 0))
+            newPos = Position(get(observation, "xPos", 0), get(observation, "yPos", 0))
+            
+            ### IMPORTANT: If observationList contains color twice OR last update time is only one second ago AND distance far from previous position (two MoRS detect one MR-SUT from different views) --> switch 
+            if get(observation, "multiRS", false) == true || (getDistance(newPos, r.position) >= 0.5 && time()-r.lastUpdateTime <= 1)
+                r.multiRS = true
+            end
+
+            # update each perc robots position if it is observed by the monitoring robot (MoRS)
+            setPos!(r, newPos)
             if hasRole(r, Uninteresting, MultiSpectatorTeam) && get(observation, "interesting", 0) == true
                 @changeRoles MultiSpectatorTeam 1 begin
                     r << Uninteresting
@@ -282,9 +291,9 @@ function addORupdatePerceivedRobot(observation) #receives single observations
     end
 
     # TODO: race condition in parallel threads!!!
-    # add new Discovered Robot
+    # ELSE: add new Discovered Robot
     globalID = globalID+1
-    percRobot = PerceivedRobot("robot " * string(globalID), color, Position(get(observation, "xPos", 0), get(observation, "yPos", 0)))
+    percRobot = PerceivedRobot("robot " * string(globalID), color, Position(get(observation, "xPos", 0), get(observation, "yPos", 0)), time(), get(observation,"multiRS",false))
     if get(observation, "interesting", 0) == false
         @changeRoles MultiSpectatorTeam 1 begin
             percRobot >> Uninteresting()
@@ -354,9 +363,9 @@ function handle_client_observation(sock)
         msg = JSON.parse(readline(sock)) # busy wait for next message
 
         # IMPORTANT: can not be moved to MAPE-K because it runs for each socket connection individually
-        observationList = get(msg, "observation", 0)
+        observationList = get(msg, "observation", 0) # one color exists at maximum once in the observation List as defined by the Observation Component
 
-        for observation in observationList
+        for observation in observationList 
             addORupdatePerceivedRobot(observation)
         end
     end

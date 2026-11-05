@@ -5,6 +5,11 @@ using JSON
 using DelimitedFiles    
     
 
+i = time()
+print(i)
+i+1
+print(typeof(i))
+
 for i in 2:2
     println("test")
 end

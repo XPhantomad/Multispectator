@@ -30,8 +30,20 @@ mutable struct PerceivedRobot <: AbstractXUT
 	name::String
 	color::String
 	position::Position
+	lastUpdateTime::Float64  # if this time is by 5 seconds greater
+	multiRS::Bool # Switch is toggled, if one observeration Component perceives two tags far enough from each other but of the same Perceived Robot
 end
 
+function setPos!(robot::PerceivedRobot, pos::Position; time::Real = time())
+	if robot.multiRS
+		# special handling: calculate midpoint between new and previous position
+		robot.position = Position((robot.position.x + pos.x)/2, (robot.position.y + pos.y)/2)
+	else
+		# normal: set position
+        robot.position = pos
+	end 
+	robot.lastUpdateTime = time
+end
 
 @newDynamicTeam MonitoringTeam begin
 	@IDAttribute ID::Int64

@@ -1,0 +1,7 @@
+Environment Configuration for Latency measurements of the MultiSpectator
+
+- Medians: medians: [array([74.06234741, 74.06234741]), array([68.49336624, 68.49336624]), array([99.8249054, 99.8249054]), array([105.6176424, 105.6176424]), array([128.8394928, 128.8394928])]n
+
+- Frequency of the SRL: 10 HZ (leads to a faster first reaction time also for smaller numbers of robots; without this setting larger amounts above 50 do not work)
+- MultiSpectator forwards input directly 
+- Cyclon DDS used for all experiments

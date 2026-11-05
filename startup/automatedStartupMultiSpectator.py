@@ -4,7 +4,7 @@ import sys
 import threading
 import time
 
-ROBOT_COUNT = 50
+ROBOT_COUNT = 8
 colors = ["red", "yellow", "orange", "green", "white", "blue", "magenta", "brown"]
 
 print(os.getcwd())

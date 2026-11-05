@@ -55,30 +55,38 @@ while(True):
     if blobs != []:
         filteredBlobs= {}  # dict: color -> blob mit kleinster Distanz
         for blob in blobs:
-            # see, if light was already there and if 
+            
+            # check, if color is already in the list and if blobs are very close together --> interesting robot
+            # IMPORTANT: In real world applications another interesting criterion has to be found 
             xAbs, yAbs = getGlobalCoordinates(blob.angle, blob.distance)
             if blob.color in filteredBlobs: 
                 xPrev = filteredBlobs[blob.color][1]
                 yPrev = filteredBlobs[blob.color][2]
-                # check additionally that distance between the blobs is small enough to safely assign it all to one robot 
                 #print(getDistance(xAbs, xPrev, yAbs, yPrev))
-                if getDistance(xAbs, xPrev, yAbs, yPrev) <= 0.3:  # 10 is roughly the radius of the robot in arogos units
+                # check additionally that distance between the blobs is small enough to safely assign it all to one robot 
+                if getDistance(xAbs, xPrev, yAbs, yPrev) <= 0.3:  # 1.0 is roughly the radius of the robot in arogos units
                     #print("intersting perceived")
-                    filteredBlobs[blob.color] = (blob, xAbs, yAbs, True)
-                # if light blobs are to far from each other, a MRSUT is detected and only the closest robot has to be taken into consideration
-                elif blob.distance <= filteredBlobs[blob.color][0].distance:
-                    #print("set new MRS member")
-                    filteredBlobs[blob.color] = (blob, xAbs, yAbs, False)
+                    filteredBlobs[blob.color] = (blob, xAbs, yAbs, True, False)
 
+                # if light blobs are to far from each other, a MR-SUT is detected 
+                #  - the blob is marked as that 
+                #  - the Midpoint of both blob values is calculated and stored in the List
+                # (deprecated: and only the closest robot has to be taken into consideration)
+                else: 
+                    print("add MRS midpoint")
+                    filteredBlobs[blob.color] = (blob, (xAbs+xPrev)/2, (yAbs+yPrev)/2, False, True) # Last Bool contains the information whether a MRS is detected
+
+            # otherwise add blob 
             elif blob.distance <= LIGHT_RANGE:
-                filteredBlobs[blob.color] = (blob, xAbs, yAbs, False)
+                filteredBlobs[blob.color] = (blob, xAbs, yAbs, False, False)
          
         # interpret the sorted blobs to messages
         for color, blob in filteredBlobs.items():
-            messageList.append({"color":color, "xPos": blob[1], "yPos": blob[2], "interesting": blob[3]})
+            messageList.append({"color":color, "xPos": blob[1], "yPos": blob[2], "interesting": blob[3], "multiRS": blob[4]})
 
         if messageList and messageList != messagesList_old:                          
-            msg = {"observation" : messageList}
+            #msg = {"observation" : messageList}
+            print(messageList)
             udpClientSocket.send(str.encode(json.dumps(msg)+ "\n")) 
     blobs_old = blobs
     messagesList_old = messageList
