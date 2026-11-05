@@ -18,8 +18,8 @@ globalID = 1
 
 dummy1 = Robot("dummy1", Position(2,2), 0.0, false, false, 401)
 dummy3 = Robot("dummy3", Position(2,5), 0.0, false, false, 403)
-dummy4 = PerceivedRobot("dummy4", "blue", Position(30,4))
-dummy2 = PerceivedRobot("dummy2", "red", Position(3,4))
+dummy4 = PerceivedRobot("dummy4", "blue", Position(30,4), time(), 0.0)
+dummy2 = PerceivedRobot("dummy2", "red", Position(3,4), time(), 0)
 
 # initialize MultiSpectator team
 @assignRoles MultiSpectatorTeam begin
@@ -42,6 +42,9 @@ println(filter(r -> typeof(r) == DiscoveredRobot, getRolesOfTeam(getDynamicTeam(
     dummy3 >> Observer(9.5)
     dummy4 >> SUT()
 end
+
+println("msmsdm" * string(getRole(dummy3, getDynamicTeam(MonitoringTeam, 1)).radius))
+
 
 # println(hasRole(dummy2, SUT, MonitoringTeam))
 # if hasRole(dummy2, SUT, MonitoringTeam)

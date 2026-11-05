@@ -125,12 +125,13 @@ function assignNewMonitoringTeam(XUT)
 
 	# handle the case, if XUT is a Robot not a Position
 	position = XUT
+	radius = 0.4
 	color = color = int_to_color(globalID)
 	if typeof(XUT) != Position
 		position = XUT.position
 		color = XUT.color
+		radius = radius + XUT.diameter/2
 	end
-
 
     robot = getRobotWithShortestDistanceToPosition(position)
 	if robot !== nothing
@@ -138,7 +139,7 @@ function assignNewMonitoringTeam(XUT)
 		MTteam = @assignRoles MonitoringTeam begin
 			name = globalID
 			color = color
-			robot >> Observer(0.4)
+			robot >> Observer(radius)
 			XUT >> SUT()
 		end
 		# PLAN + EXECUTE
@@ -152,14 +153,17 @@ function addObserver(team::MonitoringTeam)
 
 	XUT = getObjectsOfRole(team, SUT)[1]
 	position = XUT
+	radius = 0.4
+	# if the observation target is a robot or a MRS
 	if typeof(XUT) != Position
 		position = XUT.position
+		radius = radius + XUT.diameter/2
 	end
 
 	robot = getRobotWithShortestDistanceToPosition(position)
 	if robot !== nothing
 		@changeRoles typeof(team) team.ID begin
-			robot >> Observer(0.4)
+			robot >> Observer(radius)
 		end
 		# PLAN + EXECUTE
 		sendMessageRobot(robot.port, position.x, position.y, "monitoring")

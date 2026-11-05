@@ -21,7 +21,7 @@ println("waiting for clients ...")
 clients = Dict() # dictionary: port => client
 globalID = 1
 explorationAreaMin = Position(-1,-2)
-explorationAreaMax = Position(3,3)
+explorationAreaMax = Position(4,4)
 
 
 # ============== Initialization ====================
@@ -70,7 +70,7 @@ function sendMessageWebApp()
     monitoring_json = [
     Dict(
         "sut" => team.color, # TODO: ouutput position or color of SUT adittionally
-        "observer" => [obj.name for obj in getObjectsOfRole(team, Observer)]
+        "observer" => [(obj.name * string(getRole(obj, team).radius)) for obj in getObjectsOfRole(team, Observer)] 
     )
     for team in monitoringTeams]
 
@@ -81,7 +81,7 @@ function sendMessageWebApp()
         "x" => r.position.x,
         "y" => r.position.y,
         "color" => r.color,
-        "Multi-Robot Sytem" => r.multiRS
+        "Diameter" => r.diameter
     ) for r in discRobots]
 
     # Exploration Robots
@@ -262,13 +262,9 @@ function addORupdatePerceivedRobot(observation) #receives single observation and
         if r.color == color
             newPos = Position(get(observation, "xPos", 0), get(observation, "yPos", 0))
             
-            ### IMPORTANT: If observationList contains color twice OR last update time is only one second ago AND distance far from previous position (two MoRS detect one MR-SUT from different views) --> switch 
-            if get(observation, "multiRS", false) == true || (getDistance(newPos, r.position) >= 0.5 && time()-r.lastUpdateTime <= 1) # TODO: shift hardcoded Thresholds to the top
-                r.multiRS = true
-            end
+            # update each perc robots position and the diameter if it is observed by the monitoring robot (MoRS)
+            setPos!(r, newPos, get(observation, "diameter", 0.0))
 
-            # update each perc robots position if it is observed by the monitoring robot (MoRS)
-            setPos!(r, newPos)
             if hasRole(r, Uninteresting, MultiSpectatorTeam) && get(observation, "interesting", 0) == true
                 @changeRoles MultiSpectatorTeam 1 begin
                     r << Uninteresting
@@ -293,7 +289,7 @@ function addORupdatePerceivedRobot(observation) #receives single observation and
     # TODO: race condition in parallel threads!!!
     # ELSE: add new Discovered Robot
     globalID = globalID+1
-    percRobot = PerceivedRobot("robot " * string(globalID), color, Position(get(observation, "xPos", 0), get(observation, "yPos", 0)), time(), get(observation,"multiRS",false))
+    percRobot = PerceivedRobot("robot " * string(globalID), color, Position(get(observation, "xPos", 0), get(observation, "yPos", 0)), time(), get(observation,"diameter",0))
     if get(observation, "interesting", 0) == false
         @changeRoles MultiSpectatorTeam 1 begin
             percRobot >> Uninteresting()
@@ -402,6 +398,8 @@ Threads.@spawn while true
             handle_client_observation(client) # performs a new async function call at each iteration
         catch e
             println("client error: ", e)
+            showerror(stdout, e, catch_backtrace())
+            println()
         finally
             x, client_port = getpeername(client)
             clients = delete!(clients, client_port)  

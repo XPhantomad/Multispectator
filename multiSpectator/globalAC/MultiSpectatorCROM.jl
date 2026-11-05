@@ -31,17 +31,34 @@ mutable struct PerceivedRobot <: AbstractXUT
 	color::String
 	position::Position
 	lastUpdateTime::Float64  # if this time is by 5 seconds greater
-	multiRS::Bool # Switch is toggled, if one observeration Component perceives two tags far enough from each other but of the same Perceived Robot
+	diameter::Float64 # diameter of the robot/MRS; if empty: default radius is selected for the observers
 end
 
-function setPos!(robot::PerceivedRobot, pos::Position; time::Real = time())
-	if robot.multiRS
-		# special handling: calculate midpoint between new and previous position
+# case 1: incoming >0 intern 0 --> update diameter and position (because it is the midpoint)
+# case 2: incoming 0 intern 0 --> no MRS
+# case 2.5: incoming 0 intern 0 but first IF fires --> MRS detected by multiple MoRS --> calculate Midpoint and Diameter
+# case 3: incoming 0 intern >0 --> MRS with new single observation --> calculate new diameter and take it, if it is greater than the one before and calculate midpoint
+# case 3.5 incoming 0 intern >0 but first IF fires --> MRS detected by multiple MoRS --> calculate Midpoint and Diameter
+# case 4: incoming >0 intern >0 --> MRS, compare diameter and take the greatest 
+function setPos!(robot::PerceivedRobot, pos::Position, diameter::Float64; time::Real = time())
+	# case 3 and 3.5 and 2.5 
+	if (getDistance(pos, robot.position) >= 0.5 && time-robot.lastUpdateTime <= 1) || (robot.diameter > 0.0 && diameter == 0.0) # TODO: shift hardcoded Thresholds to the top
+		robot.diameter = maximum([getDistance(pos, robot.position), robot.diameter, diameter])
 		robot.position = Position((robot.position.x + pos.x)/2, (robot.position.y + pos.y)/2)
-	else
-		# normal: set position
-        robot.position = pos
-	end 
+		robot.lastUpdateTime = time
+
+		return
+	end
+	
+	if robot.diameter == 0 
+		robot.diameter = diameter
+	end
+	# case 1,4: take the greatest diameter of all these three (calculated, incoming, existing)
+	if robot.diameter > 0
+		robot.diameter = maximum([getDistance(pos, robot.position), robot.diameter, diameter])
+	end
+	# normal: set position - either the single position or the midpoint already calculated in the observation component 
+    robot.position = pos
 	robot.lastUpdateTime = time
 end
 
