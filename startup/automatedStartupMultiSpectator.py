@@ -18,6 +18,10 @@ for i in range(4):
         threading.Thread(target=lambda: subprocess.run([os.getcwd() + "/SUT-Initializer-Interesting.sh", "SUT"+ str(i), colors[i]])).start()
     time.sleep(0.1)
 
+threading.Thread(target=lambda: subprocess.run([os.getcwd() + "/SUT-Initializer.sh", "R_SUT5a", colors[6]])).start()
+threading.Thread(target=lambda: subprocess.run([os.getcwd() + "/SUT-Initializer.sh", "R_SUT5b", colors[6]])).start()
+threading.Thread(target=lambda: subprocess.run([os.getcwd() + "/SUT-Initializer.sh", "R_SUT5c", colors[6]])).start()
+threading.Thread(target=lambda: subprocess.run([os.getcwd() + "/SUT-Initializer.sh", "R_SUT5d", colors[6]])).start()
 
 # start webapp 
 threading.Thread(target=lambda: subprocess.run(["python3", os.getcwd() + "/webapp/swarmDisplay.py"])).start()

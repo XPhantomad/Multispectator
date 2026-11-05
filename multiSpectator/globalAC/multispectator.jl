@@ -263,7 +263,7 @@ function addORupdatePerceivedRobot(observation) #receives single observation and
             newPos = Position(get(observation, "xPos", 0), get(observation, "yPos", 0))
             
             ### IMPORTANT: If observationList contains color twice OR last update time is only one second ago AND distance far from previous position (two MoRS detect one MR-SUT from different views) --> switch 
-            if get(observation, "multiRS", false) == true || (getDistance(newPos, r.position) >= 0.5 && time()-r.lastUpdateTime <= 1)
+            if get(observation, "multiRS", false) == true || (getDistance(newPos, r.position) >= 0.5 && time()-r.lastUpdateTime <= 1) # TODO: shift hardcoded Thresholds to the top
                 r.multiRS = true
             end
 
